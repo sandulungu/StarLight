@@ -1,0 +1,6 @@
+*.log
+/app/tmp/**
+/app/tmp/**
+/app/webroot/files/*/*
+
+!empty
