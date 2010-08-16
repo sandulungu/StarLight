@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{$head}
+</head>
+<body class="sl-frontend">
+    {body}
+        <div id="container">
+            <div id="header">
+                <h1>
+                    <a href="http://starlightcms.info" target="_blank">StarLight: where Cake meets Web 2.0</a>
+                </h1>
+                <div>
+                    {init}SimpleMenu{/init}
+                    {SimpleMenu}default{/SimpleMenu} &nbsp;&nbsp;&nbsp;&nbsp;
+                    {SimpleMenu}meta{/SimpleMenu} &nbsp;&nbsp;&nbsp;&nbsp;
+                    {SimpleMenu}languages{/SimpleMenu}
+                </div>
+            </div>
+            <div id="content">
+                <div id="column-main-inner">
+                    {if("var":"title")}<h2>{$title}</h2>{/if}
+                    {init}Messages{/init}
+                    {Messages/}
+                    {$content_for_layout}
+                </div>
+            </div>
+            <div id="footer">
+                {generatedIn/}
+                <a href="http://www.cakephp.org/" target="_blank">
+                    <img src="{asset}img/cake.power.gif{/asset}" alt="{t}CakePHP: the rapid development php framework{/t}"
+                </a>
+            </div>
+        </div>
+    {/body}
+    {$footer}
+</body>
+</html>

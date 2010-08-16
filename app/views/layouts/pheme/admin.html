@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{$head}
+</head>
+<body class="sl-backend">
+    {body}
+        <div id="container">
+            <div id="header">
+                <h1>
+                    <a href="http://starlightcms.info" target="_blank">StarLight: where Cake meets Web 2.0</a>
+                </h1>
+                <div>
+                    {init}SimpleMenu{/init}
+                    {SimpleMenu}admin{/SimpleMenu} &nbsp;&nbsp;&nbsp;&nbsp;
+                    {SimpleMenu}meta{/SimpleMenu} &nbsp;&nbsp;&nbsp;&nbsp;
+                    {SimpleMenu}languages{/SimpleMenu}
+                </div>
+            </div>
+            <div id="content">
+                {if("config":"Navigation.sections.{config}Navigation.sections.active{/config}")}
+                    <div id="column-left">
+                        <div id="column-left-inner">
+                            {init}Menu{/init}
+                            {Menu}sections.{config}Navigation.sections.active{/config}{/Menu}
+                            {if:hint("config":"Navigation.sections.hint")}
+                                <blockquote>
+                                    {t}{config}Navigation.sections.hint{/config}{/t}
+                                </blockquote>
+                            {/if:hint}
+                        </div>
+                    </div>
+                    <div id="column-main">
+                {else}
+                    {c}<!--{/c}
+                    <div>
+                    {c}-->{/c}
+                {/if}
+                        <div id="column-main-inner">
+                            {if("var":"title")}<h2>{$title}</h2>{/if}
+                            {init}Messages{/init}
+                            {Messages/}
+                            {$content_for_layout}
+                        </div>
+                    </div>
+            </div>
+            <div id="footer">
+                {generatedIn/}
+                <a href="http://www.cakephp.org/" target="_blank">
+                    <img src="{asset}img/cake.power.gif{/asset}" alt="{t}CakePHP: the rapid development php framework{/t}"
+                </a>
+            </div>
+        </div>
+    {/body}
+    {$footer}
+</body>
+</html>

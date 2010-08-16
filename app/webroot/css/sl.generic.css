@@ -1,0 +1,227 @@
+html, body {
+    height: 100%;
+}
+body {
+    font-size: 65%;
+}
+
+p {
+    margin: 1em 0;
+}
+blockquote {
+    border: 1px solid #ddd;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    padding: 2px 7px;
+    margin: 1em 0;
+	background: #fff;
+	background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#eee));
+	background-image: -moz-linear-gradient(top, #fff, #eee);
+}
+
+/*th {
+    font-weight: normal;
+}*/
+
+.sl-frontend {
+    background: #999;
+	background: -webkit-gradient(linear, left top, left bottom, from(#999), to(#eee));
+	background-image: -moz-linear-gradient(top, #999, #eee);
+}
+
+#header h1, #header h1 a {
+    background-color: transparent;
+}
+#header h1 {
+    margin: 0;
+}
+#header a {
+    text-decoration: none;
+}
+#header a:hover, #header a.sl-active {
+    text-decoration: underline;
+}
+#header ul, #header div {
+    position: absolute;
+    right: 50px;
+    top: 12px;
+}
+#header ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+#header li {
+    float: left;
+    padding: 0 0 0 1em;
+    margin: 0;
+}
+#header a {
+    color: #fff;
+}
+
+div.actions {
+    width: auto;
+}
+div.actions ul li {
+    float: left;
+    padding-right: .5em;
+}
+td.actions {
+    white-space: normal;
+    line-height: 2em;
+}
+table td.actions a {
+    white-space: nowrap;
+    margin: 0 2px;
+}
+
+
+
+/* Layout */
+
+#column-left {
+    color: #eee;
+    width: 250px;
+    background: #006C88;
+    display: table-cell;
+    line-height: 1.4em;
+    font-size: 110%;
+}
+#column-left a {
+    color: #fff;
+    text-decoration: none;
+}
+#column-left a:hover, #column-left a.sl-active {
+    border-bottom: 1px dotted #fff;
+}
+#column-main {
+    width: auto;
+    display: table-cell;
+}
+#column-left-inner {
+    padding: 10px 0 40px 0;
+}
+#column-left-inner blockquote {
+    margin: 12px;
+    border-color: #1A8FAE;
+    background: #008AAE;
+    color: #fff;
+}
+#column-main-inner {
+    padding: 10px 20px 40px 20px;
+}
+#content {
+    padding: 0;
+    display: table;
+    width: 100%;
+}
+
+.sl-clear {
+    clear: both;
+    height: 0;
+}
+
+
+/* Notices and Errors */
+
+.sl-msg-notice, .sl-msg-success, .sl-msg-error, .sl-msg-message {
+	background: #ffcc00;
+	color: #000;
+	display: block;
+	font-size: 120%;
+	line-height: 140%;
+	padding: 0.8em;
+	margin: 1em 0;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+.sl-msg-success {
+	background: green;
+	color: #fff;
+}
+.sl-msg-error {
+	color: #fff;
+	background: #c73e14;
+}
+.sl-msg-message {
+	background: #ccc;
+}
+
+
+
+/* Cake forms */
+
+input, textarea, select {
+    padding: 2px;
+    vertical-align: baseline;
+}
+option {
+    font-size: 90%;
+    padding: 2px;
+}
+input[readonly] {
+    color: #777;
+}
+
+form div div {
+    margin: 0;
+}
+form .required {
+    font-weight: normal;
+}
+
+fieldset {
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+fieldset legend {
+	color: inherit;
+	font-size: 125%;
+}
+
+.error-message {
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    margin: 5px 5px 0 0;
+}
+
+
+
+/* Quick edit links */
+
+a.icon-add {
+    text-decoration: none;
+    font-size: 200%;
+}
+a.icon-remove {
+    text-decoration: none;
+    font-size: 200%;
+    color: #a00;
+}
+a.add, div.actions ul li a.add, td.actions a.add {
+    color: #070;
+}
+a.remove, div.actions ul li a.remove, td.actions a.remove {
+    color: #a00;
+}
+a.external {
+    color: #860;
+}
+a em, em a {
+    font-weight: normal;
+}
+
+
+
+/* Debugging */
+
+pre, pre.cake-debug {
+    font-size: 12px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+div.krumo-root {
+    color: #000;
+}

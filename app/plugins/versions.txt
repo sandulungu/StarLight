@@ -1,0 +1,12 @@
+3rd party Plugins:
+==================
+
+DebugKit 1.3 beta (configured as extension)
+
+Interactive (extends DebugKit) - 29.09.2009 (patched)
+
+JsValidate - 26.01.2010
+
+Linkable - 10.05.2010
+
+MeioUpload 3.0

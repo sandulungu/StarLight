@@ -1,6 +1,9 @@
 *.log
-/app/tmp/**
-/app/tmp/**
+/app/tmp/sl_configuration.php
+/app/tmp/cache/sl*
+/app/tmp/cache/cake*
+/app/tmp/cache/*/*
+
 /app/webroot/files/*/*
 
 !empty

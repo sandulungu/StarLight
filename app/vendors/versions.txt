@@ -1,0 +1,12 @@
+3rd Party Vendor Libs
+=====================
+
+Krumo 0.2.1a (use default skin cause' it doesn't need any images to work correctly)
+
+Simpletest 1.0.1
+
+SwiftMailer 4.0.6
+
+--------------------------------------------------------------------------------
+
+'pheme' and 'sl' are part of SL core

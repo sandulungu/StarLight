@@ -1,0 +1,4 @@
+# LANGUAGE translation of CakePHP Application
+#
+msgid ""
+msgstr ""
