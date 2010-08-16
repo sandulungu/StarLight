@@ -1,3 +1,33 @@
+StarLight should be seen as an extension library for CakePHP.
+
+It is organized in the form of a cake application (/app) that can be extended using specialy crafted cake plugins (/app/extensions).
+It is ment to be seen as a skeleton application/CMS that can be easily extended to fit needs of Web 2.0 applications.
+
+StarLight core features:
+* Written in PHP5, using cake convetions and with lots of phpdoc comments;
+* Auto installer and database schema, both present;
+* Optimized cookie and session handling (no DB support for now) accessible during bootstrap;
+* Extended configuration class with runtime persistence, inheritance, context-awareness and i10n support;
+* Themes, plugins, autoloaded configurations and hooks - all supported;
+* Pheme - a simple template engine with support for runtime local/global skinning and i10n;
+* With jQuery out-of-box (JS forms validation is just one of the features);
+* Automagic content delivery network (CDN) support (both StarLight and for 3rd party) for JS libraries;
+* 100% compatible with native cake plugins (any 3rd party plugin should work and can be easily converted to an extension, see DebugKit as an example).
+
+Core extensions:
+* Api - Bridge to 3rd party web services
+* Auth - Security stuff, ACL and user accounts management;
+* Cms - Basic content management: articles organized in a tree fashion (nodes), tags (that can be grouped), images, uploads, contact forms, navigation and blocks;
+* DebugKit - 3rd party debugging plugin (automagically activates and detects the presence of Interactive plugin).
+
+Official site
+http://starlightcms.info
+
+GitHub
+http://github.com/z7/StarLight
+
+-----------------------------------------------------
+
 CakePHP is a rapid development framework for PHP which uses commonly known design patterns like Active Record, Association Data Mapping, Front Controller and MVC. Our primary goal is to provide a structured framework that enables PHP users at all levels to rapidly develop robust web applications, without any loss to flexibility.
 
 The Cake Software Foundation - promoting development related to CakePHP
