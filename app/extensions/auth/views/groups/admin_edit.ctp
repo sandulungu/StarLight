@@ -12,7 +12,3 @@
     echo $this->SlForm->input('description');
     
     echo $this->SlForm->end(__t(!$this->id ? 'Add' : 'Save'));
-
-    SlConfigure::write('Asset.js.jquery', 'head');
-    SlConfigure::write('Asset.js.head.jqueryValidation', 'jquery.validation.min');
-    echo $this->Validation->bind('Group');

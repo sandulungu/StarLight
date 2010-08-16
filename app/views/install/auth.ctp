@@ -11,7 +11,3 @@
     echo $this->SlForm->input('fullname');
     echo $this->SlForm->input('email');
     echo $this->SlForm->end(__t('Create user >'));
-
-    SlConfigure::write('Asset.js.jquery', 'head');
-    SlConfigure::write('Asset.js.head.jqueryValidation', 'jquery.validation.min');
-    echo $this->Validation->bind('User');

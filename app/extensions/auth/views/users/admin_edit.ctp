@@ -19,7 +19,3 @@
     echo $this->SlForm->input('Group', array('multiple' => 'checkbox'));
     
     echo $this->SlForm->end(__t(!$this->id ? 'Add' : 'Save'));
-
-    SlConfigure::write('Asset.js.jquery', 'head');
-    SlConfigure::write('Asset.js.head.jqueryValidation', 'jquery.validation.min');
-    echo $this->Validation->bind('User');

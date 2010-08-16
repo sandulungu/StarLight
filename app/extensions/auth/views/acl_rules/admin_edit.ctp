@@ -19,6 +19,7 @@
     
     echo $this->SlForm->end(__t(!$this->id ? 'Add' : 'Save'));
 
+    SlConfigure::write('Asset.js.jquery', 'head');
 ?>
 <script type="text/javascript">
     $('#AclRuleUserId').change(function() {
@@ -33,8 +34,3 @@
         $('#AclRuleWho').attr('readonly', val ? 'readonly' : '').val(val ? 'Group'+val : '');
     }).change();
 </script>
-
-<?php
-    SlConfigure::write('Asset.js.jquery', 'head');
-    SlConfigure::write('Asset.js.head.jqueryValidation', 'jquery.validation.min');
-    echo $this->Validation->bind('AclRule');

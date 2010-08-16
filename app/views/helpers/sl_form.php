@@ -51,6 +51,7 @@ class SlFormHelper extends FormHelper {
                     );
                 }
             }
+            unset($options['meioUpload']);
 
             if (in_array($schema['type'], array('datetime', 'date', 'time'))) {
                 $options += array(
@@ -83,4 +84,23 @@ class SlFormHelper extends FormHelper {
         }
     }
     
+	function end($options = null) {
+        $view = Sl::getInstance()->view;
+
+        $options2 = is_array($options) ? $options : array();
+        $options2 += array(
+            'validation' => true,
+        );
+
+        if ($options2['validation'] && $view->model && isset($view->Validation)) {
+            SlConfigure::write('Asset.js.jquery', 'head');
+            SlConfigure::write('Asset.js.head.jqueryValidation', 'jquery.validation.min');
+            $html = $view->Validation->bind($view->model);
+        } else {
+            $html = '';
+        }
+
+		return parent::end($options) . $html;
+	}
+
 }
