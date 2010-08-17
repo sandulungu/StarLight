@@ -8,11 +8,14 @@ class AppModel extends Model {
         }
     }
 
+
+
     //////////////////////////////// HACKS /////////////////////////////////////
 
     // if someday this lazy loader stops working, there is an alternative
     // at http://github.com/Phally/lazy_model
 
+    
 
     protected $_lazyLoaderBusy = false;
 

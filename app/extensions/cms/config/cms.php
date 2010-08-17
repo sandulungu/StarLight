@@ -1,5 +1,22 @@
 <?php
 
+$config['global']['Auth'] = array(
+    'acl' => array(
+        'Group2' => array(
+            'configCms' => true,
+        ),
+    ),
+);
+$config['global']['Config'] = array(
+    'sections' => array(
+        'cms' => 'Content options',
+    ),
+    'settings' => array(
+        'cms' => array(
+        ),
+    ),
+);
+
 $config['global']['I18n'] = array(
     'domains' => array(
         'cms' => 'cms',
@@ -53,23 +70,6 @@ $config['global']['Navigation'] = array(
     // 'cms' => array(),
 );
 
-$config['global']['Config'] = array(
-    'sections' => array(
-        'cms' => 'Content options',
-    ),
-    'settings' => array(
-        'cms' => array(
-        ),
-    ),
-);
-$config['ConfigController']['Auth'] = array(
-    'acl' => array(
-        'Group2' => array(
-            'configCms' => true,
-        ),
-    ),
-);
-
 $config['global']['Routing'] = array(
     'home' => array(
         'plugin' => 'cms',
@@ -84,6 +84,12 @@ $config['global']['Routing'] = array(
         ),
     ),
 );
+
+
+
+///////////////////////////// CONTEXT SENSITIVE ////////////////////////////////
+
+
 
 // allow everyone access to admin home
 $config['CmsController']['Auth'] = array(

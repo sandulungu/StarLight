@@ -15,16 +15,18 @@ class SlFormHelper extends FormHelper {
             'translate' => false
         );
 
+        $view = ClassRegistry::getObject('view');
 		$this->setEntity($fieldName);
         $modelKey = $this->model();
 		$fieldKey = $this->field();
+
         if ($modelKey{0} >= 'A' && $modelKey{0} <= 'Z') {
             $model = ClassRegistry::init($modelKey);
             $schema = $model->schema($fieldKey);
 
             $options += array(
                 'meioUpload' => $model->Behaviors->enabled('MeioUpload') &&
-                    issset($model->Behaviors->MeioUpload->__fields[$model->alias][$fieldKey]),
+                    isset($model->Behaviors->MeioUpload->__fields[$model->alias][$fieldKey]),
                 'after' => '',
                 'translate' => $model->Behaviors->enabled('Translate') &&
                     in_array($fieldKey, $model->Behaviors->Translate->settings[$model->alias]),
@@ -32,19 +34,21 @@ class SlFormHelper extends FormHelper {
 
             // if this is a MeioUpload field and a file has been uploaded, then show it
             if ($options['meioUpload'] && isset($view->data[$modelKey][$fieldKey]) && is_string($view->data[$modelKey][$fieldKey])) {
+
                 $meioUploadOptions = $model->Behaviors->MeioUpload->__fields[$model->alias][$fieldKey];
-                $filename = "{$meioUploadOptions['dir']}/{$view->data[$modelKey][$fieldKey]}";
+                $filename = r(DS, '/', "{$meioUploadOptions['dir']}/{$view->data[$modelKey][$fieldKey]}");
 
                 if (isset($meioUploadOptions['thumbsizes']['icon'])) {
                     $iconFilename = "{$meioUploadOptions['dir']}/thumb/icon/{$view->data[$modelKey][$fieldKey]}";
-                    $options['after'] += sprintf(
-                        '<a class="sl-uploaded-image" href="%s" rel="colorbox"><img src="%s" /></a>',
+                    $options['after'] .= sprintf(
+                        '<a class="sl-uploaded-image" href="%s" rel="colorbox" target="_blank"><img src="%s" /></a>',
                         $this->assetUrl($filename),
                         $this->assetUrl($iconFilename)
                     );
+                    Pheme::parse('JqueryColorbox');
                 }
                 else {
-                    $options['after'] += sprintf(
+                    $options['after'] .= sprintf(
                         '<a class="sl-uploaded-file" href="%s" target="_blank">%s</a>',
                         $this->assetUrl($filename),
                         __t('View uploaded file')
@@ -62,7 +66,6 @@ class SlFormHelper extends FormHelper {
         }
 
         if (isset($options['checkedByDefault'])) {
-            $view = ClassRegistry::getObject('view');
             if (!isset($view->data[$modelKey][$fieldKey])) {
                 $options['checked'] = $options['checkedByDefault'];
             }

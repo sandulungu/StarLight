@@ -20,12 +20,51 @@ $config['global']['Sl'] = array(
     ),
 );
 
-$config['global']['Mirror'] = array(
-    // 'versions' => array('core' => '2.1.alpha3'),
+$config['global']['Asset'] = array(
+    'cdn' => array(
+        'blend' => 'http://cdn.starlightcms.info/assets/blend/1.3',
+        'bookmark' => 'http://cdn.starlightcms.info/assets/bookmark/1.3.1',
+        'blueprint' => 'http://cdn.starlightcms.info/assets/blueprint/0.9_patched',
+        'colorbox' => 'http://cdn.starlightcms.info/assets/colorbox/1.3.6',
+        'cufon' => 'http://cdn.starlightcms.info/assets/cufon/1.09',
+        'curvycorners' => 'http://cdn.starlightcms.info/assets/curvycorners/2.0.4',
+        'ext3' => 'http://cdn.starlightcms.info/assets/ext/3.2.0',
+        'filter-row' => 'http://cdn.starlightcms.info/assets/filter-row/0.4',
+        'jcarousellite' => 'http://cdn.starlightcms.info/assets/jcarousellite/1.0.1_patched',
+        'jquery' => 'http://ajax.googleapis.com/ajax/libs/jquery/1.4.2',
+        'jquery-ui' => 'http://cdn.starlightcms.info/assets/jquery-ui/1.8.1',
+        'lavalamp' => 'http://cdn.starlightcms.info/assets/lavalamp/0.1.0',
+        'pngFix' => 'http://cdn.starlightcms.info/assets/pngFix/1.2',
+        'prettyLoader' =>  'http://cdn.starlightcms.info/assets/prettyLoader/1.0',
+        'prettyPhoto' => 'http://cdn.starlightcms.info/assets/prettyPhoto/2.5.6',
+        'scrollTo' => 'http://cdn.starlightcms.info/assets/scrollTo/1.4.2',
+        'sl' => 'http://cdn.starlightcms.info/assets/sl/2.1.alpha2',
+        'superfish' => 'http://cdn.starlightcms.info/assets/superfish/1.4.8',
+        'swfobject' => 'http://cdn.starlightcms.info/assets/swfobject/2.1',
+    ),
+    'options' => array(
+        'alwaysUseCdn' => true,
+        'timestamp' => true,
+    ),
+    'css' => array(
+        // 'theme' => 'styles', // you theme main CSS file
+    ),
+    'js' => array(
+        'jquery' => 'footer',
+        'head' => array(
+            // 'name' => array('weight' => 0, 'before' => '...code...', 'url' => 'asset/url', 'after' => '...code...'),
+        ),
+        'footer' => array(
+        ),
+        'ready' => array(
+        ),
+    ),
 );
 
-$config['global']['Security'] = array(
-    // 'remoteAddr' => '127.0.0.1' // Session-dependent
+$config['global']['Block'] = array(
+    'defaults' => array(
+        // 'cache' => array('time' => 5 * 60, 'spread' => 60),
+    ),
 );
 
 $config['global']['Config'] = array(
@@ -72,73 +111,11 @@ $config['global']['I18n'] = array(
     ),
 );
 
-$config['global']['View'] = array(
-    'options' => array(
-        'safeJsCodeBlocks' => true,
-        'titleSep' => ' | ',
-    ),
-    'phemeOptions' => array(
-        'stripWhitespace' => true,
-    ),
-
-    // 'layout' => null, // based on prefix
-    // 'theme' => null,
-
-    'html' => array(
-        'head' => array(),
-        'footer' => array(),
-    ),
-
-    // 'bufferedOutput' => null,
-    // 'lastRenderedTitle' => null,
+$config['global']['Message'] = array(
 );
 
-$config['global']['Site'] = array(
-    'title' => 'StarLight',
-    //'mission' => '',
-    //'copyright' => '',
-    'poweredBy' => 'Powered by <a href="http://starlightcms.info" target="_blank">StarLight</a>',
-);
-
-$config['global']['Asset'] = array(
-    'cdn' => array(
-        'blend' => 'http://cdn.starlightcms.info/assets/blend/1.3',
-        'bookmark' => 'http://cdn.starlightcms.info/assets/bookmark/1.3.1',
-        'blueprint' => 'http://cdn.starlightcms.info/assets/blueprint/0.9_patched',
-        'colorbox' => 'http://cdn.starlightcms.info/assets/colorbox/1.3.6',
-        'cufon' => 'http://cdn.starlightcms.info/assets/cufon/1.09',
-        'curvycorners' => 'http://cdn.starlightcms.info/assets/curvycorners/2.0.4',
-        'ext3' => 'http://cdn.starlightcms.info/assets/ext/3.2.0',
-        'filter-row' => 'http://cdn.starlightcms.info/assets/filter-row/0.4',
-        'jcarousellite' => 'http://cdn.starlightcms.info/assets/jcarousellite/1.0.1_patched',
-        'jquery' => 'http://ajax.googleapis.com/ajax/libs/jquery/1.4.2',
-        'jquery-ui' => 'http://cdn.starlightcms.info/assets/jquery-ui/1.8.1',
-        'lavalamp' => 'http://cdn.starlightcms.info/assets/lavalamp/0.1.0',
-        'pngFix' => 'http://cdn.starlightcms.info/assets/pngFix/1.2',
-        'prettyLoader' =>  'http://cdn.starlightcms.info/assets/prettyLoader/1.0',
-        'prettyPhoto' => 'http://cdn.starlightcms.info/assets/prettyPhoto/2.5.6',
-        'scrollTo' => 'http://cdn.starlightcms.info/assets/scrollTo/1.4.2',
-        'sl' => 'http://cdn.starlightcms.info/assets/sl/2.1.alpha2',
-        'superfish' => 'http://cdn.starlightcms.info/assets/superfish/1.4.8',
-        'swfobject' => 'http://cdn.starlightcms.info/assets/swfobject/2.1',
-    ),
-    'options' => array(
-        'alwaysUseCdn' => true,
-        'timestamp' => true,
-    ),
-    'css' => array(
-        // 'theme' => 'styles', // you theme main CSS file
-    ),
-    'js' => array(
-        'jquery' => 'footer',
-        'head' => array(
-            // 'name' => array('weight' => 0, 'before' => '...code...', 'url' => 'asset/url', 'after' => '...code...'),
-        ),
-        'footer' => array(
-        ),
-        'ready' => array(
-        ),
-    ),
+$config['global']['Mirror'] = array(
+    // 'versions' => array('core' => '2.1.alpha3'),
 );
 
 $config['global']['Navigation'] = array(
@@ -172,15 +149,6 @@ $config['global']['Navigation'] = array(
     ),
 );
 
-$config['global']['Block'] = array(
-    'defaults' => array(
-        // 'cache' => array('time' => 5 * 60, 'spread' => 60),
-    ),
-);
-
-$config['global']['Message'] = array(
-);
-
 $config['global']['Routing'] = array(
     'home' => array(
         'controller' => 'sl',
@@ -195,6 +163,44 @@ $config['global']['Routing'] = array(
     'routes' => array(
     ),
 );
+
+$config['global']['Security'] = array(
+    // 'remoteAddr' => '127.0.0.1' // Session-dependent
+);
+
+$config['global']['Site'] = array(
+    'title' => 'StarLight',
+    //'mission' => '',
+    //'copyright' => '',
+    'poweredBy' => 'Powered by <a href="http://starlightcms.info" target="_blank">StarLight</a>',
+);
+
+$config['global']['View'] = array(
+    'options' => array(
+        'safeJsCodeBlocks' => true,
+        'titleSep' => ' | ',
+    ),
+    'phemeOptions' => array(
+        'stripWhitespace' => true,
+    ),
+
+    // 'layout' => null, // based on prefix
+    // 'theme' => null,
+
+    'html' => array(
+        'head' => array(),
+        'footer' => array(),
+    ),
+
+    // 'bufferedOutput' => null,
+    // 'lastRenderedTitle' => null,
+);
+
+
+
+///////////////////////////// CONTEXT SENSITIVE ////////////////////////////////
+
+
 
 $config['ConfigController'] = array(
     'Navigation' => array(

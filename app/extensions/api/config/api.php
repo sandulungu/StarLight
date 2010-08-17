@@ -1,12 +1,5 @@
 <?php
 
-$config['global']['Api']['hqSms'] = array(
-    'secure' => true,
-    'username' => '',
-    'password' => '',
-    'from' => 'StarLight',
-);
-
 $config['global']['Api']['facebook'] = array(
     // 'appId' => null,
     // 'applicationSecret' => null,
@@ -14,6 +7,13 @@ $config['global']['Api']['facebook'] = array(
     // 'appName' => 'Sample application'
     'from' => 'StarLight',
     'oauthSuccess' => array('action' => 'index'),
+);
+
+$config['global']['Api']['hqSms'] = array(
+    'secure' => true,
+    'username' => '',
+    'password' => '',
+    'from' => 'StarLight',
 );
 
 /*

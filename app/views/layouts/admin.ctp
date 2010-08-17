@@ -3,6 +3,7 @@
         //$this = new SlView(); // for IDE
     }
 
+    SlConfigure::delete('Asset.css.theme', false, '*');
     SlConfigure::write('Asset.css.cakeGeneric', 'cake.generic');
     SlConfigure::write('Asset.css.slGeneric', 'sl.generic');
 

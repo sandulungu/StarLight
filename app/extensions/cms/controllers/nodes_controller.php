@@ -7,7 +7,7 @@
 class NodesController extends AppController {
 
     public function index() {
-        $query = array(
+        /*$query = array(
             'contain' => array(
                 'Tag',
                 'User',
@@ -40,7 +40,7 @@ class NodesController extends AppController {
         }
         
         $this->set('books', $this->Node->find('all', $query));
-        $this->set('title_for_layout', $q ? "Cautare cărți cu titlul \"$q\"" : 'Cărți');
+        $this->set('title_for_layout', $q ? "Cautare cărți cu titlul \"$q\"" : 'Cărți');*/
     }
 
     public function admin_index($id = null) {

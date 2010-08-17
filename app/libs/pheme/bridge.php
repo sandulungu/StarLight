@@ -126,7 +126,8 @@ class Pheme {
     }
 
     /**
-     * Get the parser registered for a specific block
+     * Get the parser registered for a specific block.
+     * Does not load the block, to autoload use Pheme::init(...) or Pheme::parse(...) instead
      *
      * @param string $blockName
      * @return PhemeParser
@@ -159,7 +160,7 @@ class Pheme {
         if (self::get($blockName) === null) {
             self::$_registered[$blockName] = false;
             $fileName = Inflector::underscore($blockName);
-            Sl::getInstance()->view->pheme("pheme/$fileName", $plugin);
+            echo Sl::getInstance()->view->pheme("pheme/$fileName", $plugin);
         }
         
         $params = func_get_args();
@@ -269,7 +270,7 @@ class Pheme {
     }
 
     /**
-     * Trigger parse() in a registered block
+     * Trigger parse() in a registered block; loads the block if needed
      *
      * @param string $blockName Name of a registered block (instance markers supported) or a PhemeParser instance
      * @param array $params Override params (applicable only to PhemeSubParser descendents) (optional)

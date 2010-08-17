@@ -107,7 +107,7 @@ class AppController extends Controller {
         if (empty($this->viewVars['title_for_layout'])) {
             $this->viewVars['title_for_layout'] = SlConfigure::read2('Site.title');
         } else {
-            $this->viewVars['title_for_layout'] .= SlConfigure::read('View.options.titleSep') . SlConfigure::read('Site.title');
+            $this->viewVars['title_for_layout'] .= SlConfigure::read('View.options.titleSep') . SlConfigure::read2('Site.title');
         }
 
         if (Sl::getInstance()->main && ob_get_level()) {
@@ -175,8 +175,12 @@ class AppController extends Controller {
         return parent::cakeError($method, $messages);
     }
 
+
+
     //////////////////////////////// HACKS /////////////////////////////////////
 
+
+    
     /**
      * Loads Components and prepares them for initialization.
      * Models will be lazy loaded by default
