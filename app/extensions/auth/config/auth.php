@@ -1,5 +1,11 @@
 <?php
 
+$config['global']['I18n'] = array(
+    'domains' => array(
+        'auth' => 'auth',
+    )
+);
+
 $config['global']['Auth'] = array(
     'options' => array(
         'checkActionsAcl' => true,

@@ -18,7 +18,7 @@
         }
 
         $setting['label'] = empty($setting['label']) ?
-            __t(Inflector::humanize(Inflector::underscore($setting['name']))) :
+            __t(Inflector::humanize(Inflector::underscore(r('.', '_', $setting['name'])))) :
             __t($setting['label']);
         $setting['value'] = SlConfigure::read($setting['name'], $setting['collection']);
 

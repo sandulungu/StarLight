@@ -17,6 +17,9 @@ class ConfigController extends AppController {
 
         $settings = SlConfigure::read2("Config.settings.$activeSection");
         foreach ($settings as &$setting) {
+            if (is_string($setting)) {
+                $setting = array('name' => $setting);
+            }
             if (empty($setting['collection'])) {
                 $setting['collection'] = 'global';
             }

@@ -30,6 +30,7 @@ class InstallController extends AppController {
             SlConfigure::write('Db.default', $this->data, true);
         } else {
             $this->data = SlConfigure::read('Db.default');
+            unset($this->data['password']);
         }
 
         App::import('Core', 'ConnectionManager');

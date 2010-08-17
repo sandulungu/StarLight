@@ -105,9 +105,9 @@ class AppController extends Controller {
         
         // merge 'site title' and 'view title'
         if (empty($this->viewVars['title_for_layout'])) {
-            $this->viewVars['title_for_layout'] = SlConfigure::read2('View.title');
+            $this->viewVars['title_for_layout'] = SlConfigure::read2('Site.title');
         } else {
-            $this->viewVars['title_for_layout'] .= SlConfigure::read('View.options.titleSep') . SlConfigure::read('View.title');
+            $this->viewVars['title_for_layout'] .= SlConfigure::read('View.options.titleSep') . SlConfigure::read('Site.title');
         }
 
         if (Sl::getInstance()->main && ob_get_level()) {

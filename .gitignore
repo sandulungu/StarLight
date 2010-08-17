@@ -1,9 +1,16 @@
+/app/config/schema/schema.php
+/app/config/schema/fixtures.csv
+/app/config/site.php
+
 *.log
 /app/tmp/sl_configuration.php
 /app/tmp/cache/sl*
 /app/tmp/cache/cake*
 /app/tmp/cache/*/*
 
-/app/webroot/files/*/*
+/app/views/themed/*
+
+/app/webroot/files/*
+/app/webroot/theme/*
 
 !empty

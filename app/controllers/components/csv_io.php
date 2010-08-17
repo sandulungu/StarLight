@@ -21,7 +21,7 @@ class CsvIoComponent extends SlComponent {
 
     public function arrayToCsvFile($array, $options) {
         $options += array(
-            'filename' => CONFIGS . 'schema/fixture.csv',
+            'filename' => CONFIGS . 'schema/fixtures.csv',
             'output' => empty($options['filename']),
         );
 

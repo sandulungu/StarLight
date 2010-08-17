@@ -1,5 +1,11 @@
 <?php
 
+$config['global']['I18n'] = array(
+    'domains' => array(
+        'cms' => 'cms',
+    )
+);
+
 $config['global']['Navigation'] = array(
     'sections' => array(
         'cms' => array(
@@ -53,12 +59,6 @@ $config['global']['Config'] = array(
     ),
     'settings' => array(
         'cms' => array(
-            /*'viewTitle' => array(
-                'name' => 'View.title',
-                // 'collection' => 'global', // default
-                // 'collection' => 'user', // magically use current User's Collection
-                'label' => 'Site title',
-            ),*/
         ),
     ),
 );

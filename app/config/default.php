@@ -34,12 +34,15 @@ $config['global']['Config'] = array(
     ),
     'settings' => array(
         'site' => array(
-            'viewTitle' => array(
-                'name' => 'View.title',
+            /*array(
+                'name' => 'Configuration.option',
                 // 'collection' => 'global', // default
                 // 'collection' => 'user', // magically use current User's Collection
-                'label' => 'Site title',
-            ),
+                // 'label' => '', // generated from name
+            ),*/
+            'Site.title',
+            'Site.mission',
+            'Site.copyright',
         ),
     ),
 );
@@ -77,18 +80,24 @@ $config['global']['View'] = array(
     'phemeOptions' => array(
         'stripWhitespace' => true,
     ),
-    
+
     // 'layout' => null, // based on prefix
     // 'theme' => null,
-    'title' => 'StarLight',
-    
+
     'html' => array(
         'head' => array(),
         'footer' => array(),
     ),
-        
+
     // 'bufferedOutput' => null,
     // 'lastRenderedTitle' => null,
+);
+
+$config['global']['Site'] = array(
+    'title' => 'StarLight',
+    //'mission' => '',
+    //'copyright' => '',
+    'poweredBy' => 'Powered by <a href="http://starlightcms.info" target="_blank">StarLight</a>',
 );
 
 $config['global']['Asset'] = array(
