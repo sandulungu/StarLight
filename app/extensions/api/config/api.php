@@ -16,7 +16,6 @@ $config['global']['Api']['hqSms'] = array(
     'from' => 'StarLight',
 );
 
-/*
 $config['global']['Api']['swiftMailer'] = array(
     'method' => 'smtp',
     
@@ -31,4 +30,3 @@ $config['global']['Api']['swiftMailer'] = array(
     'fromName' => 'StarLight Mail System',
     'subject' => 'StarLight Notification',
 );
-*/

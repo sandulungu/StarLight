@@ -8,6 +8,81 @@ class AppModel extends Model {
         }
     }
 
+//    public function beforeFind($model, $query) {
+//        return true;
+//    }
+    
+    public function afterFind($results, $primary = false) {
+		if (!$primary || empty($results)) {
+			return $results;
+        }
+
+        // Virtual field 'level'
+        if ($this->Behaviors->enabled('Tree')) {
+            $stack = array();
+
+            foreach ($results as &$result) {
+                if (!isset($result[$this->alias]['rght'])) {
+                    return true;
+                }
+
+                while ($stack && ($stack[count($stack) - 1] < $result[$this->alias]['rght'])) {
+                    array_pop($stack);
+                }
+                $result[$this->alias]['level'] = count($stack);
+                $stack[] = $result[$this->alias]['rght'];
+            }
+        }
+
+        return $results;
+    }
+    
+    /**
+     * Returns a result set array.
+     *
+     * Also used to perform new-notation finds, where the first argument is type of find operation to perform
+     * (all / first / count / neighbors / list / threaded / treelist ),
+     * second parameter options for finding ( indexed array, including: 'conditions', 'limit',
+     * 'recursive', 'page', 'fields', 'offset', 'order')
+     *
+     * Eg:
+     * {{{
+     *	find('all', array(
+     *		'conditions' => array('name' => 'Thomas Anderson'),
+     * 		'fields' => array('name', 'email'),
+     * 		'order' => 'field3 DESC',
+     * 		'recursive' => 2,
+     * 		'group' => 'type'
+     * ));
+     * }}}
+     *
+     * Specifying 'fields' for new-notation 'list':
+     *
+     *  - If no fields are specified, then 'id' is used for key and 'model->displayField' is used for value.
+     *  - If a single field is specified, 'id' is used for key and specified field is used for value.
+     *  - If three fields are specified, they are used (in order) for key, value and group.
+     *  - Otherwise, first and second fields are used for key and value.
+     */
+    function find($what, $options = array()) {
+        if (strtolower($what) == 'treelist') {
+            if ($this->Behaviors->enabled('Tree')) {
+                $options += array(
+                    'conditions' => null,
+                    'keyPath' => null,
+                    'valuePath' => null,
+                    'spacer' => '- ',
+                    'recursive' => null,
+                );
+                extract($options);
+                return $this->generatetreelist($conditions = null, $keyPath = null, $valuePath = null, $spacer = '_', $recursive = null);
+            }
+            return;
+        }
+
+        $args = func_get_args();
+        return call_user_func_array(array("Model", "find"), $args);
+    }
+
 
 
     //////////////////////////////// HACKS /////////////////////////////////////

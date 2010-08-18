@@ -33,6 +33,20 @@
 //$config['global']['Asset']['css']['theme'] = 'css_filename';
 
 /*
+ * Depending on the theme used, you should specify block placement zones
+ */
+//$config['global']['Block'] = array(
+//    'zones' => array(
+//        'Header' => 'Page header',
+//        'Left' => 'Left column',
+//        'Before' => 'Before content',
+//        'After' => 'After content',
+//        'Right' => 'Right column',
+//        'Footer' => 'Page footer',
+//    ),
+//);
+
+/*
  * You may set here any database configurations you'll need.
  * This way, the user won't need to remeber the database password when setting up the site in the Web UI
  */

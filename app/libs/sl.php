@@ -12,11 +12,6 @@ class Sl {
      */
     protected static $_instances = array();
 
-    /*
-     * @var bool
-     */
-    private static $__halted = false;
-
     /**
      * Get or set version info (DB)
      *
@@ -51,53 +46,6 @@ class Sl {
     }
 
     /**
-     * Get the current instance of a helper or initilizes a new one
-     *
-     * @param string $name
-     * @param bool $init True to create the helper in the current view if not loaded
-     * @return AppHelper
-     */
-    public static function getHelper($name, $init = true) {
-        $view = self::getInstance()->view;
-
-        // attempt load from current view
-        if ($view) {
-            $helperName = Inflector::variable($name);
-            if (!empty($view->loaded[$helperName])) {
-                return $view->loaded[$helperName];
-            }
-        }
-
-        // attempt load from ClassRegistry
-        $className = "{$name}Helper";
-        $object = ClassRegistry::getObject($className);
-        if ($object) {
-            return $object;
-        }
-
-        // create and register object
-        if ($init) {
-            if ($view) {
-                $loaded = array('dummy');
-                $view->_loadHelpers($loaded, array($name));
-                if (isset($loaded[$name])) {
-                    ClassRegistry::addObject($className, $loaded[$name]);
-                    return $loaded[$name];
-                }
-            } else {
-                return ClassRegistry::init($className, 'helper');
-            }
-        }
-    }
-
-    /**
-     * Humanize (in lower case)
-     */
-    public static function humanize($str) {
-        return str_replace('_', ' ', Inflector::underscore($str));
-    }
-
-    /**
      * Improved requestAction. AutoRenders by default
      *
      * @param mixed $url
@@ -111,8 +59,10 @@ class Sl {
         }
     	$params += array(
             'return' => false,
-            'bare' => true,
-            'requested' => true
+            'requested' => true,
+        );
+    	$params += array(
+            'bare' => $params['requested'],
         );
         
         if (is_array($url)) {
@@ -123,7 +73,7 @@ class Sl {
         self::getInstance();
 
         $savedCollections = SlConfigure::rememberCollections();
-        self::_push($url);
+        self::push(empty($params['requested']), $url);
         ob_start();
         $result = Object::requestAction($url, $params);
         $html = ob_get_clean();
@@ -144,23 +94,23 @@ class Sl {
      *
      * Example: Sl::ipMatch(env('REMOTE_ADDR'), array('192.168.0.0/16', '10.0.0.0/24'))
      *
-     * @param string $IP
-     * @param mixed $CIDR
+     * @param string $ip
+     * @param mixed $cidr
      * @return bool
      */
-    static public function ipMatch($IP, $CIDR) { 
-        if (is_array($CIDR)) {
-            foreach ($CIDR as $cidr) {
-                if (self::ipMatch($IP, $cidr))
+    static public function ipMatch($ip, $cidr) {
+        if (is_array($cidr)) {
+            foreach ($cidr as $cidr) {
+                if (self::ipMatch($ip, $cidr))
                     return true;
             }
             return false;
         }
-        if (strpos($CIDR, '/') === false) {
-            return $CIDR === $IP;
+        if (strpos($cidr, '/') === false) {
+            return $cidr === $ip;
         }
-        list ($net, $mask) = explode ('/', $CIDR);
-        return ( ip2long ($IP) & ~((1 << (32 - $mask)) - 1) ) === ( ip2long ($net) & ~((1 << (32 - $mask)) - 1) );
+        list ($net, $mask) = explode ('/', $cidr);
+        return ( ip2long ($ip) & ~((1 << (32 - $mask)) - 1) ) === ( ip2long ($net) & ~((1 << (32 - $mask)) - 1) );
     }
 
     /**
@@ -168,8 +118,7 @@ class Sl {
      *
      * @return Sl instance
      */
-    static protected function _push($url = null) {
-        $main = empty(self::$_instances);
+    static protected function push($main = true, $url = null) {
         $newInstance = new Sl(
             $main,
             $url ? $url : r('//', '/', empty($_GET['url']) ? '/' : '/'.$_GET['url'])
@@ -181,7 +130,7 @@ class Sl {
     /**
      * Called after requestAction()
      */
-    static public function pop() {
+    static protected function pop() {
         return array_pop(self::$_instances);
     }
 
@@ -191,9 +140,17 @@ class Sl {
     static public function getInstance($main = false) {
 		$count = count(self::$_instances);
 		if ($count === 0) {
-			return self::_push();
+			return self::push();
         }
-        return self::$_instances[$main ? 0 : $count-1];
+        if ($main) {
+            for($i = $count - 1; $i--; $i >= 0) {
+                if (self::$_instances[$i]->main) {
+                    return self::$_instances[$i];
+                }
+            }
+        } else {
+            return self::$_instances[$count-1];
+        }
     }
 
     /**
@@ -265,7 +222,7 @@ class Sl {
      *
      * @var array
      */
-    private static $__linkCache = array();
+    protected static $_linkCache = array();
 
     /**
      * Extended Router::url()
@@ -277,8 +234,8 @@ class Sl {
      */
     static public function url($url = null, $full = false) {
         $hash = serialize($url).$full;
-        if (isset(self::$__linkCache[$hash])) {
-            return self::$__linkCache[$hash];
+        if (isset(self::$_linkCache[$hash])) {
+            return self::$_linkCache[$hash];
         }
 
         if (is_array($url)) {
@@ -301,14 +258,14 @@ class Sl {
         else {
             $noBase = $url === false;
             $full = (bool)$url;
-            $url = isset($this) && $this instanceof Sl ? $this->url : self::getInstance()->url;
+            $url = self::getInstance()->url;
             if ($noBase) {
                 return $url;
             }
         }
 
         // use trim() to remove a trailing space cake sometimes appends
-        return self::$__linkCache[$hash] = trim(Router::url($url, $full));
+        return self::$_linkCache[$hash] = trim(Router::url($url, $full));
     }
     
     /**

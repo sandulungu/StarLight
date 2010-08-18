@@ -62,20 +62,26 @@ class BlocksParser extends PhemeParser {
                     if (empty($block['id'])) {
                         $block['id'] = "$id-$key";
                     }
+
                     if (!empty($block['cache']) && !is_array($block['cache'])) {
                         $block['cache'] = array('time' => $block['cache']);
                     }
-                    if (!empty($block['cache']) && empty($block['cache']['key'])) {
-                        $block['cache']['key'] = $block['id'].'-'.md5(serialize($block));
+                    if (!empty($block['cache_time'])) {
+                        $block['cache']['time'] = $block['cache_time'];
                     }
                     if (isset($block['cache']['time']) && is_numeric($block['cache']['time'])) {
                         $block['cache']['time'] += time();
                     }
+                    
                     if (!empty($block['cache']['spread'])) {
                         if (!is_numeric($block['cache']['time'])) {
                             $block['cache']['time'] = strtotime($block['cache']['time'], time());
                         }
                         $block['cache']['time'] += mt_rand(-$block['cache']['spread'], $block['cache']['spread']);
+                    }
+
+                    if (!empty($block['cache']) && empty($block['cache']['key'])) {
+                        $block['cache']['key'] = $block['id'].'-'.md5(serialize($block));
                     }
 
                     if (!empty($block['cache']['time'])) {

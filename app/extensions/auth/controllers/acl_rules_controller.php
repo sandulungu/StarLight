@@ -39,7 +39,7 @@ class AclRulesController extends AppController {
 
     public function admin_delete($id) {
         $this->AclRule->id = $id;
-        $this->AclRule->delete();
+        $this->AclRule->delete($id, true);
         $this->redirect(array('action' => 'index'));
     }
     

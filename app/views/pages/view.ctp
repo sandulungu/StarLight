@@ -1,3 +1,3 @@
 <?php
 
-    echo nl2br(h($page['Page']['content']));
+    echo $page['Page']['markdown_content'];

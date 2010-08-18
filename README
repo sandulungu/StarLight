@@ -1,7 +1,9 @@
-StarLight should be seen as an extension library for CakePHP.
+At a first look, it seem just another Cake powered CMS, but it's a lot more. In fact, the CMS functionality is achieved by a core extension, which can be easily disabled if not needed.
 
-It is organized in the form of a cake application (/app) that can be extended using specialy crafted cake plugins (/app/extensions).
-It is ment to be seen as a skeleton application/CMS that can be easily extended to fit needs of Web 2.0 applications.
+It is ment to be used as a skeleton application/CMS that can be easily extended to fit needs of Web 2.0 applications. 
+Examples of applications StarLight is fitted for: Web 2.0 projects, custom websites, (micro)publishing systems, facebook apps, google apps, productivity and intranet, mockups and prototype applications.
+
+Organized in the form of a cake application (/app), it can be extended using specialy crafted cake plugins (/app/extensions).
 
 StarLight core features:
 * Written in PHP5, using cake convetions and with lots of phpdoc comments;
@@ -11,7 +13,7 @@ StarLight core features:
 * Themes, plugins, autoloaded configurations and hooks - all supported;
 * Pheme - a simple template engine with support for runtime local/global skinning and i10n;
 * With jQuery out-of-box (JS forms validation is just one of the features);
-* Automagic content delivery network (CDN) support (both StarLight and for 3rd party) for JS libraries;
+* Automagic content delivery network (CDN) support (both StarLight and 3rd party) for JS libraries;
 * 100% compatible with native cake plugins (any 3rd party plugin should work and can be easily converted to an extension, see DebugKit as an example).
 
 Core extensions:

@@ -1,6 +1,6 @@
 <?php
 
-App::import('lib', 'cms.sl/node');
+App::import('lib', 'cms.sl_node');
 
 class CmsExtension extends SlExtension {
 }

@@ -8,7 +8,8 @@ class Page extends AppModel {
     public $useTable = 'core_pages';
 
     public $actsAs = array(
-        'Translate' => array('title', 'content'),
+        'Markdown' => array('content' => 'markdown_content'),
+        'Translate' => array('title', 'content', 'markdown_content'),
     );
 
     public $validate = array(

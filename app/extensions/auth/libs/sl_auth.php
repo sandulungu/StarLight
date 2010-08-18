@@ -56,10 +56,12 @@ class SlAuth {
             return false;
         }
         
-        $roles = array("everyone", "users", "User{$user['User']['id']}");
+        $roles = array("User{$user['User']['id']}");
         foreach ($user['Group'] as $group) {
             $roles[] = "Group{$group['id']}";
         }
+        $roles[] = "users";
+        $roles[] = "everyone";
         $user['User']['roles'] = $roles;
 
         SlSession::write('Auth.user', $user['User']);

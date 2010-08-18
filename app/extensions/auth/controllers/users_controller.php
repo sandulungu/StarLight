@@ -116,7 +116,7 @@ class UsersController extends AppController {
 
     public function admin_delete($id) {
         $this->User->id = $id;
-        $this->User->delete();
+        $this->User->delete($id, true);
         $this->redirect(array('action' => 'index'));
     }
 

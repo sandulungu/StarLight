@@ -1,12 +1,16 @@
 3rd Party Vendor Libs
 =====================
 
-Krumo 0.2.1a (use default skin cause' it doesn't need any images to work correctly)
+Krumo 0.2.1a (patched to use default skin cause' it doesn't need any images to work correctly)
+
+php-excel-reader 2.21
+
+Php Markdown Extra 1.2.4
+
+phpThumb() 1.7.9-200805132119
 
 Simpletest 1.0.1
 
+Slir 2.0b3
+
 SwiftMailer 4.0.6
-
---------------------------------------------------------------------------------
-
-'pheme' and 'sl' are part of SL core

@@ -41,7 +41,6 @@ class Attachment extends AppModel {
         ),
         'visible' => array(
             'rule' => 'validBool',
-            'required' => true,
         ),
     );
 

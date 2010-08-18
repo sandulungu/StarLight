@@ -37,7 +37,7 @@ class PagesController extends AppController {
 
     public function admin_delete($id) {
         $this->Page->id = $id;
-        $this->Page->delete();
+        $this->Page->delete($id, true);
         $this->redirect(array('action' => 'index'));
     }
 

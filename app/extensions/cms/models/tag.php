@@ -9,7 +9,7 @@ class Tag extends AppModel {
     public $useTable = 'cms_tags';
 
     public $actsAs = array(
-        'Translate' => array('title'),
+        'Translate' => array('name'),
     );
 
     public $order = array('Tag.tag_type_id', 'Tag.title');

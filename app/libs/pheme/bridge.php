@@ -263,7 +263,7 @@ class Pheme {
 
     static public function parseTranslate($skin, $vars = array()) {
         $blocks = PhemeParser::$coreBlocks;
-        PhemeParser::$coreBlocks = array_intersect_key($blocks, array('t' => true, 'e' => true));
+        PhemeParser::$coreBlocks = array_intersect_key($blocks, array('t' => true, 'h' => true, 'e' => true));
         $result = self::parse('SimpleParser', compact('skin', 'vars'));
         PhemeParser::$coreBlocks = $blocks;
         return $result;

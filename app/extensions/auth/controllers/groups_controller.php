@@ -36,7 +36,7 @@ class GroupsController extends AppController {
 
     public function admin_delete($id) {
         $this->Group->id = $id;
-        $this->Group->delete();
+        $this->Group->delete($id, true);
         $this->redirect(array('action' => 'index'));
     }
     

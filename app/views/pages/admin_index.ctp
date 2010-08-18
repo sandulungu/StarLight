@@ -13,7 +13,7 @@
 <<<end
     $actions
     <table>
-        <th>{t}Page title, content{/t}</th><th width="100">{t}Actions{/t}</th>
+        <th>{t}Page title, content{/t}</th><th>Preview</th><th width="100">{t}Actions{/t}</th>
 end
     );
 
@@ -29,6 +29,8 @@ end
     <tr><td>
         <h3><a href="$view">{$page["Page"]["title"]}</a></h3>
         {e}{$page["Page"]["content"]}{/e}
+    </td><td>
+        {$page["Page"]["markdown_content"]}
     </td><td class="actions">
         $edit $delete
     </td></tr>

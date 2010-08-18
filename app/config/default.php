@@ -62,6 +62,9 @@ $config['global']['Asset'] = array(
 );
 
 $config['global']['Block'] = array(
+    'zones' => array(
+        // 'Header' => 'Page header',
+    ),
     'defaults' => array(
         // 'cache' => array('time' => 5 * 60, 'spread' => 60),
     ),

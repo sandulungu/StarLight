@@ -41,7 +41,7 @@ class CsvIoComponent extends SlComponent {
         $options += array(
         );
 
-        App::import('vendor', 'php-excel-reader/excel_reader2');
+        App::import('vendor', 'php_excel_reader/excel_reader2');
 
         $xls = new Spreadsheet_Excel_Reader($filename);
 

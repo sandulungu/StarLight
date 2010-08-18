@@ -26,7 +26,7 @@ class Node extends AppModel {
 
     public $hasMany = array(
         'ImageGallery' => array(
-            'className' => 'Cms.Borrow',
+            'className' => 'Cms.Image',
             'foreignKey' => 'node_id',
             'dependent' => true,
         ),
@@ -36,12 +36,12 @@ class Node extends AppModel {
             'dependent' => true,
         ),
         'Block' => array(
-            'className' => 'Cms.Attachment',
+            'className' => 'Cms.Block',
             'foreignKey' => 'node_id',
             'dependent' => true,
         ),
         'NavigationLink' => array(
-            'className' => 'Cms.Attachment',
+            'className' => 'Cms.NavigationLink',
             'foreignKey' => 'node_id',
             'dependent' => true,
         ),
@@ -67,8 +67,61 @@ class Node extends AppModel {
         ),
         'visible' => array(
             'rule' => 'validBool',
-            'required' => true,
         ),
     );
 
+	function saveAll($data = null, $options = array()) {
+        $controller = Sl::getInstance()->controller;
+        $isNew = !$controller->id;
+
+        // set associated model info
+        if ($controller->modelClass != 'Node') {
+            $data['Node'] += array(
+                'model' => $controller->modelClass,
+                'plugin' => $controller->plugin,
+            );
+        }
+
+        if (!empty($data['Node']['model'])) {
+            if (empty($options['validation']) || $options['validation'] != 'only') {
+                if (!parent::saveAll($data, array('validation' => 'only', 'atomic' => true) + $options)) {
+                    return false;
+                }
+            }
+
+            $modelObject = ClassRegistry::init("{$data['Node']['plugin']}.{$data['Node']['model']}");
+            $modelObject->saveAll($data, $options);
+            $data['Node'] += array(
+                'foreign_key' => $modelObject->id,
+            );
+        }
+
+        // remove empty Images, Attachments from data to be saved
+        if (!empty($data['Image'])) {
+            if (empty($data['Image']['id']) && empty($data['Image']['filename']['name'])) {
+                unset($data['Image']);
+            }
+        }
+        if (!empty($data['Attachment'])) {
+            foreach ($data['Attachment'] as $i => $image) {
+                if (empty($image['id']) && empty($image['filename']['name'])) {
+                    unset($data['Attachment'][$i]);
+                }
+            }
+        }
+        if (!empty($data['ImageGallery'])) {
+            foreach ($data['ImageGallery'] as $i => $image) {
+                if (empty($image['id']) && empty($image['filename']['name'])) {
+                    unset($data['ImageGallery'][$i]);
+                }
+            }
+        }
+
+        if ($isNew) {
+            $data['Node']['user_id'] = SlAuth::user('id');
+        }
+
+        return parent::saveAll($data, $options);
+    }
+    
 }

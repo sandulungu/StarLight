@@ -10,20 +10,23 @@
  class TranslateBehavior extends ModelBehavior {
 
     /**
+     *
      * @var bool
      */
     protected $_ready = array();
 
     /**
+     *
      * @var array
      */
     protected static $_settings = array();
 	
-  /**
-   * @param AppModel $model
-   * @param array $fields Array of DB field names to be localized
-   */
-	public function setup(AppModel $model, $settings) {
+    /**
+     *
+     * @param AppModel $model
+     * @param array $settings Array of DB field names to be localized
+     */
+	public function setup($model, $settings) {
         // force this behavior to use shared settings
 		$this->settings =& self::$_settings;
 
@@ -36,19 +39,21 @@
 
 	/**
 	* Transcribe validation rules to work with translateable fields
+     * 
+     * @param AppModel $model
 	*/
-	private function __addValidationRules(AppModel $model) {
+	protected function _addValidationRules($model) {
 		$fields = $this->settings[$model->alias];
 		if (empty($fields)) {
 			return;
         }
 		
-		$lang = SlConfigure::read('I18n.locale');
+		$locale = SlConfigure::read('I18n.locale');
         
 		foreach ($model->validate as $name => $rules) {
 			if (in_array($name, $fields)) {
-				$model->validate["{$name}_$lang"] = array(
-					'rule' => 'validateTranslate',
+				$model->validate["{$name}_$locale"] = array(
+					'rule' => array('validTranslate', $model->validate[$name]),
 					'message' => 'Required at least in one language',
 				);
 				//unset($model->validate[$name]);
@@ -56,16 +61,17 @@
 		}
 	}
 	
-  /**
-   * Check DB table for localized fields and define them if needed
-   * 
-   * @return bool (true if no changes were made)
-   */
-	private function __alterTable(AppModel $model) {
+    /**
+     * Check DB table for localized fields and define them if needed
+     *
+     * @param AppModel $model
+     * @return bool (true if no changes were made)
+     */
+	protected function _checkSchema($model) {
 		if (empty($this->_ready[$model->alias])) {
 			$this->_ready[$model->alias] = true;
         } else {
-            return null;
+            return;
         }
         
 		$fields = $this->settings[$model->alias];
@@ -73,8 +79,8 @@
 			return true;
         }
 		
-		$langs = SlConfigure::read('I18n.locales');
-		if (empty($langs)) {
+		$locales = SlConfigure::read('I18n.locales');
+		if (empty($locales)) {
 			trigger_error('I18n didn\'t initilialize properly.', E_USER_ERROR);
 			return false;
 		}
@@ -85,8 +91,8 @@
 		
 		// add all localized missing fields in this model
 		foreach ($fields as $field) {
-			foreach ($langs as $lang) {
-				$field_lang = $field.'_'.$lang;
+			foreach ($locales as $locale) {
+				$field_lang = $field.'_'.$locale;
 				if (empty($schema[$field_lang])) {
 					if (empty($schema[$field])) {
 						trigger_error("Table for $model->alias Model doesn't have a field named '$field'!", E_USER_ERROR);
@@ -95,8 +101,8 @@
 				}
 			}
 		}
-		foreach ($langs as $lang) {
-			$field_lang = '_'.$lang;
+		foreach ($locales as $locale) {
+			$field_lang = '_'.$locale;
 			if (empty($schema[$field_lang])) {
 				$alterTable[$model->table]['add'][$field_lang] = array( 'type' => 'boolean', 'null' => false );
 			}
@@ -105,7 +111,6 @@
 		if ($alterTable) {
 			if (!method_exists($db, 'alterSchema')) {
 				trigger_error("Table configuration for $model->alias Model could not be changed to reflect your latest language settings because its DataSource does not support altering schemas.", E_USER_ERROR);
-				return true;
 			}
 			
 			$model->cacheSources = false;
@@ -132,14 +137,17 @@
      * @param array $field
      * @param array $rule
      */
-    public function validateTranslate(AppModel $model, $field, $rule) {
+    public function validTranslate($model, $field, $rule) {
         $name = array_keys($field);
         $name = preg_replace('/_[a-z]+$/', '', $name[0]);
+
         $locales = SlConfigure::read('I18n.locales');
+
         $data =& $model->data;
         if (isset($data[$model->alias])) {
             $data =& $data[$model->alias];
         }
+        
         foreach ($locales as $locale) {
             if (!empty($data["{$name}_$locale"])) {
                 return true;
@@ -152,7 +160,7 @@
     }
 
     public function beforeValidate(AppModel $model) {
-        $this->__addValidationRules($model);
+        $this->_addValidationRules($model);
         return true;
     }
 
@@ -161,21 +169,23 @@
      *
      * Allows automagic sorting and field retrival.
      * Add support for $query['localized'] that will filter out items not translated to the current language
+     *
+     * @param AppModel $model
      */
-	public function beforeFind(AppModel $model, $query) {
-    	$this->__alterTable($model);
+	public function beforeFind($model, $query) {
+    	$this->_checkSchema($model);
 
 		$fields = $this->settings[$model->alias];
 		if (empty($fields)) {
 			return true;
         }
-		$currLang = SlConfigure::read('I18n.locale');
+		$currLocale = SlConfigure::read('I18n.locale');
 
         if (!empty($query['localized'])) {
             if (!is_array($query['conditions'])) {
                 $query['conditions'] = array($query['conditions']);
             }
-            $query['conditions']["_$currLang"] = true;
+            $query['conditions']["_$currLocale"] = true;
             unset($query['localized']);
         }
 
@@ -204,7 +214,7 @@
 							$fieldName = Inflector::slug($temp[1], '');
 						}
 						if (isset($this->settings[$modelClass]) && in_array($fieldName, $this->settings[$modelClass])) {
-							$newOrder[$modelClass.'.'.$fieldName.'_'.$currLang] = $direction;
+							$newOrder[$modelClass.'.'.$fieldName.'_'.$currLocale] = $direction;
 						} else {
                             $newOrder[$key] = $direction;
                         }
@@ -217,7 +227,7 @@
         if (is_string($query['fields'])) {
             $query['fields'] = array($query['fields']);
         }
-		$langs = SlConfigure::read('I18n.locales');
+		$locales = SlConfigure::read('I18n.locales');
         
 		if (is_array($query['fields']) && count($query['fields']) > 0) {
 
@@ -226,8 +236,8 @@
                 foreach (array($field, $model->alias.'.'.$field, $model->escapeField($field)) as $_field) {
                     foreach ($query['fields'] as $fieldName) {
 						if ($_field === $fieldName) {
-							foreach ($langs as $lang) {
-								$query['fields'][] = $model->alias.'.'.$field.'_'.$lang;
+							foreach ($locales as $locale) {
+								$query['fields'][] = $model->alias.'.'.$field.'_'.$locale;
                             }
                             //unset($query['fields'][$fieldName]);
 						}
@@ -241,9 +251,9 @@
             $recursive = isset($query['recursive']) ? $query['recursive'] : $model->recursive;
             foreach ($fields as $field) {
                 foreach (array($field, $model->alias.'.'.$field, $model->escapeField($field)) as $_field) {
-                    $fields2["$_field LIKE"] = $model->alias.'.'.$field.'_'.$currLang.' LIKE';
+                    $fields2["$_field LIKE"] = $model->alias.'.'.$field.'_'.$currLocale.' LIKE';
                     //if ($recursive < 0 || $field != $_field) {
-                        $fields2[$_field] = "{$_field}_$currLang";
+                        $fields2[$_field] = "{$_field}_$currLocale";
                     //}
                 }
             }
@@ -254,7 +264,7 @@
 	}
 
     /**
-     * Replace translataeble filelds with their translated version in condition statements
+     * Replace translateable fields with their translated version in condition statements
      *
      * @param mixed $conditions
      * @param array $fields
@@ -328,12 +338,14 @@
      * Callback...
      *
      * Sets translated fields to proper values
+     * 
+     * @param AppModel $model
      */
-	public function afterFind(AppModel $model, $results, $primary = false) {
+	public function afterFind($model, $results, $primary = false) {
 		if (!$primary || empty($results)) {
 			return true;
         }
-		$currLang = SlConfigure::read('I18n.locale');
+		$currLocale = SlConfigure::read('I18n.locale');
 
         // set field content according to current language
 		foreach ($results as &$row) {
@@ -341,7 +353,7 @@
 			foreach ($row as $modelClass => &$data) {
 				if (is_array($data) && isset($this->settings[$modelClass])) {
 					$localizableFields = $this->settings[$modelClass];
-                    $result = $this->__afterFind($localizableFields, $data, $currLang) || $result;
+                    $result = $this->__afterFind($localizableFields, $data, $currLocale) || $result;
 				}
  			}
             if (!$result) {
@@ -356,31 +368,33 @@
      * Callback...
      *
      * Set language flags
+     *
+     * @param AppModel $model
      */
-	public function beforeSave(AppModel $model) {
-    	$this->__alterTable($model);
+	public function beforeSave($model) {
+    	$this->_checkSchema($model);
         
 		$fields = $this->settings[$model->alias];
 		if (empty($fields)) {
 			return true;
         }
 
-		$langs = SlConfigure::read('I18n.locales');
-		$currLang = SlConfigure::read('I18n.locale');
+		$locales = SlConfigure::read('I18n.locales');
+		$currLocale = SlConfigure::read('I18n.locale');
 		
 		foreach ($fields as $field) {
 
             // reversed binding - its use is still under question
-            if (!isset($model->data[$model->alias][$field.'_'.$currLang]) && (isset($model->data[$model->alias][$field]))) {
-                $model->data[$model->alias][$field.'_'.$currLang] = $model->data[$model->alias][$field];
+            if (!isset($model->data[$model->alias][$field.'_'.$currLocale]) && (isset($model->data[$model->alias][$field]))) {
+                $model->data[$model->alias][$field.'_'.$currLocale] = $model->data[$model->alias][$field];
                 unset($model->data[$model->alias][$field]);
             }
 
-			foreach ($langs as $lang) {
-				if (isset($model->data[$model->alias][$field.'_'.$lang]) || (isset($model->data[$model->alias][$field]))) {
-					$model->data[$model->alias]['_'.$lang] =
-                        !empty($model->data[$model->alias]['_'.$lang]) ||
-						!empty($model->data[$model->alias][$field.'_'.$lang]);
+			foreach ($locales as $locale) {
+				if (isset($model->data[$model->alias][$field.'_'.$locale]) || (isset($model->data[$model->alias][$field]))) {
+					$model->data[$model->alias]['_'.$locale] =
+                        !empty($model->data[$model->alias]['_'.$locale]) ||
+						!empty($model->data[$model->alias][$field.'_'.$locale]);
 				}
 			}
 		} // foreach

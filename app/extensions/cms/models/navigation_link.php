@@ -45,7 +45,6 @@ class NavigationLink extends AppModel {
         ),
         'visible' => array(
             'rule' => 'validBool',
-            'required' => true,
         ),
     );
 

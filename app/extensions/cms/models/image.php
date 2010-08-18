@@ -49,7 +49,6 @@ class Image extends AppModel {
         ),
         'visible' => array(
             'rule' => 'validBool',
-            'required' => true,
         ),
     );
 

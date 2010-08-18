@@ -135,23 +135,12 @@ class AppController extends Controller {
             die('Infinite redirection loop detected.');
         }
 
+        // code inspired from RequestHandlerComponent
         if ($this->RequestHandler->isAjax()) {
-            
-            // pop main SL instance and save it to prevent premature destruction
-            if (Sl::getInstance()->main) {
-                $SL = Sl::pop();
-            }
-
             foreach ($_POST as $key => $val) {
                 unset($_POST[$key]);
             }
-            if (!empty($status)) {
-                $statusCode = $controller->httpCodes($status);
-                $code = key($statusCode);
-                $msg = $statusCode[$code];
-                $controller->header("HTTP/1.1 {$code} {$msg}");
-            }
-            echo Sl::requestAction($url, array('bare' => false));
+            echo Sl::requestAction($url, array('requested' => false));
     		$this->_stop();
         }
 
