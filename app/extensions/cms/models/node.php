@@ -13,6 +13,9 @@ class Node extends AppModel {
     public $useTable = 'cms_nodes';
 
     public $actsAs = array(
+        'Markdown' => array('title', 'body'),
+        'Tree',
+        'Translate' => array('title', 'body', 'markdown_title', 'markdown_body'),
         'Containable',
         'Linkable.Linkable',
     );

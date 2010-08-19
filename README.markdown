@@ -1,11 +1,14 @@
 At a first look, it seem just another Cake powered CMS, but it's a lot more. In fact, the CMS functionality is achieved by a core extension, which can be easily disabled if not needed.
 
-It is ment to be used as a skeleton application/CMS that can be easily extended to fit needs of Web 2.0 applications. 
-Examples of applications StarLight is fitted for: Web 2.0 projects, custom websites, (micro)publishing systems, facebook apps, google apps, productivity and intranet, mockups and prototype applications.
+This project is ment to be used as a skeleton application that can be easily extended to fit needs of Web 2.0 applications.
+
+Examples of applications StarLight is well fitted for: custom websites, (micro)publishing systems, facebook apps, google apps, productivity and intranet, mockups and prototype applications or any other Web 2.0 projects.
 
 Organized in the form of a cake application (/app), it can be extended using specialy crafted cake plugins (/app/extensions).
 
-StarLight core features:
+
+Sl core features:
+
 * Written in PHP5, using cake convetions and with lots of phpdoc comments;
 * Auto installer and database schema, both present;
 * Optimized cookie and session handling (no DB support for now) accessible during bootstrap;
@@ -16,17 +19,34 @@ StarLight core features:
 * Automagic content delivery network (CDN) support (both StarLight and 3rd party) for JS libraries;
 * 100% compatible with native cake plugins (any 3rd party plugin should work and can be easily converted to an extension, see DebugKit as an example).
 
+
 Core extensions:
+
 * Api - Bridge to 3rd party web services
 * Auth - Security stuff, ACL and user accounts management;
 * Cms - Basic content management: articles organized in a tree fashion (nodes), tags (that can be grouped), images, uploads, contact forms, navigation and blocks;
 * DebugKit - 3rd party debugging plugin (automagically activates and detects the presence of Interactive plugin).
 
-Official site
-http://starlightcms.info
 
-GitHub
-http://github.com/z7/StarLight
+If you decide to use Sl, a standard aproach would be:
+
+1. Download or clone Sl's github repo
+2. Rename /app/config/site.sample.php to /app/config/site.php and set your evironment settings
+3. Download any needed 3rd party extensions and remove/rename unneeded ones (see /app/extensions)
+4. Make sure you have write permissions for the following folders (recursive):
+	* /app/tmp
+	* /app/webroot/files
+5. Point your browser to the URL pointing to your newly deployed Sl to start the one-time setup process
+
+If developing your own extensions, make sure you set *debug* setting to *1* or *2* in /app/config/core.php. 
+The DebugKit extension, Interactive plugin and te Sl::krumo() method, all are here to address your debugging needs.
+
+
+[Official site]: http://starlightcms.info
+
+[github]: http://github.com/z7/StarLight
+
+*[Sl]: StarLight
 
 -----------------------------------------------------
 

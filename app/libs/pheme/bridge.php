@@ -29,40 +29,47 @@ class Pheme {
     protected static $_core;
 
     /**
+     * Body parser (defines main layout section)
+     *
+     * @var PhemeParser
+     */
+    static public $body;
+
+    /**
+     * References default skins for all loaded blocks
+     *
+     * @var array
+     */
+    static public $coreSkins;
+
+    /**
      * Layout parser (user skins container)
      *
      * @var PhemeParser
      */
-    protected $_layout = null;
-
-    /**
-     * Main layout section
-     *
-     * @var PhemeParser
-     */
-    static protected $_body;
+    public $layout;
 
     /**
      *
      * @var string
      */
-    protected $_layoutSkin = '{$pageContent}';
+    public $layoutSkin = '{$content_for_layout}';
 
-    function __construct() {
+    function __construct($layoutSkin = null) {
         if (empty(self::$_core)) {
             self::$_core = new PhemeParser();
-            self::$_body = new BodyParser();
+            self::$body = new BodyParser();
+            self::$coreSkins =& self::$_core->skins;
         }
-        $this->_layout = new PhemeParser();
-        $this->register('SimpleParser', new PhemeParser());
-    }
-
-    protected function _setLayout($layoutSkin) {
-        $layoutSkin = self::getSkin($layoutSkin);
+        self::register('SimpleParser', new PhemeParser());
+        
+        $this->layout = new PhemeParser();
         if ($layoutSkin) {
-            $this->_layout = new PhemeParser();
-            $this->_layout->parse($layoutSkin);
-            $this->_layoutSkin = $layoutSkin;
+            $layoutSkin = self::getSkin($layoutSkin);
+            if ($layoutSkin) {
+                $this->layout->parse($layoutSkin);
+                $this->layoutSkin = $layoutSkin;
+            }
         }
     }
 
@@ -112,10 +119,7 @@ class Pheme {
      * @param string $layoutSkin Text containing user skins overrides
      */
     static public function push($layoutSkin = null) {
-        self::$_instances[] = $_this = new Pheme();
-        if ($layoutSkin) {
-            $_this->_setLayout($layoutSkin);
-        }
+        self::$_instances[] = new Pheme($layoutSkin);
     }
 
     /**
@@ -186,18 +190,11 @@ class Pheme {
      * @return bool Success or null on error
      */
     static public function register($blockName, $parser = null, $skin = null, $globalContext = true) {
+        $options = compact('blockName', 'parser', 'skin', 'globalContext');
+        $options = SlExtensions::trigger('phemeRegister', $options);
+        extract($options);
 
-        if (is_object($blockName)) {
-            $globalContext = $skin;
-            $skin = $parser;
-            $parser = $blockName;
-
-            $trace = debug_backtrace();
-            $blockName = Inflector::camelize(
-                preg_replace('/\.[^.]+$/', '', basename($trace[0]['file']))
-            );
-        }
-        
+        // check if not already registered
         if (empty(self::$_registered[$blockName])) {
             
             // set default skin
@@ -220,9 +217,10 @@ class Pheme {
                 $parent->blocks[$blockName] = $parser;
             }
             elseif ($globalContext) {
-                self::$_body->blocks[$blockName] = $parser;
+                self::$body->blocks[$blockName] = $parser;
             }
             return true;
+            
         }
         return false;
     }
@@ -327,8 +325,8 @@ class Pheme {
                 // if not, add core and layout parser to call stack (needed for skinning to work)
                 PhemeParser::$parseCallStack = array(
                     self::$_core, // default skins
-                    self::getInstance()->_layout, // site-specific skins
-                    self::$_body, // registered blocks
+                    self::getInstance()->layout, // site-specific skins
+                    self::$body, // registered blocks
                 );
                 $skin = $parser->parse($skin, $blockName, $blockParams);
                 PhemeParser::$parseCallStack = array();
@@ -357,15 +355,15 @@ class Pheme {
             $vars['footer'] = Sl::uniqid();
         }
 
-        $_this->_layout->blocks = array('body' => self::$_body);
+        $_this->layout->blocks = array('body' => self::$body);
         if ($options['generatedIn']) {
-            $_this->_layout->blocks['generatedIn'] = new GeneratedInParser();
+            $_this->layout->blocks['generatedIn'] = new GeneratedInParser();
         }
-        $_this->_layout->vars = $vars;
+        $_this->layout->vars = $vars;
         
         $stack = PhemeParser::$parseCallStack;
         PhemeParser::$parseCallStack = array(self::$_core);
-        $skin = $_this->_layout->parse($_this->_layoutSkin);
+        $skin = $_this->layout->parse($_this->layoutSkin);
         PhemeParser::$parseCallStack = $stack;
 
         if ($options['headAndFooter']) {
@@ -379,8 +377,8 @@ class Pheme {
             );
         }
         
-        $_this->_layout->blocks['body'] = null;
-        $_this->_layout->vars = array();
+        $_this->layout->blocks['body'] = null;
+        $_this->layout->vars = array();
         
         return $skin;
     }
