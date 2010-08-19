@@ -825,14 +825,19 @@ class PhemeVarParser extends PhemeParser {
         $blockParams = (array)$blockParams;
         $blockParams += array(
             'inc' => null,
+            'parse' => true,
+            'max' => false,
         );
 
-        $value = $this->_getVar($html);
+        $value = $this->_getVar(trim(parent::parse($html)));
         if (is_numeric($blockParams['inc'])) {
             $value += $blockParams['inc'];
             return $value;
         }
-        return parent::parse($value, '_var');
+        if ($blockParams['max'] && mb_strlen($value) > $blockParams['max']) {
+            $value = mb_substr($value, 0, $blockParams['max']) . '...';
+        }
+        return $blockParams['parse'] ? parent::parse($value, '_var') : $value;
     }
 }
 

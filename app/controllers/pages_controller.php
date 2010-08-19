@@ -32,7 +32,7 @@ class PagesController extends AppController {
             $this->data = $this->Page->read();
         }
 
-        $this->set('title', __t(!$this->id ? 'Add page' : 'Edit page "{$name}"', array('name' => h($this->data['Page']['title']))));
+        $this->set('title', __t(!$this->id ? 'Add page' : 'Edit page'));
     }
 
     public function admin_delete($id) {

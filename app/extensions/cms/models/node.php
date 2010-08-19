@@ -13,9 +13,9 @@ class Node extends AppModel {
     public $useTable = 'cms_nodes';
 
     public $actsAs = array(
-        'Markdown' => array('title', 'body'),
+        'Markdown' => array('teaser', 'body'),
         'Tree',
-        'Translate' => array('title', 'body', 'markdown_title', 'markdown_body'),
+        'Translate' => array('title', 'short_title', 'teaser', 'body', 'markdown_teaser', 'markdown_body', 'meta_keywords', 'meta_description'),
         'Containable',
         'Linkable.Linkable',
     );
@@ -23,7 +23,7 @@ class Node extends AppModel {
     public $order = 'Node.title';
 
     public $belongsTo = array(
-        'Cms.User',
+        'Auth.User',
         'Cms.Image',
     );
 
@@ -63,13 +63,12 @@ class Node extends AppModel {
         'model' => array(
             'rule' => 'alphaNumeric',
         ),
+        'title' => array(
+        ),
         'body' => array(
         ),
         'skin' => array(
             'rule' => 'alphaNumeric',
-        ),
-        'visible' => array(
-            'rule' => 'validBool',
         ),
     );
 
@@ -124,7 +123,12 @@ class Node extends AppModel {
             $data['Node']['user_id'] = SlAuth::user('id');
         }
 
-        return parent::saveAll($data, $options);
+        $result = parent::saveAll($data, $options);
+        if ($result && $isNew && !empty($data['Image']['id']) && empty($data['Image']['node_id'])) {
+            $this->Image->id = $data['Image']['id'];
+            $this->Image->saveField('node_id', $this->id);
+        }
+        return $result;
     }
     
 }

@@ -57,7 +57,7 @@ class SlNode {
      */
     public static function getModel() {
         if (self::$__Node === null) {
-            self::$__Node = ClassRegistry::init('Node');
+            self::$__Node = ClassRegistry::init('Cms.Node');
         }
         return self::$__Node;
     }

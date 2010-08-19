@@ -15,7 +15,7 @@ class NodesController extends AppController {
     }
 
     public function admin_view($id) {
-        $this->set('node', $node = SlNode::read($id));
+        $this->set('node', $node = $this->Node->read(null, $id));
         if (!$node) {
             $this->cakeError();
         }
@@ -48,6 +48,7 @@ class NodesController extends AppController {
 //        }
 
         $this->set('nodes', $this->Node->find('all', $query));
+        $this->set('title', __t('Content nodes'));
     }
 
     public function admin_edit() {
@@ -61,10 +62,10 @@ class NodesController extends AppController {
             }
         }
         elseif ($this->id) {
-            $this->data = SlNode::read($this->id);
+            $this->data = $this->Node->read(null, $this->id);
         }
 
-        $this->set('title', __t(!$this->id ? 'Add article' : 'Edit article "{$title}"', array('title' => $this->data['Node']['title'])));
+        $this->set('title', __t(!$this->id ? 'Add article' : 'Edit article'));
     }
 
     public function admin_delete($id) {
@@ -83,6 +84,5 @@ class NodesController extends AppController {
     public function admin_add() {
         $this->admin_edit();
         $this->render('admin_edit');
-        $this->Node->plugin;
     }
 }

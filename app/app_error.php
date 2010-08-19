@@ -35,14 +35,26 @@ class AppError extends ErrorHandler {
 	}
 
     /**
-     * Convenience method to display a 403 page.
      *
      * @param array $params Parameters for controller
      * @access public
      */
-	function dbConnectionError($params) {
+	function missingDependence($params) {
+		$this->controller->set(am($params, array(
+			'title_for_layout' => __t('Extension dependency eror'),
+			'title' => __t('Extension dependence eror'),
+		)));
+		$this->_outputMessage('missingDependence');
+	}
+
+    /**
+     *
+     * @param array $params Parameters for controller
+     * @access public
+     */
+	function dbConnectionError() {
 		extract(SlConfigure::read('Db.default'));
-        
+
 		$this->controller->set('title', __t(
             'No database connection to {$params} ({$password})',
             array(
@@ -69,8 +81,8 @@ class AppError extends ErrorHandler {
         
 		$this->controller->header("HTTP/1.0 403 Forbidden");
 		$this->controller->set(array(
-			'title' => __t('403 Forbidden'),
 			'title_for_layout' => __t('Forbidden'),
+			'title' => __t('403 Forbidden'),
 			'url' => h($url),
 		));
 		$this->_outputMessage('error403');

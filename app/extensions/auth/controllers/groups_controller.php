@@ -23,10 +23,7 @@ class GroupsController extends AppController {
             $this->data = $this->Group->read(null, $this->id);
         }
 
-        $this->set('title', !$this->id ?
-            __t('Add group') :
-            __t('Edit group "{$name}"', array('name' => h($this->data['Group']['name'])))
-        );
+        $this->set('title', !$this->id ? __t('Add group') : __t('Edit group'));
     }
 
     public function admin_add() {

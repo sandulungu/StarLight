@@ -10,7 +10,7 @@ class Group extends AppModel {
     //public $displayField = 'name';
 
     public $actsAs = array(
-        'Translate' => array('name', 'description'),
+        'Translate' => array('description'),
     );
 
     public $hasMany = array(
@@ -32,6 +32,16 @@ class Group extends AppModel {
 
     public $validate = array(
         'name' => array(
+            array(
+                'rule' => 'alphaNumeric',
+                'required' => true,
+                'message' => 'Only alphanumerical characters allowed',
+            ),
+            array(
+                'rule' => 'isUnique',
+                'required' => true,
+                'message' => 'This group already exists',
+            ),
         ),
     );
 

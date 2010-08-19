@@ -12,7 +12,7 @@ class Tag extends AppModel {
         'Translate' => array('name'),
     );
 
-    public $order = array('Tag.tag_type_id', 'Tag.title');
+    public $order = array('Tag.tag_type_id' => 'ASC', 'Tag.name' => 'ASC');
 
     public $belongsTo = array(
         'Cms.TagType',

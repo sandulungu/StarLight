@@ -438,7 +438,7 @@ class GeneratedInParser {
  */
 class ParamParser extends PhemeParser {
     function parse($html, $blockName = 'document', $blockParams = null) {
-        return $this->_getParam(parent::parse($html));
+        return $this->_getParam(trim(parent::parse($html)));
     }
 }
 
@@ -449,7 +449,7 @@ class UrlParser extends PhemeParser {
     function parse($html, $blockName = 'document', $blockParams = null) {
         $full = !empty($blockParams['full']);
         unset($blockParams['full']);
-        return h(r(' ', '+', Sl::url($html ? $html : $blockParams, $full)));
+        return h(r(' ', '+', Sl::url($html ? trim(parent::parse($html)) : $blockParams, $full)));
     }
 }
 
@@ -460,12 +460,13 @@ class ConfigParser extends PhemeParser {
     function parse($html, $blockName = 'document', $blockParams = null) {
 
         // security check
+        $html = trim(parent::parse($html));
         if (preg_match('/\.password$/', $html)) {
             return '';
         }
 
         $value = SlConfigure::read(
-            parent::parse($html),
+            $html,
             !empty($blockParams['collection']) ? $blockParams['collection'] : '*'
         );
         return (string)$value; // prohibit read of unsecured data
@@ -478,7 +479,7 @@ class ConfigParser extends PhemeParser {
 class ElementParser extends PhemeParser {
     function parse($html, $blockName = 'document', $blockParams = null) {
         return $this->_getView()->element(
-            parent::parse($html),
+            trim(parent::parse($html)),
             empty($blockParams) ? array() : $blockParams
         );
     }
@@ -511,7 +512,7 @@ class ActionParser extends PhemeParser {
  */
 class ImportParser extends PhemeParser {
     function parse($html) {
-        return parent::parse(Pheme::getSkin(parent::parse($html)), '_skin');
+        return parent::parse(Pheme::getSkin(trim(parent::parse($html))), '_skin');
     }
 }
 
@@ -524,7 +525,7 @@ class AssetParser extends PhemeParser {
         $blockParams += array(
             'type' => null,
         );
-        return parent::parse($this->_getHelper('SlHtml')->assetUrl($html, $blockParams['type']));
+        return parent::parse($this->_getHelper('SlHtml')->assetUrl(trim(parent::parse($html)), $blockParams['type']));
     }
 }
 

@@ -8,7 +8,12 @@
         echo $this->SlForm->hidden('id');
     }
 
-    echo $this->SlForm->input('name');
+    if (!$this->id || $this->id > 2) {
+        echo $this->SlForm->input('name');
+    } else {
+        $this->SlForm->hidden('name');
+        echo $this->SlHtml->p(__t('Name') . ": <b>{$this->data['Group']['name']}</b>");
+    }
     echo $this->SlForm->input('description');
     
     echo $this->SlForm->end(__t(!$this->id ? 'Add' : 'Save'));

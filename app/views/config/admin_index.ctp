@@ -20,12 +20,6 @@
         $setting['label'] = empty($setting['label']) ?
             __t(Inflector::humanize(Inflector::underscore(r('.', '_', $setting['name'])))) :
             __t($setting['label']);
-        $setting['value'] = SlConfigure::read($setting['name'], $setting['collection']);
-
-        if (isset($setting['type']) && $setting['type'] == 'json') {
-            $setting['type'] = 'textbox';
-            $setting['value'] = json_encode($setting['value']);
-        }
 
         unset($setting['name']);
         unset($setting['collection']);

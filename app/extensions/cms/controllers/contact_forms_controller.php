@@ -105,8 +105,13 @@ class ContactFormsController extends AppController {
         }
     }
 
+    public function admin_index() {
+        $this->set('contact_forms', $this->ContactForm->find('all'));
+        $this->set('title', __t('Contact forms'));
+    }
+
     public function admin_view($node_id) {
-        $this->set('node', $node = SlNode::read($node_id));
+        $this->set('node', $node = SlNode::getModel()->read(null, $node_id));
         if (!$node) {
             $this->cakeError();
         }
@@ -125,10 +130,10 @@ class ContactFormsController extends AppController {
             }
         }
         elseif ($this->id) {
-            $this->data = SlNode::read($this->id);
+            $this->data = SlNode::getModel()->read(null, $this->id);
         }
 
-        $this->set('title', __t(!$this->id ? 'Add contact form' : 'Edit contact form "{$title}"', array('title' => $this->data['Node']['title'])));
+        $this->set('title', __t(!$this->id ? 'Add contact form' : 'Edit contact form'));
     }
 
     public function admin_add() {

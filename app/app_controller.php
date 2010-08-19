@@ -180,6 +180,12 @@ class AppController extends Controller {
      * @link http://book.cakephp.org/view/977/Controller-Methods#constructClasses-986
      */
 	function constructClasses() {
+        if (SlExtensions::getInstance()->dependencyError) {
+            $params = SlExtensions::getInstance()->dependencyError;
+            SlExtensions::getInstance()->dependencyError = false;
+            $this->cakeError('missingDependence', $params);
+        }
+
         SlExtensions::trigger('constructClasses', $this);
 
 		$this->__mergeVars();

@@ -26,10 +26,7 @@ class AclRulesController extends AppController {
             $this->data = $this->AclRule->read(null, $this->id);
         }
 
-        $this->set('title', !$this->id ?
-            __t('Add rule') :
-            __t('Edit rule')
-        );
+        $this->set('title', !$this->id ?__t('Add rule') : __t('Edit rule'));
     }
 
     public function admin_add() {

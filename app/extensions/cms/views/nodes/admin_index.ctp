@@ -11,45 +11,50 @@
 <<<end
     $actions
     <table>
-        <th>{t}Users{/t}</th><th width="100">{t}Actions{/t}</th>
+        <th width="100">{t}Thumbnail{/t}</th><th>{t}Nodes{/t}</th><th width="100">{t}Actions{/t}</th>
 end
     );
 
     $rows = array();
-    foreach ($users as $user) {
-        $edit = $this->SlHtml->actionLink('edit', $user['User']['id']);
-        $delete = $user['User']['id'] > 1 ? $this->SlHtml->actionLink('delete', $user['User']['id']) : '';
+    foreach ($nodes as $node) {
+        $url = $node['Node']['model'] ? array(
+            'plugin' => $node['Node']['plugin'],
+            'controller' => Inflector::tableize($node['Node']['model']),
+        ) : array();
+        $view = $this->SlHtml->url($url + array('action' => 'view', $node['Node']['id']));
+        
+        $edit = $this->SlHtml->actionLink('edit', $node['Node']['id'], compact('url'));
+        $delete = $node['Node']['id'] > 1 ? $this->SlHtml->actionLink('delete', $node['Node']['id']) : '';
 
-        if ($user['User']['params']) {
-            $params = json_decode($user['User']['params'], true);
-            $params = Sl::krumo(is_array($params) ? $params : $user['User']['params'], array('debug' => false));
+        if ($node['Node']['params']) {
+            $params = json_decode($node['Node']['params'], true);
+            $params = Sl::krumo(is_array($params) ? $params : $node['Node']['params'], array('debug' => false));
         } else {
             $params = '';
         }
 
-        $groups = array();
-        if ($user['User']['id'] == 1) {
-            $groups[] = __t('Root');
-        }
-        foreach ($user['Group'] as $group) {
-            $groups[] = $this->SlHtml->link(h($group['name']), array('controller' => 'groups', '#' => "Group{$group['id']}"));
-        }
-        $groups = $groups ? implode(', ', $groups) : __t('none');
+        $draft = $node['Node']['visible'] ? '' : $this->SlHtml->em(__t('draft'));
 
-        $disabled = $user['User']['active'] ? '' : $this->SlHtml->em(__t('disabled'));
-
-        $row = Pheme::parseTranslate(
-<<<end
-    <tr><td>
-        <a name="User{$user["User"]["id"]}"></a>
-        <h3>{e}{$user["User"]["fullname"]}{/e} ({$user["User"]["username"]}, <a href="mailto:{$user["User"]["email"]}">{$user["User"]["email"]}</a>) $disabled</h3>
-        {t}Groups{/t}: $groups
-        {$params}
-    </td><td class="actions">
-        $edit $delete
-    </td></tr>
-end
-        );
+        $row = Pheme::parseSimple('
+<tr><td>
+    {if("var":"Image.id")}
+        {init}JqueryColorbox{/init}
+        {JqueryColorbox/}
+        <a rel="colorbox" href="{webroot}files/cms_images/{$Image.filename}{/webroot}">
+            <img src="{webroot}files/cms_images/thumb/icon/{$Image.filename}{/webroot}"
+                title="{$Image.title}" alt="{t}Thumbnail{/t}" />
+        </a>
+    {/if}
+</td><td>
+    <div class="sl-level-{$Node.level}">
+        <a name="Node{$Node.id}"></a>
+        <h3><a href="{$view}">{e}{$Node.title}{/e}</a> {$draft}</h3>
+        {e}{var("max":500,"parse":false)} {if("var":"Node.teaser")} Node.teaser {else} Node.body {/if} {/var}{/e}
+    </div>
+</td><td class="actions">
+    {$edit} {$delete}
+</td></tr>
+        ', $node + compact('view', 'edit', 'delete', 'draft'));
 
         $rows[] = $row;
     }

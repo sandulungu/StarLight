@@ -103,10 +103,7 @@ class UsersController extends AppController {
             unset($this->data['User']['password']);
         }
 
-        $this->set('title', !$this->id ?
-            __t('Add user account') :
-            __t('Edit user "{$name}"', array('name' => $this->data['User']['fullname']))
-        );
+        $this->set('title', !$this->id ? __t('Add user account') : __t('Edit user account'));
     }
 
     public function admin_add() {

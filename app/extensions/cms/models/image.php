@@ -45,7 +45,6 @@ class Image extends AppModel {
 //        ),
         'weight' => array(
             'rule' => 'numeric',
-            'required' => true,
         ),
         'visible' => array(
             'rule' => 'validBool',

@@ -35,6 +35,8 @@
 			return;
 		}
 		$this->settings[$model->alias] = $settings;
+        
+        $this->_addValidationRules($model);
 	}
 
 	/**
@@ -137,7 +139,7 @@
      * @param array $field
      * @param array $rule
      */
-    public function validTranslate($model, $field, $rule) {
+    public function validTranslate($model, $field, $params, $rule) {
         $name = array_keys($field);
         $name = preg_replace('/_[a-z]+$/', '', $name[0]);
 
@@ -156,11 +158,6 @@
         foreach ($locales as $locale) {
             $model->validationErrors["{$name}_$locale"] = $rule['message'];
         }
-        return true;
-    }
-
-    public function beforeValidate(AppModel $model) {
-        $this->_addValidationRules($model);
         return true;
     }
 

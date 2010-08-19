@@ -17,6 +17,12 @@ $config['global']['Config'] = array(
     ),
 );
 
+$config['global']['Cms'] = array(
+    'nodeSkins' => array(
+        'default' => 'Default (static page)',
+    ),
+);
+
 $config['global']['I18n'] = array(
     'domains' => array(
         'cms' => 'cms',
@@ -120,3 +126,10 @@ $config['CmsPlugin'] = array(
         ),
     ),
 );
+
+$config['NodesController']['Cms'] = array(
+    'nodeSkins' => array(
+        'article' => 'Article (author name and publish date are visible)',
+    ),
+);
+

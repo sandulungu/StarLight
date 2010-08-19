@@ -10,11 +10,6 @@ class SlFormHelper extends FormHelper {
     protected $_emptyTags = array('img', 'br', 'hr', 'input', 'button', 'embed', 'param');
 
     public function input($fieldName, $options = array()) {
-        $options += array(
-            'label' => __t(Inflector::humanize($fieldName)),
-            'translate' => false
-        );
-
         $view = ClassRegistry::getObject('view');
 		$this->setEntity($fieldName);
         $modelKey = $this->model();
@@ -65,24 +60,45 @@ class SlFormHelper extends FormHelper {
             }
         }
 
+        $options += array(
+            'label' => __t(Inflector::humanize(r('.', ' ',$fieldName))),
+            'translate' => false
+        );
+
         if (isset($options['checkedByDefault'])) {
             if (!isset($view->data[$modelKey][$fieldKey])) {
                 $options['checked'] = $options['checkedByDefault'];
             }
             unset($options['checkedByDefault']);
         }
-        
+
         $translate = $options['translate'];
         unset($options['translate']);
 
         if ($translate) {
             $fields = array();
             $catalogs = SlConfigure::read('I18n.catalogs');
+            $options2 = $options;
             foreach ($catalogs as $catalog) {
-                $fields["{$fieldName}_{$catalog['locale']}"] = array('label' => $catalog['language']) + $options;
+                $options2['label'] = $catalog['language'];
+
+                if (isset($options['value']) && is_array($options['value'])) {
+                    if (isset($options['value'][$catalog['locale']])) {
+                        $options2['value'] = $options['value'][$catalog['locale']];
+                    }
+                } else {
+                    unset($options2['value']);
+                }
+
+                $fields["{$fieldName}_{$catalog['locale']}"] = $options2;
+            }
+
+            if (count($fields) == 1) {
+                return parent::input(key($fields), array('label' => $options['label']) + $options2);
             }
             return $this->inputs(array('legend' => $options['label']) + $fields);
-        } else {
+        }
+        else {
             return parent::input($fieldName, $options);
         }
     }

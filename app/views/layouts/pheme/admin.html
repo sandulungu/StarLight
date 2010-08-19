@@ -18,31 +18,33 @@
                 </div>
             </div>
             <div id="content">
-                {if("config":"Navigation.sections.{config}Navigation.sections.active{/config}")}
-                    <div id="column-left">
-                        <div id="column-left-inner">
-                            {init}Menu{/init}
-                            {Menu}sections.{config}Navigation.sections.active{/config}{/Menu}
-                            {if:hint("config":"Navigation.sections.hint")}
-                                <blockquote>
-                                    {t}{config}Navigation.sections.hint{/config}{/t}
-                                </blockquote>
-                            {/if:hint}
+                <div id="content-inner">
+                    {if("config":"Navigation.sections.{config}Navigation.sections.active{/config}")}
+                        <div id="column-left">
+                            <div id="column-left-inner">
+                                {init}Menu{/init}
+                                {Menu}sections.{config}Navigation.sections.active{/config}{/Menu}
+                                {if:hint("config":"Navigation.sections.hint")}
+                                    <blockquote>
+                                        {t}{config}Navigation.sections.hint{/config}{/t}
+                                    </blockquote>
+                                {/if:hint}
+                            </div>
                         </div>
-                    </div>
-                    <div id="column-main">
-                {else}
-                    {c}<!--{/c}
-                    <div>
-                    {c}-->{/c}
-                {/if}
-                        <div id="column-main-inner">
-                            {if("var":"title")}<h2>{$title}</h2>{/if}
-                            {init}Messages{/init}
-                            {Messages/}
-                            {$content_for_layout}
+                        <div id="column-main">
+                    {else}
+                        {c}<!--{/c}
+                        <div>
+                        {c}-->{/c}
+                    {/if}
+                            <div id="column-main-inner">
+                                {if("var":"title")}<h2>{$title}</h2>{else}&nbsp;{/if}
+                                {init}Messages{/init}
+                                {Messages/}
+                                {$content_for_layout}
+                            </div>
                         </div>
-                    </div>
+                </div>
             </div>
             <div id="footer">
                 {generatedIn/}

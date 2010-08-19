@@ -6,7 +6,7 @@
  * Extensions are special plugins with callbacks and/or autoloaded configuration file(s).
  * Can be found in app/extensions folder
  */
-class SlExtensions {
+class SlExtensions extends Object {
 
     /**
      * @var SlExtensions
@@ -60,14 +60,29 @@ class SlExtensions {
 	 */
 	protected $_loaded = array();
 
+    public $dependencyError = false;
+
     /**
      * Autoload extensions
      */
-    function  __construct() {
+    public function  __construct() {
         $extensions = self::all();
 		foreach ($extensions as $extension) {
     		$this->_load($extension);
 		}
+        $this->_checkDependences();
+    }
+
+    protected function _checkDependences() {
+        foreach ($this->_loaded as $extension) {
+            foreach ($this->$extension->requires as $dependence) {
+                if (!in_array($dependence, $this->_loaded)) {
+                    $this->_loaded = array();
+                    $this->dependencyError = compact('extension', 'dependence');
+                    return;
+                }
+            }
+        }
     }
 
 	/**
@@ -166,8 +181,11 @@ class SlExtensions {
 class SlExtension {
 
     /**
+     *
      * @var bool
      */
     public $enabled = true;
-    
+
+
+    public $requires = array();
 }

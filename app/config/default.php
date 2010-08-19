@@ -82,9 +82,34 @@ $config['global']['Config'] = array(
                 // 'collection' => 'user', // magically use current User's Collection
                 // 'label' => '', // generated from name
             ),*/
-            'Site.title',
-            'Site.mission',
-            'Site.copyright',
+            array(
+                'name' => 'Site.title',
+                'translate' => true,
+            ),
+            array(
+                'name' => 'Site.mission',
+                'translate' => true,
+            ),
+            array(
+                'name' => 'Site.copyright',
+                'translate' => true,
+            ),
+            array(
+                'name' => 'Site.meta_keywords',
+                'label' => 'Meta keywords',
+                'translate' => true,
+            ),
+            array(
+                'name' => 'Site.meta_description',
+                'label' => 'Meta description',
+                'type' => 'textarea',
+                'translate' => true,
+            ),
+            array(
+                'name' => 'Site.in_maintance_mode',
+                'label' => 'Activate maintnance mode', 
+                'type' => 'checkbox',
+            ),
         ),
     ),
 );
