@@ -22,10 +22,21 @@ class SlFormHelper extends FormHelper {
             $options += array(
                 'meioUpload' => $model->Behaviors->enabled('MeioUpload') &&
                     isset($model->Behaviors->MeioUpload->__fields[$model->alias][$fieldKey]),
+                'before' => '',
                 'after' => '',
                 'translate' => $model->Behaviors->enabled('Translate') &&
                     in_array($fieldKey, $model->Behaviors->Translate->settings[$model->alias]),
             );
+
+            if ($schema['type'] == 'boolean') {
+                $options += array(
+                    'checkedByDefault' => (bool)$schema['default'],
+                );
+            } else {
+                $options += array(
+                    'default' => $schema['default'],
+                );
+            }
 
             // if this is a MeioUpload field and a file has been uploaded, then show it
             if ($options['meioUpload'] && isset($view->data[$modelKey][$fieldKey]) && is_string($view->data[$modelKey][$fieldKey])) {
@@ -34,8 +45,8 @@ class SlFormHelper extends FormHelper {
                 $filename = r(DS, '/', "{$meioUploadOptions['dir']}/{$view->data[$modelKey][$fieldKey]}");
 
                 if (isset($meioUploadOptions['thumbsizes']['icon'])) {
-                    $iconFilename = "{$meioUploadOptions['dir']}/thumb/icon/{$view->data[$modelKey][$fieldKey]}";
-                    $options['after'] .= sprintf(
+                    $iconFilename = r(DS, '/', "{$meioUploadOptions['dir']}/thumb/icon/{$view->data[$modelKey][$fieldKey]}");
+                    $options['before'] .= sprintf(
                         '<a class="sl-uploaded-image" href="%s" rel="colorbox" target="_blank"><img src="%s" /></a>',
                         $this->assetUrl($filename),
                         $this->assetUrl($iconFilename)

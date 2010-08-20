@@ -4,16 +4,17 @@
  * Colorbox jQuery plugin
  */
 
+SlConfigure::write("Asset.js.footer.colorbox", 'colorbox/colorbox/jquery.colorbox-min');
+SlConfigure::write("Asset.css.colorbox", "colorbox/example2/colorbox");
+
 class JqueryColorboxParser extends PhemeNullParser {
     function parse($html = null, $blockName = 'document', $blockParams = null) {
-        SlConfigure::write("Asset.js.footer.colorbox", 'colorbox/colorbox/jquery.colorbox-min');
-        
         $blockParams = (array)$blockParams;
         if (empty($html)) {
             $html = 'a[rel^="colorbox"]';
         }
         $blockParams += array(
-            'skin' => 'example2',
+            'skin' => null, // 'example2',
         );
         
         if ($blockParams['skin']) {

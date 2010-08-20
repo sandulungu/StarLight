@@ -203,6 +203,18 @@ fieldset legend {
     margin: 5px 5px 0 0;
 }
 
+.sl-uploaded-image {
+    float: left;
+    padding-right: 1em;
+}
+.sl-uploaded-image img {
+    border: 1px solid #eee;
+}
+
+.file input {
+    width: 80%;
+}
+
 
 
 /* Quick edit links */
@@ -276,4 +288,12 @@ div.sl-level-9 {
 }
 div.sl-level-10 {
     padding-left: 20em;
+}
+
+
+
+.prettyLoader {
+    top: 50%;
+    left: 50%;
+}
 }

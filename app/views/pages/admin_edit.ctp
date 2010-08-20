@@ -4,7 +4,7 @@
     }
 
     echo $this->SlForm->create('Page');
-    if ($this->id) {
+    if ($this->params['action'] != 'admin_add') {
         echo $this->SlForm->hidden('id');
     }
 

@@ -8,7 +8,7 @@
  *       10: 'cookie'
  *       20: 'session'
  *       50: controller (by name)
- *    60-61: active plugin (by name, by controller)
+ *       60: active plugin (by name, by controller)
  *       70: 'home' (by route)
  *       80: block/content zone (by name)
  *       90: block (by name and/or id)
@@ -261,7 +261,7 @@ class SlConfigure {
                 if (!empty($controller->params['plugin'])) {
                     $plugin = Inflector::camelize($controller->params['plugin']);
                     $collections["{$plugin}Plugin"] = 60;
-                    $collections["{$plugin}{$controller->name}"] = 61;
+//                    $collections["{$plugin}{$controller->name}"] = 61;
                 }
             }
 

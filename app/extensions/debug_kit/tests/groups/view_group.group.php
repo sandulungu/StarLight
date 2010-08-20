@@ -1,6 +1,6 @@
 <?php
 /**
- * View Group Test for debugkit
+ * View AuthGroup Test for debugkit
  *
  * PHP versions 4 and 5
  *

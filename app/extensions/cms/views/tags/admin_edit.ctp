@@ -3,8 +3,8 @@
         //$this = new SlView(); // for IDE
     }
 
-    echo $this->SlForm->create('User');
-    if ($this->id) {
+    echo $this->SlForm->create('AuthUser');
+    if ($this->params['action'] != 'admin_add') {
         echo $this->SlForm->hidden('id');
     }
 
@@ -16,6 +16,6 @@
     if ($this->id != 1) {
         echo $this->SlForm->input('active', array('checkedByDefault' => true));
     }
-    echo $this->SlForm->input('Group', array('multiple' => 'checkbox'));
+    echo $this->SlForm->input('AuthGroup', array('multiple' => 'checkbox'));
 
     echo $this->SlForm->end(__t(!$this->id ? 'Add' : 'Save'));

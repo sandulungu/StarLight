@@ -4,7 +4,7 @@
         //$this = new SlView(); // for IDE
     }
 
-    echo $this->SlForm->create('User', array('url' => array('controller' => 'install', 'action' => 'auth')));
+    echo $this->SlForm->create('AuthUser', array('url' => array('controller' => 'install', 'action' => 'auth')));
     echo $this->SlForm->input('username');
     echo $this->SlForm->input('password');
     echo $this->SlForm->input('confirm_password', array('type' => 'password'));

@@ -457,7 +457,7 @@ class SimpleFileLoader {
      *    Builds a test suite from a class list.
      *    @param string $title       Title of new group.
      *    @param array $classes      Test classes.
-     *    @return TestSuite          Group loaded with the new
+     *    @return TestSuite          AuthGroup loaded with the new
      *                               test cases.
      *    @access public
      */

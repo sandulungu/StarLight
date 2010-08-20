@@ -34,11 +34,11 @@ $config['global']['Navigation'] = array(
         'cms' => array(
             array(
                 'title' => 'Content nodes',
-                'url' => array('controller' => 'nodes', 'action' => 'index', 'plugin' => 'cms'),
+                'url' => array('controller' => 'cms_nodes', 'action' => 'index', 'plugin' => 'cms'),
                 'children' => array(
                     array(
                         'title' => 'Email contact forms',
-                        'url' => array('controller' => 'contact_forms', 'action' => 'index', 'plugin' => 'cms'),
+                        'url' => array('controller' => 'cms_contact_forms', 'action' => 'index', 'plugin' => 'cms'),
                     ),
                 ),
             ),
@@ -47,25 +47,25 @@ $config['global']['Navigation'] = array(
                 'children' => array(
                     array(
                         'title' => 'Tags',
-                        'url' => array('controller' => 'tags', 'action' => 'index', 'plugin' => 'cms'),
+                        'url' => array('controller' => 'cms_tags', 'action' => 'index', 'plugin' => 'cms'),
                     ),
                     array(
                         'title' => 'Images',
-                        'url' => array('controller' => 'images', 'action' => 'index', 'plugin' => 'cms'),
+                        'url' => array('controller' => 'cms_images', 'action' => 'index', 'plugin' => 'cms'),
                     ),
                     array(
-                        'title' => 'Attachment',
-                        'url' => array('controller' => 'attachment', 'action' => 'index', 'plugin' => 'cms'),
+                        'title' => 'Attachments',
+                        'url' => array('controller' => 'cms_attachments', 'action' => 'index', 'plugin' => 'cms'),
                     ),
                 ),
             ),
             array(
                 'title' => 'Blocks',
-                'url' => array('controller' => 'blocks', 'action' => 'index', 'plugin' => 'cms'),
+                'url' => array('controller' => 'cms_blocks', 'action' => 'index', 'plugin' => 'cms'),
             ),
             array(
                 'title' => 'Navigation',
-                'url' => array('controller' => 'navigation_links', 'action' => 'index', 'plugin' => 'cms'),
+                'url' => array('controller' => 'cms_navigation_links', 'action' => 'index', 'plugin' => 'cms'),
             ),
             array(
                 'title' => 'Configuration',
@@ -89,6 +89,18 @@ $config['global']['Routing'] = array(
             'controller' => 'cms',
         ),
     ),
+    'routes' => array(
+        '/node/*' => array(
+            'plugin' => 'cms',
+            'controller' => 'cms_nodes',
+            'action' => 'view',
+        ),
+        '/contact_form/*' => array(
+            'plugin' => 'cms',
+            'controller' => 'cms_contact_forms',
+            'action' => 'view',
+        )
+    )
 );
 
 
@@ -127,7 +139,7 @@ $config['CmsPlugin'] = array(
     ),
 );
 
-$config['NodesController']['Cms'] = array(
+$config['CmsNodesController']['Cms'] = array(
     'nodeSkins' => array(
         'article' => 'Article (author name and publish date are visible)',
     ),

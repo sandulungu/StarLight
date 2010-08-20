@@ -109,12 +109,6 @@ class MenuParser extends PhemeParser {
                 $item = array('title' => $item);
             }
 
-            // NavigationLink data arrays
-            if (isset($item['NavigationLink'])) {
-                $item = am($item, $item['NavigationLink']);
-                unset($item['NavigationLink']);
-            }
-
             // get link text
             if (!empty($item['title'])) {
                 $result['text'] = h(__t($item['title']));

@@ -33,7 +33,7 @@
 ; allow = aco1, aco2, aco3
 ; deny = aco4, aco5, aco6
 ;
-; Group records are added in a similar manner:
+; AuthGroup records are added in a similar manner:
 ;
 ; [gid]
 ; allow = aco1, aco2, aco3

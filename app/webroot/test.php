@@ -7,7 +7,7 @@
  * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
  * Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
- *  Licensed under The Open Group Test Suite License
+ *  Licensed under The Open AuthGroup Test Suite License
  *  Redistributions of files must retain the above copyright notice.
  *
  * @copyright     Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
@@ -15,7 +15,7 @@
  * @package       cake
  * @subpackage    cake.app.webroot
  * @since         CakePHP(tm) v 1.2.0.4433
- * @license       http://www.opensource.org/licenses/opengroup.php The Open Group Test Suite License
+ * @license       http://www.opensource.org/licenses/opengroup.php The Open AuthGroup Test Suite License
  */
 set_time_limit(0);
 ini_set('display_errors', 1);

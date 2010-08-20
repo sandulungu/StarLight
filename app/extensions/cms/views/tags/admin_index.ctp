@@ -17,32 +17,32 @@ end
 
     $rows = array();
     foreach ($users as $user) {
-        $edit = $this->SlHtml->actionLink('edit', $user['User']['id']);
-        $delete = $user['User']['id'] > 1 ? $this->SlHtml->actionLink('delete', $user['User']['id']) : '';
+        $edit = $this->SlHtml->actionLink('edit', $user['AuthUser']['id']);
+        $delete = $user['AuthUser']['id'] > 1 ? $this->SlHtml->actionLink('delete', $user['AuthUser']['id']) : '';
 
-        if ($user['User']['params']) {
-            $params = json_decode($user['User']['params'], true);
-            $params = Sl::krumo(is_array($params) ? $params : $user['User']['params'], array('debug' => false));
+        if ($user['AuthUser']['params']) {
+            $params = json_decode($user['AuthUser']['params'], true);
+            $params = Sl::krumo(is_array($params) ? $params : $user['AuthUser']['params'], array('debug' => false));
         } else {
             $params = '';
         }
 
         $groups = array();
-        if ($user['User']['id'] == 1) {
+        if ($user['AuthUser']['id'] == 1) {
             $groups[] = __t('Root');
         }
-        foreach ($user['Group'] as $group) {
-            $groups[] = $this->SlHtml->link(h($group['name']), array('controller' => 'groups', '#' => "Group{$group['id']}"));
+        foreach ($user['AuthGroup'] as $group) {
+            $groups[] = $this->SlHtml->link(h($group['name']), array('controller' => 'groups', '#' => "AuthGroup{$group['id']}"));
         }
         $groups = $groups ? implode(', ', $groups) : __t('none');
 
-        $disabled = $user['User']['active'] ? '' : $this->SlHtml->em(__t('disabled'));
+        $disabled = $user['AuthUser']['active'] ? '' : $this->SlHtml->em(__t('disabled'));
 
         $row = Pheme::parseTranslate(
 <<<end
     <tr><td>
-        <a name="User{$user["User"]["id"]}"></a>
-        <h3>{e}{$user["User"]["fullname"]}{/e} ({$user["User"]["username"]}, <a href="mailto:{$user["User"]["email"]}">{$user["User"]["email"]}</a>) $disabled</h3>
+        <a name="AuthUser{$user["AuthUser"]["id"]}"></a>
+        <h3>{e}{$user["AuthUser"]["fullname"]}{/e} ({$user["AuthUser"]["username"]}, <a href="mailto:{$user["AuthUser"]["email"]}">{$user["AuthUser"]["email"]}</a>) $disabled</h3>
         {t}Groups{/t}: $groups
         {$params}
     </td><td class="actions">

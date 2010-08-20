@@ -23,27 +23,28 @@ class SlNode {
             $node = self::read($id);
         } else {
             $node = $id;
-            $id = $node['Node']['id'];
+            $id = $node['CmsNode']['id'];
         }
 
-        if ($node['Node']['model']) {
+        if ($node['CmsNode']['model']) {
             $options += array(
-                'plugin' => $node['Node']['plugin'],
-                'controller' => Inflector::tableize($node['Node']['model']),
-                'action' => 'view',
-                $id,
+                'plugin' => $node['CmsNode']['plugin'],
+                'controller' => Inflector::tableize($node['CmsNode']['model']),
             );
         } else {
             $options += array(
                 'plugin' => 'cms',
-                'controller' => 'nodes',
-                'action' => 'view',
-                $id,
+                'controller' => 'cms_nodes',
             );
         }
+        $options += array(
+            'admin' => false,
+            'action' => 'view',
+            $id,
+        );
 
-        if ($slug && $node['Node']['slug']) {
-            $options[] = $node['Node']['slug'];
+        if ($slug && $node['CmsNode']['slug']) {
+            $options[] = $node['CmsNode']['slug'];
         }
 
         return $route ? Sl::url($options, $full) : $options;
@@ -53,24 +54,24 @@ class SlNode {
 
     /**
      *
-     * @return Node
+     * @return CmsNode
      */
     public static function getModel() {
         if (self::$__Node === null) {
-            self::$__Node = ClassRegistry::init('Cms.Node');
+            self::$__Node = ClassRegistry::init('Cms.CmsNode');
         }
         return self::$__Node;
     }
 
     public static function getTagList() {
-        return SlNode::getModel()->Tag->find('list', array(
-            'fields' => array('Tag.id', 'Tag.name', 'TagType.name'),
+        return SlNode::getModel()->CmsTag->find('list', array(
+            'fields' => array('CmsTag.id', 'CmsTag.name', 'CmsTagType.name'),
             'recursive' => 0,
         ));
     }
 
     /**
-     * Node hits and other persistent statistics
+     * CmsNode hits and other persistent statistics
      *
      * @var array
      */
@@ -124,8 +125,8 @@ class SlNode {
         }
 
         $path = array($node);
-        while (!empty($node['Node']['parent_id'])) {
-            $node = self::read($node['Node']['parent_id']);
+        while (!empty($node['CmsNode']['parent_id'])) {
+            $node = self::read($node['CmsNode']['parent_id']);
             array_unshift($path, $node);
         }
         return $path;

@@ -91,19 +91,28 @@ class SlHtmlHelper extends AppHelper {
             'title' => __t(Inflector::humanize($action)),
             'url' => array(),
         );
-        $options['url'] += array('action' => $action, $id);
+        $options['url'] += is_array($id) ? 
+            array('action' => $action == 'clone' ? 'add' : $action) + $id :
+            array('action' => $action == 'clone' ? 'add' : $action, $id);
 
         switch ($action) {
             case 'add':
+            case 'clone':
                 $options += array(
-                    'class' => 'add'
+                    'class' => 'add',
+                );
+                break;
+
+            case 'edit':
+                $options += array(
+                    'class' => 'edit',
                 );
                 break;
 
             case 'delete':
                 $options += array(
                     'confirm' => __t('Delete?'),
-                    'class' => 'remove'
+                    'class' => 'remove',
                 );
                 break;
 

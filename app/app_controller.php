@@ -70,7 +70,21 @@ class AppController extends Controller {
             );
         }
         SlConfigure::write('Navigation.languages', $languageLinks);
-        
+
+        switch ($this->action) {
+            case 'index':
+            case 'admin_index':
+                $this->set('title', __t(Inflector::humanize(Inflector::underscore($this->name))));
+                break;
+
+            case 'admin_add':
+                $this->set('title', __t($this->id ? 'Clone {$model}' : 'Add {$model}', array('model' => __t(Inflector::humanize(Inflector::underscore($this->modelClass))))));
+                break;
+
+            case 'admin_edit':
+                $this->set('title', __t('Edit {$model}',array('model' => __t(Inflector::humanize(Inflector::underscore($this->modelClass))))));
+                break;
+        }
     }
 
     public function beforeRender() {

@@ -3,7 +3,7 @@
 /**
  * Creates a mirrored representation of model data in SL configuration
  *
- * Node: manually call refreshMirror() upon reordering of tree data if needed
+ * Note: manually call refreshMirror() upon reordering of tree data if needed
  */
 class MirroredBehavior extends ModelBehavior {
 

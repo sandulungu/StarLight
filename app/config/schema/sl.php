@@ -10,15 +10,11 @@ class SlSchema extends CakeSchema {
             $groupModel->saveAll(array(
                 array('Group' => array(
                     'title' => 'Administrators',
-                    'title_eng' => 'Administrators',
-                    'title_rum' => 'Administratori',
                     'description' => "Add/edit user accounts.\nModify security settings.",
                     'description_eng' => "Add/edit user accounts.\nModify security settings.",
                 )),
                 array('Group' => array(
                     'title' => 'Collaborators',
-                    'title_eng' => 'Collaborators',
-                    'title_rum' => 'Colaboratori',
                     'description' => "Modify site settings and content.",
                     'description_eng' => "Modify site settings and content.",
                 )),

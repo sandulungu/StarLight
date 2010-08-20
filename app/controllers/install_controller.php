@@ -114,26 +114,26 @@ class InstallController extends AppController {
             $this->redirect(array('action' => 'done'));
         }
 
-        $this->loadModel('Auth.User');
-        $user = $this->User->read(null, 1);
+        $this->loadModel('Auth.AuthUser');
+        $user = $this->AuthUser->read(null, 1);
         if ($user) {
             $this->Session->setFlash(
-                __t('Administrator profile step skipped. A root user (<b>{$username}</b>) is already registered.', array('username' => $user['User']['username'])),
+                __t('Administrator profile step skipped. A root user (<b>{$username}</b>) is already registered.', array('username' => $user['AuthUser']['username'])),
                 array('class' => 'message')
             );
             $this->redirect(array('action' => 'done'));
         }
 
         if ($this->data) {
-            $success = $this->data['User']['password'] == $this->data['User']['confirm_password'];
+            $success = $this->data['AuthUser']['password'] == $this->data['AuthUser']['confirm_password'];
             if (!$success) {
-                $this->User->invalidate('password', __t('Passwords do not match'));
+                $this->AuthUser->invalidate('password', __t('Passwords do not match'));
                 return;
             }
 
             $this->data['Group']['Group'] = array(1, 2);
-            if ($this->User->saveAll($this->data)) {
-                SlAuth::login($this->data['User']['username'], $this->data['User']['password']);
+            if ($this->AuthUser->saveAll($this->data)) {
+                SlAuth::login($this->data['AuthUser']['username'], $this->data['AuthUser']['password']);
                 $this->redirect(array('action' => 'done'));
             }
         }

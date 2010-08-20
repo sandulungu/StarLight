@@ -40,15 +40,15 @@ $config['global']['Navigation'] = array(
         'auth' => array(
             array(
                 'title' => 'Users',
-                'url' => array('controller' => 'users', 'action' => 'index', 'plugin' => 'auth'),
+                'url' => array('controller' => 'auth_users', 'action' => 'index', 'plugin' => 'auth'),
             ),
             array(
                 'title' => 'Groups',
-                'url' => array('controller' => 'groups', 'action' => 'index', 'plugin' => 'auth'),
+                'url' => array('controller' => 'auth_groups', 'action' => 'index', 'plugin' => 'auth'),
             ),
             array(
                 'title' => 'ACL',
-                'url' => array('controller' => 'acl_rules', 'action' => 'index', 'plugin' => 'auth'),
+                'url' => array('controller' => 'auth_acl_rules', 'action' => 'index', 'plugin' => 'auth'),
             ),
         ),
     ),
@@ -104,7 +104,7 @@ $config['Group1']['Navigation'] = array(
         ),
         'users' => array(
             'title' => 'Users & groups',
-            'url' => array('controller' => 'users', 'action' => 'index', 'plugin' => 'auth'),
+            'url' => array('controller' => 'auth_users', 'action' => 'index', 'plugin' => 'auth'),
         ),
     ),
 );
@@ -128,7 +128,7 @@ $config['guest']['Navigation'] = array(
     'meta' => array(
         'login' => array(
             'title' => 'Login',
-            'url' => array('controller' => 'users', 'action' => 'login', 'plugin' => 'auth')
+            'url' => array('controller' => 'auth_users', 'action' => 'login', 'plugin' => 'auth')
         ),
     ),
 );
@@ -165,13 +165,13 @@ $config['users']['Navigation'] = array(
     'meta' => array(
         'logout' => array(
             'title' => 'Logout',
-            'url' => array('controller' => 'users', 'action' => 'logout', 'plugin' => 'auth')
+            'url' => array('controller' => 'auth_users', 'action' => 'logout', 'plugin' => 'auth')
         ),
     ),
 );
 
 // alow generic access to login/logout and user page
-$config['UsersController']['Auth'] = array(
+$config['AuthUsersController']['Auth'] = array(
     'acl' => array(
         'everyone' => array(
             'actionLogin' => true,

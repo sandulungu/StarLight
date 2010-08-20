@@ -23,7 +23,7 @@ class AppModel extends Model {
 
             foreach ($results as &$result) {
                 if (!isset($result[$this->alias]['rght'])) {
-                    return true;
+                    return $results;
                 }
 
                 while ($stack && ($stack[count($stack) - 1] < $result[$this->alias]['rght'])) {
@@ -74,7 +74,7 @@ class AppModel extends Model {
                     'recursive' => null,
                 );
                 extract($options);
-                return $this->generatetreelist($conditions = null, $keyPath = null, $valuePath = null, $spacer = '_', $recursive = null);
+                return $this->generatetreelist($conditions, $keyPath, $valuePath, $spacer, $recursive);
             }
             return;
         }

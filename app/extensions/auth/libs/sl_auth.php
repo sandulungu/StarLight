@@ -43,29 +43,30 @@ class SlAuth {
     }
 
     static protected function _login($username, $password) {
-        $user = ClassRegistry::init('Auth.User')->find('first', array(
+        $user = ClassRegistry::init('Auth.AuthUser')->find('first', array(
             'conditions' => array(
-                'User.active' => true,
-                'or' => array('User.username' => $username, 'User.email' => $username),
+                'AuthUser.active' => true,
+                'or' => array('AuthUser.username' => $username, 'AuthUser.email' => $username),
             ),
         ));
         if (!$user) {
             return;
         }
-        if (self::password($password, array(), $user['User']['password'])) {
+        if (self::password($password, array(), $user['AuthUser']['password'])) {
             return false;
         }
         
-        $roles = array("User{$user['User']['id']}");
-        foreach ($user['Group'] as $group) {
+        $roles = array("AuthUser{$user['AuthUser']['id']}");
+        foreach ($user['AuthGroup'] as $group) {
             $roles[] = "Group{$group['id']}";
+            $roles[] = $group['name'];
         }
         $roles[] = "users";
         $roles[] = "everyone";
-        $user['User']['roles'] = $roles;
+        $user['AuthUser']['roles'] = $roles;
 
-        SlSession::write('Auth.user', $user['User']);
-        SlSession::write('Auth.groups', $user['Group']);
+        SlSession::write('Auth.user', $user['AuthUser']);
+        SlSession::write('Auth.groups', $user['AuthGroup']);
         return true;
     }
 
