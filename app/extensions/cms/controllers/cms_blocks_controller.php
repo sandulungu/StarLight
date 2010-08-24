@@ -7,8 +7,14 @@
 class CmsBlocksController extends AppController {
 
     public function admin_index() {
-        $this->set('blocks', $this->CmsBlock->find('all'));
-        $this->set('title', __t('Blocks'));
+        $options = array();
+
+        if (!empty($this->params['named']['node'])) {
+            $this->set('nodeId', $nodeId = $this->params['named']['node']);
+            $options['conditions']['CmsBlock.cms_node_id'] = $nodeId;
+        }
+
+        $this->set('blocks', $this->CmsBlock->find('all', $options));
     }
 
     public function admin_edit() {
@@ -17,7 +23,12 @@ class CmsBlocksController extends AppController {
 
         if ($this->data) {
             if ($this->CmsBlock->saveAll($this->data)) {
-                $this->redirect(array('action' => 'index'));
+                $nodeId = $this->CmsBlock->field('cms_node_id');
+                $this->redirect(
+                    $nodeId ?
+                    SlNode::url($nodeId, array('admin' => true, 'route' => false)) :
+                    array('action' => 'index')
+                );
             }
         }
         elseif ($this->id) {
@@ -31,7 +42,7 @@ class CmsBlocksController extends AppController {
                 // set link title to node title
                 $locales = SlConfigure::read('I18n.locales');
                 foreach ($locales as $locale) {
-                    $this->data['CmsBlock']['title' . $locale] =
+                    $this->data['CmsBlock']['title_' . $locale] =
                         $node["CmsNode"]['short_title_' . $locale] ?
                             $node["CmsNode"]['short_title_' . $locale] :
                             $node["CmsNode"]['title_' . $locale];
@@ -41,12 +52,9 @@ class CmsBlocksController extends AppController {
                 $this->data['CmsBlock']['url'] = SlNode::url($node, array('base' => false, 'slug' => false, 'lang' => false));
             }
         }
-
-        $this->set('title', __t(!$this->id ? 'Add block' : 'Edit block'));
     }
 
     public function admin_delete($id) {
-        $this->CmsBlock->id = $id;
         $this->CmsBlock->delete($id, true);
         $this->redirect(array('action' => 'index'));
     }

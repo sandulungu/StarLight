@@ -19,7 +19,11 @@ $config['global']['Config'] = array(
 
 $config['global']['Cms'] = array(
     'nodeSkins' => array(
-        'default' => 'Default (static page)',
+        'default' => 'Static page (default)',
+    ),
+    'nodeTypes' => array(
+        'default' => array('name' => 'Page/article (default)'),
+        'CmsContactForm' => array('plugin' => 'cms', 'name' => 'Contact Form'),
     ),
 );
 
@@ -37,7 +41,7 @@ $config['global']['Navigation'] = array(
                 'url' => array('controller' => 'cms_nodes', 'action' => 'index', 'plugin' => 'cms'),
                 'children' => array(
                     array(
-                        'title' => 'Email contact forms',
+                        'title' => 'Contact Forms',
                         'url' => array('controller' => 'cms_contact_forms', 'action' => 'index', 'plugin' => 'cms'),
                     ),
                 ),
@@ -110,7 +114,7 @@ $config['global']['Routing'] = array(
 
 
 // allow everyone access to admin home
-$config['CmsController']['Auth'] = array(
+$config['CmsCmsController']['Auth'] = array(
     'acl' => array(
         'everyone' => array(
             'actionAdminIndex' => true,

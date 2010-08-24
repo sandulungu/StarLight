@@ -3,19 +3,21 @@
 /**
  *
  * @property-read CmsNode $CmsNode
- * @property-read CmsTagType $CmsTagType
+ * @property-read CmsTagCategory $CmsTagCategory
  */
 class CmsTag extends AppModel {
-    public $useTable = 'cms_tags';
 
     public $actsAs = array(
         'Translate' => array('name'),
     );
 
-    public $order = array('CmsTag.cms_tag_type_id' => 'ASC', 'CmsTag.name' => 'ASC');
+    public $order = array(
+        'CmsTag.cms_tag_category_id' => 'ASC',
+        'CmsTag.name' => 'ASC'
+    );
 
     public $belongsTo = array(
-        'Cms.CmsTagType',
+        'Cms.CmsTagCategory',
         'Cms.CmsNode',
     );
 

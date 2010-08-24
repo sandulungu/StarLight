@@ -24,7 +24,12 @@ class CmsImagesController extends AppController {
 
         if ($this->data) {
             if ($this->CmsImage->saveAll($this->data)) {
-                $this->redirect(array('action' => 'index'));
+                $nodeId = $this->CmsImage->field('cms_node_id');
+                $this->redirect(
+                    $nodeId ?
+                    SlNode::url($nodeId, array('admin' => true, 'route' => false)) :
+                    array('action' => 'index')
+                );
             }
         }
         elseif ($this->id) {
@@ -34,21 +39,17 @@ class CmsImagesController extends AppController {
         if (!empty($this->params['named']['node'])) {
             $this->data['CmsImage']['cms_node_id'] = $this->params['named']['node'];
         }
-
-        $this->set('title', __t(!$this->id ? 'Add image' : 'Edit image'));
     }
 
     public function admin_delete($id) {
-        $this->CmsImage->id = $id;
         $this->CmsImage->delete($id, true);
         $this->redirect(array('action' => 'index'));
     }
 
     public function admin_set_as_thumb($id) {
-        $this->CmsImage->id = $id;
-        $this->CmsImage->CmsNode->id = $this->CmsImage->field('CmsImage.cms_node_id');
+        $this->CmsImage->CmsNode->id = $nodeId = $this->CmsImage->field('cms_node_id');
         $this->CmsImage->CmsNode->saveField('cms_image_id', $id);
-        $this->redirect(array('action' => 'index'));
+        $this->redirect(SlNode::url($nodeId, array('admin' => true, 'route' => false)));
     }
 
     public function admin_add() {

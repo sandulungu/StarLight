@@ -230,15 +230,27 @@
 
     		// Add {$field}_{$lang} to fields list (when needed)
             foreach ($fields as $field) {
-                foreach (array($field, $model->alias.'.'.$field, $model->escapeField($field)) as $_field) {
-                    foreach ($query['fields'] as $fieldName) {
-						if ($_field === $fieldName) {
-							foreach ($locales as $locale) {
-								$query['fields'][] = $model->alias.'.'.$field.'_'.$locale;
-                            }
-                            //unset($query['fields'][$fieldName]);
-						}
-					}
+                foreach ($query['fields'] as $fieldName) {
+                    $temp = explode('.', $fieldName);
+                    if (count($temp) === 1) {
+                        $modelClass = $model->alias;
+                        $fieldName = Inflector::slug($temp[0], '');
+                    } else {
+                        $modelClass = Inflector::slug($temp[0], '');
+                        $fieldName = Inflector::slug($temp[1], '');
+                    }
+    				if (isset($this->settings[$modelClass]) && in_array($fieldName, $this->settings[$modelClass])) {
+                        $query['fields'][] = $modelClass.'.'.$fieldName.'_'.$currLocale;
+                    }
+
+//                    foreach (array($field, $model->alias.'.'.$field, $model->escapeField($field)) as $_field) {
+//						if ($_field === $fieldName) {
+//							foreach ($locales as $locale) {
+//								$query['fields'][] = $model->alias.'.'.$field.'_'.$locale;
+//                            }
+//                            //unset($query['fields'][$fieldName]);
+//						}
+//					}
 				}
 			}
 		}

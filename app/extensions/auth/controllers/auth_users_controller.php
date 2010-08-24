@@ -68,7 +68,6 @@ class AuthUsersController extends AppController {
 
     public function admin_index() {
         $this->set('users', $this->AuthUser->find('all'));
-        $this->set('title', __t('Users'));
     }
 
     public function admin_login() {
@@ -102,8 +101,6 @@ class AuthUsersController extends AppController {
             $this->data = $this->AuthUser->read(null, $this->id);
             unset($this->data['AuthUser']['password']);
         }
-
-        $this->set('title', !$this->id ? __t('Add user account') : __t('Edit user account'));
     }
 
     public function admin_add() {
@@ -112,7 +109,6 @@ class AuthUsersController extends AppController {
     }
 
     public function admin_delete($id) {
-        $this->AuthUser->id = $id;
         $this->AuthUser->delete($id, true);
         $this->redirect(array('action' => 'index'));
     }

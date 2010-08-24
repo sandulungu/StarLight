@@ -8,7 +8,6 @@ class AuthAclRulesController extends AppController {
 
     public function admin_index() {
         $this->set('aclRules', $this->AuthAclRule->find('all'));
-        $this->set('title', __t('ACL rules'));
     }
 
     public function admin_edit() {
@@ -25,8 +24,6 @@ class AuthAclRulesController extends AppController {
         elseif($this->id) {
             $this->data = $this->AuthAclRule->read(null, $this->id);
         }
-
-        $this->set('title', !$this->id ?__t('Add rule') : __t('Edit rule'));
     }
 
     public function admin_add() {
@@ -35,7 +32,6 @@ class AuthAclRulesController extends AppController {
     }
 
     public function admin_delete($id) {
-        $this->AuthAclRule->id = $id;
         $this->AuthAclRule->delete($id, true);
         $this->redirect(array('action' => 'index'));
     }

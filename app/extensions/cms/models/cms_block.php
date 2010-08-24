@@ -5,8 +5,7 @@
  * @property-read CmsNode $CmsNode
  */
 class CmsBlock extends AppModel {
-    public $useTable = 'cms_blocks';
-
+    
     public $order = array(
         'CmsBlock.placement' => 'ASC',
         'CmsBlock.weight' => 'ASC'
@@ -30,10 +29,10 @@ class CmsBlock extends AppModel {
     );
 
     public $validate = array(
-        'url' => array(
-            'rule' => 'url',
-            'allowEmpty' => true,
-        ),
+//        'url' => array(
+//            'rule' => 'url',
+//            'allowEmpty' => true,
+//        ),
         'name' => array(
             'rule' => 'alphaNumeric',
             'allowEmpty' => true,

@@ -4,7 +4,7 @@ class SlNode {
 
     public static function url($id, $options = array()) {
         $options += array(
-            'base' => true,
+            //'base' => true,
             'full' => false,
             'route' => true,
             'slug' => true,
@@ -19,10 +19,10 @@ class SlNode {
         $route = $options['route'];
         unset($options['route']);
 
-        if (is_int($id)) {
+        if (!is_array($id)) {
             $node = self::read($id);
         } else {
-            $node = $id;
+            $node = isset($id['CmsNode']) ? $id : array('CmsNode' => $id);
             $id = $node['CmsNode']['id'];
         }
 
@@ -64,8 +64,10 @@ class SlNode {
     }
 
     public static function getTagList() {
-        return SlNode::getModel()->CmsTag->find('list', array(
-            'fields' => array('CmsTag.id', 'CmsTag.name', 'CmsTagType.name'),
+        $tagModel = SlNode::getModel()->CmsTag;
+        $tagModel->CmsTagCategory; // needed for proper TranslateBehavior initialization
+        return $tagModel->find('list', array(
+            'fields' => array('CmsTag.id', 'CmsTag.name', 'CmsTagCategory.name'),
             'recursive' => 0,
         ));
     }
@@ -116,6 +118,17 @@ class SlNode {
         }
 
         return $data;
+    }
+
+    /**
+     * Find cached nodes
+     *
+     * @param string $what
+     * @param array $options
+     * @return array
+     */
+    public static function find($what, $options = array()) {
+        return self::getModel()->findCached($what, $options);
     }
 
     public static function getPath($id = null) {

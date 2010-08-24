@@ -5,6 +5,9 @@ body {
     font-size: 65%;
 }
 
+hr {
+    margin: 1em 0;
+}
 p {
     margin: 1em 0;
 }
@@ -71,6 +74,9 @@ h1 {
     color: #fff;
 }
 
+fieldset div.actions {
+    padding: 0;
+}
 div.actions {
     width: auto;
 }
@@ -210,6 +216,9 @@ fieldset legend {
 .sl-uploaded-image img {
     border: 1px solid #eee;
 }
+.sl-uploaded-file {
+    display: block;
+}
 
 .file input {
     width: 80%;
@@ -291,9 +300,9 @@ div.sl-level-10 {
 }
 
 
+/* jQuery plugins */
 
 .prettyLoader {
     top: 50%;
     left: 50%;
-}
 }

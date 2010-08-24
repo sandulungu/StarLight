@@ -70,21 +70,6 @@ class AppController extends Controller {
             );
         }
         SlConfigure::write('Navigation.languages', $languageLinks);
-
-        switch ($this->action) {
-            case 'index':
-            case 'admin_index':
-                $this->set('title', __t(Inflector::humanize(Inflector::underscore($this->name))));
-                break;
-
-            case 'admin_add':
-                $this->set('title', __t($this->id ? 'Clone {$model}' : 'Add {$model}', array('model' => __t(Inflector::humanize(Inflector::underscore($this->modelClass))))));
-                break;
-
-            case 'admin_edit':
-                $this->set('title', __t('Edit {$model}',array('model' => __t(Inflector::humanize(Inflector::underscore($this->modelClass))))));
-                break;
-        }
     }
 
     public function beforeRender() {
@@ -108,10 +93,29 @@ class AppController extends Controller {
                 'default' : $this->params['prefix'];
         }
 
-        $this->theme = SlConfigure::read('View.theme');
+        $this->theme = SlConfigure::read2('View.theme');
 
         if (empty($this->viewVars['title'])) {
-            $this->viewVars['title'] = null;
+            $model = Inflector::humanize(preg_replace("/^$this->plugin/", '', Inflector::underscore($this->modelClass)));
+
+            switch ($this->action) {
+                case 'index':
+                case 'admin_index':
+                    $this->set('title', __t(Inflector::pluralize($model)));
+                    break;
+
+                case 'admin_add':
+                    $this->set('title', __t($this->id ? 'Clone {$model}' : 'Add {$model}', array('model' => __t($model))));
+                    break;
+
+                case 'admin_edit':
+                    $this->set('title', __t('Edit {$model}',array('model' => __t($model))));
+                    break;
+
+                default:
+                    $this->set('title', null);
+            }
+            
         }
         elseif (empty($this->viewVars['title_for_layout'])) {
             $this->viewVars['title_for_layout'] = $this->viewVars['title'];

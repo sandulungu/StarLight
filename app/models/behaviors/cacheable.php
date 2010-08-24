@@ -32,8 +32,8 @@ class CacheableBehavior extends ModelBehavior {
         }
 
         $key = $model->Behaviors->enabled('Translate') ?
-            Inflector::underscore($model) ."_{$id}_". SlConfigure::read('I18n.locale') :
-            Inflector::underscore($model) ."_{$id}";
+            Inflector::underscore($model->alias) ."_{$id}_". SlConfigure::read('I18n.locale') :
+            Inflector::underscore($model->alias) ."_{$id}";
 
         $data = Cache::read($key, 'models');
         if (empty($data)) {
@@ -57,14 +57,16 @@ class CacheableBehavior extends ModelBehavior {
             if (isset($results[0])) {
                 $data = array();
                 foreach ($results as $item) {
-                    $data[] = $this->readCached($item[$model->alias][$model->primaryKey]);
+                    $data[] = $this->readCached($model, $item[$model->alias][$model->primaryKey]);
                 }
                 return $data;
             }
             else {
-                return $this->readCached($results[$model->alias][$model->primaryKey]);
+                return $this->readCached($model, $results[$model->alias][$model->primaryKey]);
             }
         }
+
+        return $results;
     }
 
     /**
@@ -81,12 +83,12 @@ class CacheableBehavior extends ModelBehavior {
         if ($model->Behaviors->enabled('Translate')) {
             $locales = SlConfigure::read('I18n.locales');
             foreach ($locales as $locale) {
-                $key = Inflector::underscore($model) ."_{$id}_{$locale}";
+                $key = Inflector::underscore($model->alias) ."_{$id}_{$locale}";
                 Cache::delete($key, 'models');
             }
         }
         else {
-            $key = Inflector::underscore($model) ."_{$id}";
+            $key = Inflector::underscore($model->alias) ."_{$id}";
             Cache::delete($key, 'models');
         }
     }

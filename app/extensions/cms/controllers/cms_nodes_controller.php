@@ -27,40 +27,51 @@ class CmsNodesController extends AppController {
             'contain' => array(
 //                'AuthUser',
                 'CmsImage',
-//                'ImageGallery',
-//                'CmsNode',
 //                'CmsBlock',
 //                'CmsNavigationLink',
-//                'CmsTag' => array('TagCategory'),
+//                'CmsImage',
+                'CmsTag' //=> array('TagCategory'),
+//                'ImageGallery',
+//                'ParentNode',
             ),
         );
+
+        if (!empty($this->params['named']['tag'])) {
+            $tagId = $this->params['named']['tag'];
+
+            $this->set('title', __t('Node tagged as "{$tag}"', array(
+                'tag' => $this->CmsNode->CmsTag->field('CmsTag.name', array('CmsTag.id' => $tagId))
+            )));
+
+            $options = array(
+                // the LinkableBehavior messes around with the Containable on belongsTo associations...
+                'link' => array(
+                    'CmsImage' => array('conditions' => 'CmsImage.id = CmsNode.cms_image_id'),
+                    'CmsNodesCmsTags' => array(
+                        'TagFilter' => array(
+                            'class'	=> 'CmsTag',
+                            'conditions' => 'TagFilter.id = CmsNodesCmsTags.cms_tag_id', // Join condition (LEFT JOIN x ON ...)
+                            'fields' => array('TagFilter.id'),
+                        ),
+                    ),
+                ),
+                'contain' => array(
+                    'CmsTag',
+                ),
+                'conditions' => array('TagFilter.id' => $tagId),
+			);
+        }
 
         if (!empty($this->params['named']['parent'])) {
             $this->set('parentId', $parentId = $this->params['named']['parent']);
             $options['conditions']['CmsNode.parent_id'] = $parentId;
         }
 
-//        if (isset($this->params['named']['tag'])) {
-//            $tagId = $this->params['named']['tag'];
-//            $this->set('tag', $this->CmsNode->CmsTag->field('CmsTag.name', array('CmsTag.id' => $tagId)));
-//
-//            $query['conditions']['TagFilter.id'] = $tagId;
-//            $query['link']['CmsNodesTags']['TagFilter'] = array(
-//                'class'	=> 'CmsTag',
-//                'conditions' => 'TagFilter.id = CmsNodesTags.tag_id', // Join condition (LEFT JOIN x ON ...)
-//                'fields' => array('TagFilter.id')
-//			);
-//        }
-
         $this->set('nodes', $this->CmsNode->find('all', $options));
-        $this->set('title', __t('Content nodes'));
     }
 
     public function admin_edit() {
         $this->helpers[] = 'JsValidate.Validation';
-
-        //$this->set('tags', SlNode::getTagList());
-        $this->set('parents', $this->CmsNode->find('treelist', array('conditions' => array('CmsNode.id !=' => $this->id))));
 
         if ($this->data) {
             if ($this->CmsNode->saveAll($this->data)) {
@@ -71,9 +82,12 @@ class CmsNodesController extends AppController {
             $this->data = $this->CmsNode->read(null, $this->id);
         }
 
+        $this->set('cmsTags', SlNode::getTagList());
+
         if (!empty($this->params['named']['parent'])) {
             $this->data['CmsNode']['parent_id'] = $this->params['named']['parent'];
         }
+        $this->set('parents', $this->CmsNode->find('treelist', array('conditions' => array('CmsNode.id !=' => $this->id))));
     }
 
     public function admin_delete($id) {

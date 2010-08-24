@@ -7,7 +7,7 @@
     if ($this->params['action'] != 'admin_add') {
         echo $this->SlForm->hidden('id');
     }
-    echo $this->SlForm->input('parent_id', array('empty' => true));
+    echo $this->SlForm->input('parent_id', array('title' => __t('Parent'), 'empty' => true));
 
     echo $this->SlForm->input('title');
     echo $this->SlForm->input('short_title');
@@ -16,7 +16,7 @@
     echo $this->SlForm->input('meta_keywords');
     echo $this->SlForm->input('meta_description');
     echo $this->SlForm->input('skin', array('options' => SlConfigure::read2('Cms.nodeSkins')));
-    echo $this->SlForm->input('visible', array('checkedByDefault' => true));
+    echo $this->SlForm->input('visible');
 
     ClassRegistry::init('Cms.CmsImage');
     echo $this->SlForm->input('CmsImage.title', array('label' => __t('Thumb image title')));

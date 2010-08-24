@@ -16,7 +16,6 @@ class PagesController extends AppController {
 
     public function admin_index() {
         $this->set('pages', $this->Page->find('all'));
-        $this->set('title', __t('Pages'));
     }
 
     public function admin_edit() {
@@ -31,12 +30,9 @@ class PagesController extends AppController {
         elseif ($this->id) {
             $this->data = $this->Page->read();
         }
-
-        $this->set('title', __t(!$this->id ? 'Add page' : 'Edit page'));
     }
 
     public function admin_delete($id) {
-        $this->Page->id = $id;
         $this->Page->delete($id, true);
         $this->redirect(array('action' => 'index'));
     }

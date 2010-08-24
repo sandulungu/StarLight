@@ -91,9 +91,28 @@ class SlHtmlHelper extends AppHelper {
             'title' => __t(Inflector::humanize($action)),
             'url' => array(),
         );
-        $options['url'] += is_array($id) ? 
-            array('action' => $action == 'clone' ? 'add' : $action) + $id :
-            array('action' => $action == 'clone' ? 'add' : $action, $id);
+
+        switch ($action) {
+            case 'clone':
+                $url = array('action' => 'add');
+                break;
+
+            case 'preview':
+                $url = array('admin' => false, 'action' => 'view');
+                break;
+
+            default:
+                $url = array('action' => $action);
+        }
+
+        if ($id) {
+            if (is_array($id)) {
+                $url = $id + $url;
+            } else {
+                $url[] = $id;
+            }
+        }
+        $options['url'] += $url;
 
         switch ($action) {
             case 'add':
@@ -113,11 +132,6 @@ class SlHtmlHelper extends AppHelper {
                 $options += array(
                     'confirm' => __t('Delete?'),
                     'class' => 'remove',
-                );
-                break;
-
-            default:
-                $options += array(
                 );
                 break;
         }

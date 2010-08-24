@@ -5,8 +5,7 @@
  * @property-read CmsNode $CmsNode
  */
 class CmsImage extends AppModel {
-    public $useTable = 'cms_images';
-
+    
     public $actsAs = array(
         'MeioUpload.MeioUpload' => array(
             'filename' => array(

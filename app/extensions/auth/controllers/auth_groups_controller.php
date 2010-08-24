@@ -8,7 +8,6 @@ class AuthGroupsController extends AppController {
 
     public function admin_index() {
         $this->set('groups', $this->AuthGroup->find('all'));
-        $this->set('title', __t('User groups'));
     }
 
     public function admin_edit() {
@@ -22,8 +21,6 @@ class AuthGroupsController extends AppController {
         } elseif($this->id) {
             $this->data = $this->AuthGroup->read(null, $this->id);
         }
-
-        $this->set('title', !$this->id ? __t('Add group') : __t('Edit group'));
     }
 
     public function admin_add() {
@@ -32,7 +29,6 @@ class AuthGroupsController extends AppController {
     }
 
     public function admin_delete($id) {
-        $this->AuthGroup->id = $id;
         $this->AuthGroup->delete($id, true);
         $this->redirect(array('action' => 'index'));
     }

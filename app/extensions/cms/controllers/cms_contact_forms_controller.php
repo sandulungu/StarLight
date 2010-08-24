@@ -11,12 +11,15 @@ class CmsContactFormsController extends AppController {
     );
 
     public function view($node_id) {
+
+        // node common stuff
         $this->set('node', $node = SlNode::read($node_id));
         if (!$node) {
             $this->cakeError();
         }
         $this->set('title', $node['CmsNode']['title']);
 
+        // contact form specific stuff
         $fields = array();
         $fields2 = empty($node['CmsContactForm']['fields']) ?
             array('From|email', 'Text|textarea') :
@@ -106,8 +109,12 @@ class CmsContactFormsController extends AppController {
     }
 
     public function admin_index() {
-        $this->set('contact_forms', $this->CmsContactForm->find('all'));
-        $this->set('title', __t('Contact forms'));
+        $this->set('nodes', SlNode::find('all',
+            array('conditions' => array(
+                'CmsNode.model' => 'CmsContactForm',
+                'CmsNode.plugin' => $this->plugin,
+            ))
+        ));
     }
 
     public function admin_view($node_id) {
@@ -115,14 +122,14 @@ class CmsContactFormsController extends AppController {
         if (!$node) {
             $this->cakeError();
         }
-        $this->set('title', __t('Contact form "{$title}"', array('title' => $node['CmsNode']['title'])));
+        $this->set('title', __t('Contact form "{$title}"', array(
+            'title' => $node['CmsNode']['title']
+        )));
     }
 
     public function admin_edit() {
         $this->helpers[] = 'JsValidate.Validation';
         $this->CmsContactForm;
-
-        $this->set('tags', SlNode::getTagList());
 
         if ($this->data) {
             if (SlNode::getModel()->saveAll($this->data)) {
@@ -133,11 +140,17 @@ class CmsContactFormsController extends AppController {
             $this->data = SlNode::getModel()->read(null, $this->id);
         }
 
-        $this->set('title', __t(!$this->id ? 'Add contact form' : 'Edit contact form'));
+        $this->set('cmsTags', SlNode::getTagList());
+
+        if (!empty($this->params['named']['parent'])) {
+            $this->data['CmsNode']['parent_id'] = $this->params['named']['parent'];
+        }
+        $this->set('parents', SlNode::getModel()->find('treelist', array('conditions' => array('CmsNode.id !=' => $this->id))));
     }
 
     public function admin_add() {
         $this->admin_edit();
         $this->render('admin_edit');
     }
+    
 }

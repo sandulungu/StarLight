@@ -5,8 +5,7 @@
  * @property-read CmsNode $CmsNode
  */
 class CmsNavigationLink extends AppModel {
-    public $useTable = 'cms_navigation_links';
-
+    
     public $order = 'CmsNavigationLink.lft';
 
     public $actsAs = array(
@@ -29,22 +28,23 @@ class CmsNavigationLink extends AppModel {
         'title' => array(
         ),
         'target' => array(
-            'rule' => '/^[a-z0-9_]*$/i',
+            'rule' => '/^[a-z0-9_-]*$/i',
+            'allowEmpty' => true,
         ),
         'rel' => array(
-            'rule' => '/^[a-z0-9_]*$/i',
+            'rule' => '/^[a-z0-9_-]*$/i',
+            'allowEmpty' => true,
         ),
 //        'url' => array(
 //            'rule' => 'url',
+//            'allowEmpty' => true,
 //        ),
         'name' => array(
             'rule' => 'alphaNumeric',
+            'allowEmpty' => true,
         ),
         'collection' => array(
             'rule' => 'alphaNumeric',
-        ),
-        'visible' => array(
-            'rule' => 'validBool',
         ),
     );
 

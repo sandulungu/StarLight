@@ -3,7 +3,11 @@
         //$this = new SlView(); // for IDE
     }
 
-    if (!SlConfigure::read2('Asset.css.theme')) {
+    $theme = SlConfigure::read2('Asset.css.theme');
+    if ($theme == 'auto') {
+        SlConfigure::write('Asset.css.theme', SlConfigure::read2('View.theme'));
+    }
+    elseif (!$theme) {
         SlConfigure::write('Asset.css.cakeGeneric', 'cake.generic');
         SlConfigure::write('Asset.css.slGeneric', 'sl.generic');
     }

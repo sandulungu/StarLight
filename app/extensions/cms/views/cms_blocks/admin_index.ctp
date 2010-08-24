@@ -4,7 +4,7 @@
     }
 
     $actions = $this->SlHtml->div('.actions', $this->Html->nestedList(array(
-        $this->SlHtml->actionLink('add'),
+        $this->SlHtml->actionLink('add', !empty($nodeId) ? array('node' => $nodeId) : null),
     )));
 
     echo Pheme::parseTranslate(
@@ -18,7 +18,7 @@ end
     $rows = array();
     foreach ($blocks as $block) {
         $edit = $this->SlHtml->actionLink('edit', $block['CmsBlock']['id']);
-        $delete = $block['CmsBlock']['id'] > 1 ? $this->SlHtml->actionLink('delete', $block['CmsBlock']['id']) : '';
+        $delete = $this->SlHtml->actionLink('delete', $block['CmsBlock']['id']);
 
         $disabled = $block['CmsBlock']['visible'] ? '' : $this->SlHtml->em(__t('hidden'));
 
@@ -27,7 +27,7 @@ end
         }
 
         $content = $block["CmsBlock"]["url"] ?
-            __t('Url') . ':' . $this->SlHtml->link($block["CmsBlock"]["url"]) :
+            __t('Url') . ': ' . $this->SlHtml->link($block["CmsBlock"]["url"]) :
             $block["CmsBlock"]["body"];
 
         $row = Pheme::parseTranslate(

@@ -47,7 +47,7 @@ $config['global']['Asset'] = array(
         'timestamp' => true,
     ),
     'css' => array(
-        // 'theme' => 'styles', // you theme main CSS file
+        'theme' => 'auto', // you theme main CSS file
     ),
     'js' => array(
         'jquery' => 'footer',
