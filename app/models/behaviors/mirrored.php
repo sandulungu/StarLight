@@ -203,8 +203,8 @@ class MirroredBehavior extends ModelBehavior {
             else {
                 if ($config['valueFields']) {
                     $item[$model->alias] = array_intersect_key(
-                        array_combine($config['valueFields'], $config['valueFields']),
-                        $item[$model->alias]
+                        $item[$model->alias],
+                        array_combine($config['valueFields'], $config['valueFields'])
                     );
                 }
 

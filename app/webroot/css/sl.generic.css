@@ -209,11 +209,15 @@ fieldset legend {
     margin: 5px 5px 0 0;
 }
 
-.sl-uploaded-image {
+.sl-uploaded-image, .sl-align-auto, .sl-align-left {
     float: left;
     padding-right: 1em;
 }
-.sl-uploaded-image img {
+.sl-align-right {
+    float: right;
+    padding-left: 1em;
+}
+.sl-uploaded-image img, .sl-image img {
     border: 1px solid #eee;
 }
 .sl-uploaded-file {

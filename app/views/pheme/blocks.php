@@ -98,7 +98,7 @@ class BlocksParser extends PhemeParser {
                     if (!empty($block['url'])) {
                         $block['body'] = Sl::requestAction($block['url']);
                         if (!isset($block['title'])) {
-                            $block['title'] = Sl::r('View._pageTitle');
+                            $block['title'] = SlConfigure::read('View.lastRenderedTitle');
                         }
                     }
 

@@ -6,7 +6,6 @@
  */
 class MarkdownBehavior extends ModelBehavior {
 
-
     /**
      * @param AppModel $model
      * @param array $settings Array of DB field names to be localized
@@ -89,10 +88,23 @@ class MarkdownBehavior extends ModelBehavior {
 //        $this->_schemaChecked = true;
 //    }
 
+    function _oEmbed($url) {
+        App::import('Core', 'HttpSocket');
+        $socket = new HttpSocket();
+        $data = json_decode($socket->get('http://api.embed.ly/v1/api/oembed', array('url' => $url)), true);
+        if (isset($data['type']) && $data['type'] == 'photo') {
+            $data['html'] = "<img alt='{$data["description"]}' src='{$data["url"]}' />";
+        }
+        return isset($data['html']) ? $data['html'] : '';
+    }
+
     protected function _markdown($text) {
         if (!function_exists('Markdown')) {
             App::import('Vendor', 'php_markdown_extra/markdown');
         }
+
+        // TODO: oEmbed support
+
         return Markdown($text);
     }
 

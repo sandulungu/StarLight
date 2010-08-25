@@ -32,6 +32,13 @@ jQuery(function() { jQuery('.sl-email').defuscate(); });
 end
         );
 
+        if (empty($html)) {
+            $html = $this->_getVar('CmsContactForm.email');
+        }
+        if (empty($html)) {
+            return;
+        }
+        
         list($user, $domain) = explode('@', $html, 2);
         $parts = explode('.', $domain);
         $zone = array_pop($parts);

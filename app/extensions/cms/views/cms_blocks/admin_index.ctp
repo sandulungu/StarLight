@@ -27,7 +27,7 @@ end
         }
 
         $content = $block["CmsBlock"]["url"] ?
-            __t('Url') . ': ' . $this->SlHtml->link($block["CmsBlock"]["url"]) :
+            __t('Url') . ': ' . $this->SlHtml->link($block["CmsBlock"]["url"], $block["CmsBlock"]["url"]) :
             $block["CmsBlock"]["body"];
 
         $row = Pheme::parseTranslate(
