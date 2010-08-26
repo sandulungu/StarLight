@@ -29,6 +29,12 @@ $config['global']['Auth'] = array(
     ),
 );
 
+
+
+/////////////////////////////// CORE EXTENSIONS ////////////////////////////////
+
+
+
 $config['global']['I18n'] = array(
     'domains' => array(
         'auth' => 'auth',

@@ -15,7 +15,9 @@ class SlSession {
             
             session_write_close();
             foreach ($options as $option => $value) {
-                ini_set("session.$option", $value);
+                if (isset($value)) {
+                    ini_set("session.$option", $value);
+                }
             }
 
             self::$_started = session_start();

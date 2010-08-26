@@ -2,9 +2,9 @@
 
 class AppModel extends Model {
 
-    function validBool($check) {
+    function dummy($check) {
         foreach ($check as $field => $value) {
-            return preg_match('/^0|1$/', $value);
+            return true;
         }
     }
 

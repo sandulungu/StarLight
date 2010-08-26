@@ -681,9 +681,9 @@ class PhemeConditionalParser extends PhemeParser {
             $value = isset($params[$blockParams['param']]) ?
                 $params[$blockParams['param']] : null;
         }
-        $yes = $value != null;
+        $yes = (string)$value !== '';
 
-        if (!empty ($blockParams['value'])) {
+        if (isset($blockParams['value'])) {
             $value2 = $blockParams['value'];
             $yes = $value == $value2;
 

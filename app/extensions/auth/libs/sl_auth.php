@@ -43,6 +43,7 @@ class SlAuth {
     }
 
     static protected function _login($username, $password) {
+        App::import('Core', 'ClassRegistry');
         $user = ClassRegistry::init('Auth.AuthUser')->find('first', array(
             'conditions' => array(
                 'AuthUser.active' => true,
@@ -95,7 +96,9 @@ class SlAuth {
             // autologin
             $user = SlCookie::read('Auth.user');
             if ($user) {
-                return self::_login($user['username'], $user['password']);
+                if (self::_login($user['username'], $user['password'])) {
+                    SlConfigure::setCollections();
+                }
             }
         }
 

@@ -1,5 +1,21 @@
 <?php
 
+$config['global']['Cms'] = array(
+    'nodeSkins' => array(
+        'default' => 'Static page (default)',
+    ),
+    'nodeTypes' => array(
+        'default' => array('name' => 'Page/article (default)'),
+        'CmsContactForm' => array('plugin' => 'cms', 'name' => 'Contact Form'),
+    ),
+);
+
+
+
+/////////////////////////////// CORE EXTENSIONS ////////////////////////////////
+
+
+
 $config['global']['Auth'] = array(
     'acl' => array(
         'Group2' => array(
@@ -14,16 +30,6 @@ $config['global']['Config'] = array(
     'settings' => array(
         'cms' => array(
         ),
-    ),
-);
-
-$config['global']['Cms'] = array(
-    'nodeSkins' => array(
-        'default' => 'Static page (default)',
-    ),
-    'nodeTypes' => array(
-        'default' => array('name' => 'Page/article (default)'),
-        'CmsContactForm' => array('plugin' => 'cms', 'name' => 'Contact Form'),
     ),
 );
 

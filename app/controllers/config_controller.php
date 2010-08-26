@@ -33,6 +33,9 @@ class ConfigController extends AppController {
                     $setting['type'] = 'textbox';
                     $setting['value'] = json_encode($setting['value']);
                 }
+                elseif (isset($setting['type']) && $setting['type'] == 'array') {
+                    $setting['value'] = implode(', ',$setting['value']);
+                }
             }
             else {
                 foreach ($locales as $locale) {
@@ -41,6 +44,9 @@ class ConfigController extends AppController {
                     if (isset($setting['type']) && $setting['type'] == 'json') {
                         $setting['type'] = 'textbox';
                         $setting['value'][$locale] = json_encode($setting['value'][$locale]);
+                    }
+                    elseif (isset($setting['type']) && $setting['type'] == 'json') {
+                        $setting['value'][$locale] = implode(', ',$setting['value'][$locale]);
                     }
                 }
             }
@@ -66,6 +72,9 @@ class ConfigController extends AppController {
                         if (isset($setting['type']) && $setting['type'] == 'json') {
                             $value = json_decode($value, true);
                         }
+                        elseif (isset($setting['type']) && $setting['type'] == 'array') {
+                            $value = Set::normalize($value, false);
+                        }
 
                         SlConfigure::write($setting['name'], $value, true, $setting['collection']);
                     }
@@ -77,6 +86,9 @@ class ConfigController extends AppController {
                             
                             if (isset($setting['type']) && $setting['type'] == 'json') {
                                 $value = json_decode($value, true);
+                            }
+                            elseif (isset($setting['type']) && $setting['type'] == 'array') {
+                                $value = Set::normalize($value, false);
                             }
     
                             SlConfigure::write($setting['name'], $value, true, "{$setting['collection']}.{$locale}");
