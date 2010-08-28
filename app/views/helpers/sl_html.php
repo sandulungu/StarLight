@@ -7,10 +7,29 @@
  */
 class SlHtmlHelper extends AppHelper {
 
+    public $helpers = array('Html');
+
     /**
      * @var array
      */
     protected $_emptyTags = array('img', 'br', 'hr', 'input', 'button', 'embed', 'param');
+
+    public function meioImage($filename, $options = array()) {
+        $options += array(
+            'folder' => 'cms_images',
+            'thumb' => 'icon',
+            'title' => null,
+        );
+        return Pheme::parse('JqueryColorbox') .
+            $this->link(
+                $this->Html->image(
+                    "/files/{$options['folder']}/thumb/{$options['thumb']}/$filename",
+                    array('alt' => $options['thumb'], 'title' => $options['title'])
+                ),
+                "/files/{$options['folder']}/$filename",
+                array('rel' => 'colorbox', 'webroot' => true)
+            );
+    }
 
     /**
      * Automagic method...
@@ -86,33 +105,59 @@ class SlHtmlHelper extends AppHelper {
 		return $out;
 	}
 
-    public function actionLink($action, $id = null, $options = array()) {
+    public function actionLink($action, $url = null, $options = array()) {
         $options += array(
             'title' => __t(Inflector::humanize($action)),
             'url' => array(),
         );
 
         switch ($action) {
+            case 'back':
+                $ref = SlSession::read('Routing.ref');
+                if (empty($ref)) {
+                    $ref = env('HTTP_REFERER');
+                }
+                if (Sl::url($ref, true) == Sl::url(true)) {
+                    $ref = null;
+                }
+                if ($ref) {
+                    $options['url'] = $ref;
+                } else {
+                    $url2 = array('action' => 'index');
+                }
+                break;
+
             case 'clone':
-                $url = array('action' => 'add');
+                $url2 = array('action' => 'add');
                 break;
 
             case 'preview':
-                $url = array('admin' => false, 'action' => 'view');
+                $url2 = array('admin' => false, 'action' => 'view');
                 break;
 
             default:
-                $url = array('action' => $action);
+                $url2 = array('action' => $action);
         }
+        $url2['ref'] = base64_encode(Sl::url(false));
 
-        if ($id) {
-            if (is_array($id)) {
-                $url = $id + $url;
+        if ($url !== null) {
+            if (is_array($url)) {
+                $url2 = $url + $url2;
             } else {
-                $url[] = $id;
+                $url2[] = $url;
+            }
+        } else {
+
+            // automagically pass filtering params
+            foreach ($this->params['named'] as $param => $value) {
+                if (preg_match('/_id$/', $param)) {
+                    $url2[$param] = $value;
+                }
             }
         }
-        $options['url'] += $url;
+        if (is_array($options['url'])) {
+            $options['url'] += $url2;
+        }
 
         switch ($action) {
             case 'add':
@@ -166,22 +211,26 @@ class SlHtmlHelper extends AppHelper {
         }
 
         if ($url !== null) {
-			$url = ($url !== false) ? $this->url($url) : '';
+			$url = ($url !== false) ? (
+                empty($options['webroot']) ? $this->url($url) : $this->webroot($url)
+                ) : '';
 		} else {
 			$url = $this->url($title);
 			$title = $url;
 		}
+        unset($options['webroot']);
 
 		if (!empty($options['escape'])) {
 			$title = h($title);
 		}
+        unset($options['escape']);
 
 		if (!empty($options['confirm'])) {
 			$confirmMessage = r("'", "\'", r('"', '\"', $options['confirm']));
             $url2 = r("'", "\'", r('"', '\"', $url));
 			$options['onclick'] = "if (window.Ext) { Ext.Msg.confirm('', '$confirmMessage', function(btn){ if (btn == 'yes') Sl.go('$url2'); }); return false; } return confirm('{$confirmMessage}');";
-            unset($options['confirm']);
 		}
+        unset($options['confirm']);
         
 		return $url ? 
             sprintf('<a href="%s"%s>%s</a>', $url, $this->_parseAttributes($options), $title) :

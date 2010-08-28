@@ -71,8 +71,13 @@ class SlFormHelper extends FormHelper {
             }
         }
 
+        $prefix = SlConfigure::read2('View.options.modelPrefix');
+        if (empty($prefix)) {
+            $prefix = $this->plugin;
+        }
+
         $options += array(
-            'label' => __t(Inflector::humanize(r('.', ' ',$fieldName))),
+            'label' => __t(Inflector::humanize(r('.', ' ', preg_replace("/^{$prefix}_|_id$/", '', $fieldName)))),
             'translate' => false
         );
 

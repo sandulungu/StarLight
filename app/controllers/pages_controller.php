@@ -15,7 +15,13 @@ class PagesController extends AppController {
     }
 
     public function admin_index() {
-        $this->set('pages', $this->Page->find('all'));
+        $options = array();
+        $this->set('pages', $this->Page->find('all', $options));
+    }
+
+    public function admin_add() {
+        $this->admin_edit();
+        $this->render('admin_edit');
     }
 
     public function admin_edit() {
@@ -28,18 +34,13 @@ class PagesController extends AppController {
             }
         } 
         elseif ($this->id) {
-            $this->data = $this->Page->read();
+            $this->data = $this->Page->read(null, $this->id);
         }
     }
 
     public function admin_delete($id) {
         $this->Page->delete($id, true);
         $this->redirect(array('action' => 'index'));
-    }
-
-    public function admin_add() {
-        $this->admin_edit();
-        $this->render('admin_edit');
     }
 
 }

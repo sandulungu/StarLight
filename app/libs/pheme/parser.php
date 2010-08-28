@@ -168,7 +168,7 @@ class PhemeParser extends PhemeBaseParser {
             }
                 
             return $this->_getBlock($blockName)->parse(
-                empty($matches[7]) ? null : $matches[7],
+                !isset($matches[7]) ? null : $matches[7],
                 $matches[3],
                 $params
             );

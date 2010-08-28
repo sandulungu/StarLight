@@ -31,6 +31,16 @@ class AppController extends Controller {
         parent::__construct();
     }
 
+    protected function _getPassedDefaults() {
+        $data = array();
+        foreach ($this->params['named'] as $param => $value) {
+            if ($this->{$this->modelClass}->schema($param)) {
+                $data[$this->modelClass][$param] = $value;
+            }
+        }
+        return $data;
+    }
+
     public function beforeFilter() {
         SlConfigure::setCollections();
         
@@ -39,6 +49,10 @@ class AppController extends Controller {
         } 
         elseif(isset($this->params['pass'][0])) {
             $this->id = $this->params['pass'][0];
+        }
+
+        if (!empty($this->params['named']['ref'])) {
+            SlSession::write('Routing.ref', base64_decode($this->params['named']['ref']));
         }
 
         // Make AJAX errors and warnings readable
@@ -96,7 +110,7 @@ class AppController extends Controller {
         $this->theme = SlConfigure::read2('View.theme');
 
         if (empty($this->viewVars['title'])) {
-            $model = Inflector::humanize(preg_replace("/^$this->plugin/", '', Inflector::underscore($this->modelClass)));
+            $model = $this->_humanizedModelClass();
 
             switch ($this->action) {
                 case 'index':
@@ -137,6 +151,14 @@ class AppController extends Controller {
         }
     }
 
+    function _humanizedModelClass() {
+        $prefix = SlConfigure::read2('View.options.modelPrefix');
+        if (empty($prefix)) {
+            $prefix = $this->plugin;
+        }
+        return Inflector::humanize(preg_replace("/^{$prefix}_/", '', Inflector::underscore($this->modelClass)));
+    }
+
     /**
      * Redirects to given $url, after turning off $this->autoRender.
      * Script execution is halted after the redirect.
@@ -146,7 +168,14 @@ class AppController extends Controller {
      * @access public
      * @link http://book.cakephp.org/view/425/redirect
      */
-    public function redirect($url, $status = null) {
+    public function redirect($url, $status = null, $useReferer = true) {
+
+        if ($useReferer) {
+            $ref = SlSession::read('Routing.ref');
+            if ($ref) {
+                $url = $ref;
+            }
+        }
 
         // cyclic check
         if (Sl::url($url) === Sl::url()) {
@@ -178,8 +207,57 @@ class AppController extends Controller {
         parent::redirect(Sl::url($url, true), $status);
     }
 
-  	function cakeError($method = 'error500', $messages = array()) {
+  	public function cakeError($method = 'error500', $messages = array()) {
         return parent::cakeError($method, $messages);
+    }
+
+
+
+    //////////////////////////////// CRUD //////////////////////////////////////
+
+
+    
+    protected function _admin_index() {
+        $options = array(
+            'conditions' => $this->postConditions($this->_getPassedDefaults()),
+        );
+
+        $this->set(Inflector::pluralize(Inflector::variable($this->modelClass)), $this->{$this->modelClass}->find('all', $options));
+    }
+
+    protected function _admin_view() {
+        $this->set(Inflector::variable($this->modelClass), $data = $this->{$this->modelClass}->read(null, $this->id));
+
+        $model = $this->_humanizedModelClass();
+        $this->set('title', __t($model) . ' "' . $data[$this->modelClass][$this->{$this->modelClass}->displayField] . '"');
+    }
+
+    protected function _admin_edit() {
+        $this->helpers[] = 'JsValidate.Validation';
+        $this->{$this->modelClass};
+
+        if ($this->data) {
+            if ($this->{$this->modelClass}->saveAll($this->data)) {
+                $this->redirect(array('action' => 'index'));
+            }
+        }
+        elseif ($this->id) {
+            $this->data = $this->{$this->modelClass}->read(null, $this->id);
+        }
+
+        if (empty($this->data)) {
+            $this->data = $this->_getPassedDefaults();
+        }
+    }
+
+    protected function _admin_delete() {
+        $this->{$this->modelClass}->delete($this->id, true);
+        $this->redirect(array('action' => 'index'));
+    }
+
+    protected function _admin_add() {
+        $this->admin_edit();
+        $this->render('admin_edit');
     }
 
 
