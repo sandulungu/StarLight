@@ -13,7 +13,7 @@ class AppController extends Controller {
 
     public $components = array('RequestHandler', 'Session', 'Cookie');
 
-    public $helpers = array('Html', 'Javascript', 'SlHtml', 'SlForm', 'Theme');
+    public $helpers = array('Html', 'Javascript', 'SlHtml', 'SlForm');
 
     public $view = 'Sl';
 
@@ -173,7 +173,10 @@ class AppController extends Controller {
         if ($useReferer) {
             $ref = SlSession::read('Routing.ref');
             if ($ref) {
-                $url = $ref;
+                SlSession::delete('Routing.ref');
+                if (Sl::url($ref) !== Sl::url()) {
+                    $url = $ref;
+                }
             }
         }
 
@@ -217,8 +220,17 @@ class AppController extends Controller {
 
 
     
-    protected function _admin_index() {
-        $options = array(
+    protected function _view() {
+        $this->set(Inflector::variable($this->modelClass), $data = $this->{$this->modelClass}->read(null, $this->id));
+        if (empty($data)) {
+            $this->cakeError();
+        }
+
+        $this->set('title', $data[$this->modelClass][$this->{$this->modelClass}->displayField]);
+    }
+
+    protected function _admin_index($options = array()) {
+        $options += array(
             'conditions' => $this->postConditions($this->_getPassedDefaults()),
         );
 
@@ -227,22 +239,39 @@ class AppController extends Controller {
 
     protected function _admin_view() {
         $this->set(Inflector::variable($this->modelClass), $data = $this->{$this->modelClass}->read(null, $this->id));
+        if (empty($data)) {
+            $this->cakeError();
+        }
 
         $model = $this->_humanizedModelClass();
         $this->set('title', __t($model) . ' "' . $data[$this->modelClass][$this->{$this->modelClass}->displayField] . '"');
     }
 
-    protected function _admin_edit() {
+    protected function _admin_add($options = array()) {
+        $this->admin_edit();
+        $this->render('admin_edit');
+    }
+
+    protected function _admin_edit($options = array()) {
         $this->helpers[] = 'JsValidate.Validation';
         $this->{$this->modelClass};
 
         if ($this->data) {
             if ($this->{$this->modelClass}->saveAll($this->data)) {
+                if (isset($options['redirect'])) {
+                    if (is_array($options['redirect']) && isset($options['redirect']['action']) && $options['redirect']['action'] == 'view') {
+                        $options['redirect'][] = $this->{$this->modelClass}->id;
+                    }
+                    $this->redirect($options['redirect']);
+                }
                 $this->redirect(array('action' => 'index'));
             }
         }
         elseif ($this->id) {
             $this->data = $this->{$this->modelClass}->read(null, $this->id);
+            if (empty($this->data)) {
+                $this->cakeError();
+            }
         }
 
         if (empty($this->data)) {
@@ -253,11 +282,6 @@ class AppController extends Controller {
     protected function _admin_delete() {
         $this->{$this->modelClass}->delete($this->id, true);
         $this->redirect(array('action' => 'index'));
-    }
-
-    protected function _admin_add() {
-        $this->admin_edit();
-        $this->render('admin_edit');
     }
 
 

@@ -8,9 +8,9 @@
         echo $this->SlForm->hidden('id');
     }
 
-    echo $this->SlForm->input('user_id', array('label' => __t('Select user'), 'empty' => true, 'after' =>
+    echo $this->SlForm->input('auth_user_id', array('label' => __t('Select user'), 'empty' => true, 'after' =>
         ' '. __t('or group') .' '.
-        $this->SlForm->input('group_id', array('label' => false, 'div' => false, 'empty' => true))
+        $this->SlForm->input('auth_group_id', array('label' => false, 'div' => false, 'empty' => true))
     ));
     echo $this->SlForm->input('who');
     echo $this->SlForm->input('allow');

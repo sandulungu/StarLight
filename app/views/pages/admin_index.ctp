@@ -18,22 +18,21 @@ end
     );
 
     $rows = array();
-    foreach ($pages as $page) {
-        $linkView = $this->SlHtml->url(array('action' => 'view', $page['Page']['id'], 'admin' => false));
-        
-        $actionEdit = $this->SlHtml->actionLink('edit', $page['Page']['id']);
-        $actionDelete = $this->SlHtml->actionLink('delete', $page['Page']['id']);
+    foreach ($pages as $i) {
+        $actionClone = $this->SlHtml->actionLink('clone', $i['Page']['id']);
+        $actionEdit = $this->SlHtml->actionLink('edit', $i['Page']['id']);
+        $actionDelete = $this->SlHtml->actionLink('delete', $i['Page']['id']);
 
         $row = Pheme::parseTranslate(
 <<<end
     {!preserveWhitespace}
     <tr><td>
-        <h3><a href="$linkView">{e}{$page["Page"]["title"]}{/e}</a></h3>
-        {e}{$page["Page"]["content"]}{/e}
+        <h3><a href="{url}/admin/pages/view/{$i['Page']['id']}{/url}">{e}{$i["Page"]["title"]}{/e}</a></h3>
+        {e}{$i["Page"]["content"]}{/e}
     </td><td>
-        {$page["Page"]["markdown_content"]}
+        {$i["Page"]["markdown_content"]}
     </td><td class="actions">
-        $actionEdit $actionDelete
+        $actionClone $actionEdit $actionDelete
     </td></tr>
 end
         );

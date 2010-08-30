@@ -75,7 +75,7 @@
         } else {
             return;
         }
-        
+             
 		$fields = $this->settings[$model->alias];
 		if (empty($fields)) {
 			return true;
@@ -173,9 +173,6 @@
     	$this->_checkSchema($model);
 
 		$fields = $this->settings[$model->alias];
-		if (empty($fields)) {
-			return true;
-        }
 		$currLocale = SlConfigure::read('I18n.locale');
 
         if (!empty($query['localized'])) {
@@ -268,7 +265,7 @@
             }
             $query['conditions'] = $this->__parseConditions($query['conditions'], $fields2);
         }
-
+       
 		return $query;
 	}
 
@@ -316,7 +313,7 @@
      */
     private function __afterFind($localizableFields, &$data, $locale) {
         $result = false;
-        
+
         // hasMany or HABTM data
         if (isset($data[0]) && is_array($data[0])) {
             foreach ($data as &$item) {

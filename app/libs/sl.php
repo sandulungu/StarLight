@@ -143,7 +143,7 @@ class Sl {
 			return self::push();
         }
         if ($main) {
-            for($i = $count - 1; $i--; $i >= 0) {
+            for($i = $count - 1; $i >= 0; $i--) {
                 if (self::$_instances[$i]->main) {
                     return self::$_instances[$i];
                 }
@@ -232,7 +232,7 @@ class Sl {
      * @return string
      * @static
      */
-    static public function url($url = null, $full = false) {
+    public function url($url = null, $full = false) {
         $hash = serialize($url).$full;
         if (isset(self::$_linkCache[$hash])) {
             return self::$_linkCache[$hash];
@@ -258,7 +258,7 @@ class Sl {
         else {
             $noBase = $url === false;
             $full = (bool)$url;
-            $url = self::getInstance()->url;
+            $url = isset($this) && $this instanceof Sl ? $this->url : self::getInstance()->url;
             if ($noBase) {
                 return $url;
             }

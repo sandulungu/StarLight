@@ -138,7 +138,7 @@ class SlHtmlHelper extends AppHelper {
             default:
                 $url2 = array('action' => $action);
         }
-        $url2['ref'] = base64_encode(Sl::url(false));
+        $url2['ref'] = base64_encode(Sl::getInstance(true)->url(false));
 
         if ($url !== null) {
             if (is_array($url)) {

@@ -7,40 +7,23 @@
 class PagesController extends AppController {
 
     public function view($id = null) {
-        $this->set('page', $page = $this->Page->read());
-        if (empty($page)) {
-            $this->cakeError();
-        }
-        $this->set('title', h($page['Page']['title']));
+        $this->_view();
     }
 
     public function admin_index() {
-        $options = array();
-        $this->set('pages', $this->Page->find('all', $options));
+        $this->_admin_index();
     }
 
     public function admin_add() {
-        $this->admin_edit();
-        $this->render('admin_edit');
+        $this->_admin_view();
     }
 
     public function admin_edit() {
-        $this->helpers[] = 'JsValidate.Validation';
-        $this->Page;
-
-        if ($this->data) {
-            if ($this->Page->saveAll($this->data)) {
-                $this->redirect(array('action' => 'index'));
-            }
-        } 
-        elseif ($this->id) {
-            $this->data = $this->Page->read(null, $this->id);
-        }
+        $this->_admin_edit();
     }
 
-    public function admin_delete($id) {
-        $this->Page->delete($id, true);
-        $this->redirect(array('action' => 'index'));
+    public function admin_delete() {
+        $this->_admin_delete();
     }
 
 }

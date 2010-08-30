@@ -67,7 +67,7 @@ class AuthUsersController extends AppController {
     }
 
     public function admin_index() {
-        $this->set('users', $this->AuthUser->find('all'));
+        $this->_admin_index();
     }
 
     public function admin_login() {
@@ -79,10 +79,12 @@ class AuthUsersController extends AppController {
         $this->logout();
     }
 
+    public function admin_add() {
+        $this->_admin_add();
+    }
+
     public function admin_edit() {
         $this->helpers[] = 'JsValidate.Validation';
-
-        $this->set('authGroups', $this->AuthUser->AuthGroup->find('list'));
 
         if ($this->data) {
             if ($this->_passwordMatch()) {
@@ -99,18 +101,18 @@ class AuthUsersController extends AppController {
             }
         } elseif($this->id) {
             $this->data = $this->AuthUser->read(null, $this->id);
+            if (empty($this->data)) {
+                $this->cakeError();
+            }
             unset($this->data['AuthUser']['password']);
         }
+        $this->_admin_edit();
+
+        $this->set('authGroups', $this->AuthUser->AuthGroup->find('list'));
     }
 
-    public function admin_add() {
-        $this->admin_edit();
-        $this->render('admin_edit');
-    }
-
-    public function admin_delete($id) {
-        $this->AuthUser->delete($id, true);
-        $this->redirect(array('action' => 'index'));
+    public function admin_delete() {
+        $this->_admin_delete();
     }
 
     protected function _passwordMatch() {
