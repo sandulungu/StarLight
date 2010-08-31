@@ -15,7 +15,7 @@ class PagesController extends AppController {
     }
 
     public function admin_add() {
-        $this->_admin_view();
+        $this->_admin_add();
     }
 
     public function admin_edit() {

@@ -248,7 +248,7 @@ class AppController extends Controller {
     }
 
     protected function _admin_add($options = array()) {
-        $this->admin_edit();
+        $this->_admin_edit($options);
         $this->render('admin_edit');
     }
 
