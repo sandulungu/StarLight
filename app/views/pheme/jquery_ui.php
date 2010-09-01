@@ -34,4 +34,4 @@ class JqueryUiSliderParser extends PhemeParser{
      }
 }
 
-Pheme::register('JqueryUiSlider', new JqueryUiSliderParser, null, true);
+Pheme::registerOutputBuffer('JqueryUiSlider', new JqueryUiSliderParser, null, true);
