@@ -17,12 +17,12 @@ end
     );
 
     $rows = array();
-    foreach ($tagCategories as $tagCategory) {
-        $edit = $this->SlHtml->actionLink('edit', array('controller' => 'cms_tag_categories', $tagCategory['CmsTagCategory']['id']));
-        $delete = $this->SlHtml->actionLink('delete', array('controller' => 'cms_tag_categories', $tagCategory['CmsTagCategory']['id']));
+    foreach ($cmsTagCategories as $i) {
+        $edit = $this->SlHtml->actionLink('edit', array('controller' => 'cms_tag_categories', $i['CmsTagCategory']['id']));
+        $delete = $this->SlHtml->actionLink('delete', array('controller' => 'cms_tag_categories', $i['CmsTagCategory']['id']));
 
         $tags = array();
-        foreach ($tagCategory['CmsTag'] as $tag) {
+        foreach ($i['CmsTag'] as $tag) {
             $tags[] = sprintf('%s [ %s | %s ]',
                 $this->SlHtml->link(h($tag['name']), array('controller' => 'cms_nodes', 'tag' => $tag['id'])),
                 $this->SlHtml->actionLink('edit', $tag['id']),
@@ -34,8 +34,8 @@ end
         $row = Pheme::parseTranslate(
 <<<end
     <tr><td>
-        <a name="CmsTag{$tagCategory["CmsTagCategory"]["id"]}"></a>
-        <h3>{e}{$tagCategory["CmsTagCategory"]["name"]}{/e}</h3>
+        <a name="CmsTag{$i["CmsTagCategory"]["id"]}"></a>
+        <h3>{e}{$i["CmsTagCategory"]["name"]}{/e}</h3>
         $tags
     </td><td class="actions">
         $edit $delete

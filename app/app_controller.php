@@ -247,8 +247,8 @@ class AppController extends Controller {
         $this->set('title', __t($model) . ' "' . $data[$this->modelClass][$this->{$this->modelClass}->displayField] . '"');
     }
 
-    protected function _admin_add($options = array()) {
-        $this->_admin_edit($options);
+    protected function _admin_add() {
+        $this->admin_edit();
         $this->render('admin_edit');
     }
 

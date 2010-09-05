@@ -3,7 +3,7 @@
         //$this = new SlView(); // for IDE
     }
 
-    foreach ($this->viewVars['nodes'] as &$node) {
+    foreach ($this->viewVars['cmsNodes'] as &$node) {
         $node['info'] = Pheme::parseSimple('
             <p>
                 {t}Recipient email{/t}: <a href="mailto:{$CmsContactForm.email}">{$CmsContactForm.email}</a>

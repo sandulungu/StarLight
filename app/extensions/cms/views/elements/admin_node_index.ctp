@@ -12,7 +12,7 @@
                 array('controller' => Inflector::tableize($model), 'plugin' => $data['plugin']) :
                 array();
             $newActions[] = $this->SlHtml->actionLink('add',
-                array('parent' => isset($parentId) ? $parentId : null) + $url,
+                array('parent_id' => isset($this->params['named']['parent_id']) ? $this->params['named']['parent_id'] : null) + $url,
                 array('title' => __t($data['name']))
             );
         }
@@ -37,33 +37,33 @@ end
     );
 
     $rows = array();
-    foreach ($nodes as $node) {
-        $url = $node['CmsNode']['model'] ? array(
-            'plugin' => $node['CmsNode']['plugin'],
-            'controller' => Inflector::tableize($node['CmsNode']['model']),
+    foreach ($cmsNodes as $i) {
+        $url = $i['CmsNode']['model'] ? array(
+            'plugin' => $i['CmsNode']['plugin'],
+            'controller' => Inflector::tableize($i['CmsNode']['model']),
         ) : array();
-        $view = $this->SlHtml->url($url + array('action' => 'view', $node['CmsNode']['id']));
+        $view = $this->SlHtml->url($url + array('action' => 'view', $i['CmsNode']['id']));
 
-        $clone = $this->SlHtml->actionLink('clone', $node['CmsNode']['id'], compact('url'));
-        $edit = $this->SlHtml->actionLink('edit', $node['CmsNode']['id'], compact('url'));
-        $delete = $this->SlHtml->actionLink('delete', array('controller' => 'cms_nodes', 'plugin' => 'cms', $node['CmsNode']['id']));
+        $clone = $this->SlHtml->actionLink('clone', $i['CmsNode']['id'], compact('url'));
+        $edit = $this->SlHtml->actionLink('edit', $i['CmsNode']['id'], compact('url'));
+        $delete = $this->SlHtml->actionLink('delete', array('controller' => 'cms_nodes', 'plugin' => 'cms', $i['CmsNode']['id']));
 
-        $type = $allNodeTypes && $node["CmsNode"]["model"] ?
-            SlConfigure::read("Cms.nodeTypes.{$node["CmsNode"]["model"]}.name") :
+        $type = $allNodeTypes && $i["CmsNode"]["model"] ?
+            SlConfigure::read("Cms.nodeTypes.{$i["CmsNode"]["model"]}.name") :
             '';
 
-        if ($node['CmsNode']['params']) {
-            $params = json_decode($node['CmsNode']['params'], true);
-            $params = Sl::krumo(is_array($params) ? $params : $node['CmsNode']['params'], array('debug' => false));
+        if ($i['CmsNode']['params']) {
+            $params = json_decode($i['CmsNode']['params'], true);
+            $params = Sl::krumo(is_array($params) ? $params : $i['CmsNode']['params'], array('debug' => false));
         } else {
             $params = '';
         }
 
-        $draft = $node['CmsNode']['visible'] ? '' : $this->SlHtml->em(__t('draft'));
+        $draft = $i['CmsNode']['visible'] ? '' : $this->SlHtml->em(__t('draft'));
 
         $tags = array();
-        if (!empty($node['CmsTag'])) {
-            foreach ($node['CmsTag'] as $tag) {
+        if (!empty($i['CmsTag'])) {
+            foreach ($i['CmsTag'] as $tag) {
                 $tags[] = $this->SlHtml->link($tag['name'], array('plugin' => 'cms', 'controller' => 'cms_nodes', 'tag' => $tag['id']));
             }
         }
@@ -95,7 +95,7 @@ end
 </td><td class="actions">
     {$clone} {$edit} {$delete}
 </td></tr>
-        ', $node + compact('tags', 'type', 'clone', 'view', 'edit', 'delete', 'draft'));
+        ', $i + compact('tags', 'type', 'clone', 'view', 'edit', 'delete', 'draft'));
 
         $rows[] = $row;
     }

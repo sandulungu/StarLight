@@ -7,35 +7,22 @@
 class CmsNavigationLinksController extends AppController {
 
     public function admin_index() {
-        $options = array();
-
-        if (!empty($this->params['named']['node'])) {
-            $this->set('nodeId', $nodeId = $this->params['named']['node']);
-            $options['conditions']['CmsNavigationLink.cms_node_id'] = $nodeId;
-        }
-
-        $this->set('navigationLinks', $this->CmsNavigationLink->find('all', $options));
-        $this->set('title', __t('Navigation'));
+        $this->_admin_index();
     }
 
     public function admin_edit() {
-        $this->helpers[] = 'JsValidate.Validation';
+        $this->_admin_edit();
+        $this->set('parents', $this->CmsNavigationLink->find('treelist', array('conditions' => array('CmsNavigationLink.id !=' => $this->id))));
+    }
 
-        if ($this->data) {
-            if ($this->CmsNavigationLink->saveAll($this->data)) {
-                $nodeId = $this->CmsNavigationLink->field('cms_node_id');
-                $this->redirect(
-                    $nodeId ?
-                    SlNode::url($nodeId, array('admin' => true, 'route' => false)) :
-                    array('action' => 'index')
-                );
-            }
-        }
-        elseif ($this->id) {
-            $this->data = $this->CmsNavigationLink->read();
-        }
+    public function admin_delete() {
+        $this->_admin_delete();
+    }
 
-        if (!empty($this->params['named']['node'])) {
+    public function admin_add() {
+        $this->admin_edit();
+
+        if (empty($this->data) && !empty($this->params['named']['cms_node_id'])) {
             $nodeId = $this->params['named']['node'];
             $node = $this->CmsNavigationLink->CmsNode->read(null, $nodeId);
             if ($node) {
@@ -53,19 +40,6 @@ class CmsNavigationLinksController extends AppController {
             }
         }
 
-        if (!empty($this->params['named']['parent'])) {
-            $this->data['CmsNavigationLink']['parent_id'] = $this->params['named']['parent'];
-        }
-        $this->set('parents', $this->CmsNavigationLink->find('treelist', array('conditions' => array('CmsNavigationLink.id !=' => $this->id))));
-    }
-
-    public function admin_delete($id) {
-        $this->CmsNavigationLink->delete($id, true);
-        $this->redirect(array('action' => 'index'));
-    }
-
-    public function admin_add() {
-        $this->admin_edit();
         $this->render('admin_edit');
     }
 }

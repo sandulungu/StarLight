@@ -4,7 +4,7 @@
     }
 
     $actions = $this->SlHtml->div('.actions', $this->Html->nestedList(array(
-        $this->SlHtml->actionLink('add', !empty($nodeId) ? array('node' => $nodeId) : null),
+        $this->SlHtml->actionLink('add'),
     )));
 
     echo Pheme::parseTranslate(
@@ -16,28 +16,28 @@ end
     );
 
     $rows = array();
-    foreach ($blocks as $block) {
-        $edit = $this->SlHtml->actionLink('edit', $block['CmsBlock']['id']);
-        $delete = $this->SlHtml->actionLink('delete', $block['CmsBlock']['id']);
+    foreach ($cmsBlocks as $i) {
+        $edit = $this->SlHtml->actionLink('edit', $i['CmsBlock']['id']);
+        $delete = $this->SlHtml->actionLink('delete', $i['CmsBlock']['id']);
 
-        $disabled = $block['CmsBlock']['visible'] ? '' : $this->SlHtml->em(__t('hidden'));
+        $disabled = $i['CmsBlock']['visible'] ? '' : $this->SlHtml->em(__t('hidden'));
 
-        if (empty($block["CmsBlock"]["name"])) {
-            $block["CmsBlock"]["name"] = '?';
+        if (empty($i["CmsBlock"]["name"])) {
+            $i["CmsBlock"]["name"] = '?';
         }
 
-        $content = $block["CmsBlock"]["url"] ?
-            __t('Url') . ': ' . $this->SlHtml->link($block["CmsBlock"]["url"], $block["CmsBlock"]["url"]) :
-            $block["CmsBlock"]["body"];
+        $content = $i["CmsBlock"]["url"] ?
+            __t('Url') . ': ' . $this->SlHtml->link($i["CmsBlock"]["url"], $i["CmsBlock"]["url"]) :
+            $i["CmsBlock"]["body"];
 
         $row = Pheme::parseTranslate(
 <<<end
     <tr><td>
-        <a name="CmsBlock{$block["CmsBlock"]["id"]}"></a>
+        <a name="CmsBlock{$i["CmsBlock"]["id"]}"></a>
         <h3>
-            <b>{e}{$block["CmsBlock"]["title"]}{/e}</b>
-            (id: <b>{$block["CmsBlock"]["placement"]}.{$block["CmsBlock"]["name"]}</b>,
-            {t}collection{/t}: <b>{$block["CmsBlock"]["collection"]}</b>) $disabled
+            <b>{e}{$i["CmsBlock"]["title"]}{/e}</b>
+            (id: <b>{$i["CmsBlock"]["placement"]}.{$i["CmsBlock"]["name"]}</b>,
+            {t}collection{/t}: <b>{$i["CmsBlock"]["collection"]}</b>) $disabled
         </h3>
         {$content}
     </td><td class="actions">

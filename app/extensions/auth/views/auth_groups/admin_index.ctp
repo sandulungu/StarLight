@@ -16,12 +16,12 @@ end
     );
 
     $rows = array();
-    foreach ($groups as $group) {
-        $edit = $this->SlHtml->actionLink('edit', $group['AuthGroup']['id']);
-        $delete = $group['AuthGroup']['id'] > 2 ? $this->SlHtml->actionLink('delete', $group['AuthGroup']['id']) : '';
+    foreach ($authGroups as $i) {
+        $edit = $this->SlHtml->actionLink('edit', $i['AuthGroup']['id']);
+        $delete = $i['AuthGroup']['id'] > 2 ? $this->SlHtml->actionLink('delete', $i['AuthGroup']['id']) : '';
 
         $users = array();
-        foreach ($group['AuthUser'] as $user) {
+        foreach ($i['AuthUser'] as $user) {
             $users[] = $this->SlHtml->link(h($user['username']), array('controller' => 'auth_users', '#' => "AuthUser{$user['id']}"));
         }
         $users = $users ? implode(', ', $users) : __t('none');
@@ -30,10 +30,10 @@ end
 <<<end
     <tr><td>
         {!preserveWhitespace}
-        <a name="AuthGroup{$group["AuthGroup"]["id"]}"></a>
-        <h3>{e}{$group["AuthGroup"]["name"]}{/e}</h3>
+        <a name="AuthGroup{$i["AuthGroup"]["id"]}"></a>
+        <h3>{e}{$i["AuthGroup"]["name"]}{/e}</h3>
         {t}Members{/t}: $users
-        <blockquote>{e}{$group["AuthGroup"]["description"]}{/e}</blockquote>
+        <blockquote>{e}{$i["AuthGroup"]["description"]}{/e}</blockquote>
     </td><td class="actions">
         $edit $delete
     </td></tr>

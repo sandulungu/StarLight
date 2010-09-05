@@ -37,6 +37,7 @@
 		$this->settings[$model->alias] = $settings;
         
         $this->_addValidationRules($model);
+    	$this->_checkSchema($model);
 	}
 
 	/**
@@ -170,10 +171,13 @@
      * @param AppModel $model
      */
 	public function beforeFind($model, $query) {
-    	$this->_checkSchema($model);
+//    	$this->_checkSchema($model);
 
 		$fields = $this->settings[$model->alias];
 		$currLocale = SlConfigure::read('I18n.locale');
+        if (empty($currLocale)) {
+            return $query;
+        }
 
         if (!empty($query['localized'])) {
             if (!is_array($query['conditions'])) {
@@ -254,6 +258,7 @@
 
         // transcript conditions
         if ($query['conditions']) {
+            $fields2 = array();
             $recursive = isset($query['recursive']) ? $query['recursive'] : $model->recursive;
             foreach ($fields as $field) {
                 foreach (array($field, $model->alias.'.'.$field, $model->escapeField($field)) as $_field) {
@@ -263,7 +268,9 @@
                     //}
                 }
             }
-            $query['conditions'] = $this->__parseConditions($query['conditions'], $fields2);
+            if ($fields2) {
+                $query['conditions'] = $this->__parseConditions($query['conditions'], $fields2);
+            }
         }
        
 		return $query;
@@ -352,6 +359,9 @@
 			return true;
         }
 		$currLocale = SlConfigure::read('I18n.locale');
+        if (empty($currLocale)) {
+            return $results;
+        }
 
         // set field content according to current language
 		foreach ($results as &$row) {
@@ -378,7 +388,7 @@
      * @param AppModel $model
      */
 	public function beforeSave($model) {
-    	$this->_checkSchema($model);
+//    	$this->_checkSchema($model);
         
 		$fields = $this->settings[$model->alias];
 		if (empty($fields)) {
@@ -387,6 +397,9 @@
 
 		$locales = SlConfigure::read('I18n.locales');
 		$currLocale = SlConfigure::read('I18n.locale');
+        if (empty($currLocale)) {
+            return true;
+        }
 		
 		foreach ($fields as $field) {
 

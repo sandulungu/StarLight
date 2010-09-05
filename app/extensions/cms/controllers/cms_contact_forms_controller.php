@@ -128,29 +128,14 @@ class CmsContactFormsController extends AppController {
     }
 
     public function admin_edit() {
-        $this->helpers[] = 'JsValidate.Validation';
-        $this->CmsContactForm;
-
-        if ($this->data) {
-            if (SlNode::getModel()->saveAll($this->data)) {
-                $this->redirect(array('action' => 'index'));
-            }
-        }
-        elseif ($this->id) {
-            $this->data = SlNode::getModel()->read(null, $this->id);
-        }
+        $this->_admin_edit();
 
         $this->set('cmsTags', SlNode::getTagList());
-
-        if (!empty($this->params['named']['parent'])) {
-            $this->data['CmsNode']['parent_id'] = $this->params['named']['parent'];
-        }
         $this->set('parents', SlNode::getModel()->find('treelist', array('conditions' => array('CmsNode.id !=' => $this->id))));
     }
 
     public function admin_add() {
-        $this->admin_edit();
-        $this->render('admin_edit');
+        $this->_admin_add();
     }
     
 }

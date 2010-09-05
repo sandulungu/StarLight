@@ -16,27 +16,27 @@ end
     );
 
     $rows = array();
-    foreach ($aclRules as $aclRule) {
-        $edit = $this->SlHtml->actionLink('edit', $aclRule['AuthAclRule']['id']);
-        $delete = $this->SlHtml->actionLink('delete', $aclRule['AuthAclRule']['id']);
+    foreach ($authAclRules as $i) {
+        $edit = $this->SlHtml->actionLink('edit', $i['AuthAclRule']['id']);
+        $delete = $this->SlHtml->actionLink('delete', $i['AuthAclRule']['id']);
 
-        $verb = $aclRule["AuthAclRule"]["allow"] ? __t('Allow') : __t('Deny');
+        $verb = $i["AuthAclRule"]["allow"] ? __t('Allow') : __t('Deny');
         
-        if ($aclRule["AuthAclRule"]["user_id"]) {
-            $who = $this->SlHtml->link(h($aclRule['AuthUser']['username']), array('controller' => 'auth_users', '#' => "AuthUser{$aclRule['AuthUser']['id']}"));
+        if ($i["AuthAclRule"]["user_id"]) {
+            $who = $this->SlHtml->link(h($i['AuthUser']['username']), array('controller' => 'auth_users', '#' => "AuthUser{$i['AuthUser']['id']}"));
         }
-        elseif ($aclRule["AuthAclRule"]["group_id"]) {
-            $who = $this->SlHtml->link(h($aclRule['AuthGroup']['name']), array('controller' => 'auth_groups', '#' => "AuthUser{$aclRule['AuthGroup']['id']}"));
+        elseif ($i["AuthAclRule"]["group_id"]) {
+            $who = $this->SlHtml->link(h($i['AuthGroup']['name']), array('controller' => 'auth_groups', '#' => "AuthUser{$i['AuthGroup']['id']}"));
         }
         else {
-            $who = "<b>{$aclRule['AuthGroup']['who']}</b>";
+            $who = "<b>{$i['AuthGroup']['who']}</b>";
         }
 
         $row = Pheme::parseTranslate(
 <<<end
     <tr><td>
-        <a name="AuthAclRule{$aclRule["AuthAclRule"]["id"]}"></a>
-        <h3>$verb $who to <b>{$aclRule["AuthAclRule"]["what"]}</b> (<b>{$aclRule["AuthAclRule"]["collection"]}</b> context)</h3>
+        <a name="AuthAclRule{$i["AuthAclRule"]["id"]}"></a>
+        <h3>$verb $who to <b>{$i["AuthAclRule"]["what"]}</b> (<b>{$i["AuthAclRule"]["collection"]}</b> context)</h3>
     </td><td class="actions">
         $edit $delete
     </td></tr>

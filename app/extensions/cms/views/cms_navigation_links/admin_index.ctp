@@ -4,7 +4,7 @@
     }
 
     $actions = $this->SlHtml->div('.actions', $this->Html->nestedList(array(
-        $this->SlHtml->actionLink('add', !empty($nodeId) ? array('node' => $nodeId) : null),
+        $this->SlHtml->actionLink('add'),
     )));
 
     echo Pheme::parseTranslate(
@@ -16,15 +16,15 @@ end
     );
 
     $rows = array();
-    foreach ($navigationLinks as $navigationLink) {
-        $clone = $this->SlHtml->actionLink('clone', $navigationLink['CmsNavigationLink']['id']);
-        $edit = $this->SlHtml->actionLink('edit', $navigationLink['CmsNavigationLink']['id']);
-        $delete = $this->SlHtml->actionLink('delete', $navigationLink['CmsNavigationLink']['id']);
+    foreach ($cmsNavigationLinks as $i) {
+        $clone = $this->SlHtml->actionLink('clone', $i['CmsNavigationLink']['id']);
+        $edit = $this->SlHtml->actionLink('edit', $i['CmsNavigationLink']['id']);
+        $delete = $this->SlHtml->actionLink('delete', $i['CmsNavigationLink']['id']);
 
-        $hidden = $navigationLink['CmsNavigationLink']['visible'] ? '' : $this->SlHtml->em(__t('hidden'));
+        $hidden = $i['CmsNavigationLink']['visible'] ? '' : $this->SlHtml->em(__t('hidden'));
 
-        if (empty($navigationLink["CmsNavigationLink"]["name"])) {
-            $navigationLink["CmsNavigationLink"]["name"] = '?';
+        if (empty($i["CmsNavigationLink"]["name"])) {
+            $i["CmsNavigationLink"]["name"] = '?';
         }
 
         $row = Pheme::parseSimple('
@@ -53,7 +53,7 @@ end
 </td><td class="actions">
     {$clone} {$edit} {$delete}
 </td></tr>
-        ', $navigationLink + compact('clone', 'edit', 'delete', 'hidden'));
+        ', $i + compact('clone', 'edit', 'delete', 'hidden'));
 
         $rows[] = $row;
     }

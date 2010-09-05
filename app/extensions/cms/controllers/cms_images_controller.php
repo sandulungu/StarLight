@@ -7,43 +7,15 @@
 class CmsImagesController extends AppController {
 
     public function admin_index() {
-        $options = array();
-
-        if (!empty($this->params['named']['node'])) {
-            $this->set('nodeId', $nodeId = $this->params['named']['node']);
-            $options['conditions']['CmsImage.cms_node_id'] = $nodeId;
-        }
-
-        $this->set('images', $this->CmsImage->find('all', $options));
-        $this->set('title', __t('Images'));
+        $this->_admin_index();
     }
 
     public function admin_edit() {
-        $this->helpers[] = 'JsValidate.Validation';
-        $this->CmsImage;
-
-        if ($this->data) {
-            if ($this->CmsImage->saveAll($this->data)) {
-                $nodeId = $this->CmsImage->field('cms_node_id');
-                $this->redirect(
-                    $nodeId ?
-                    SlNode::url($nodeId, array('admin' => true, 'route' => false)) :
-                    array('action' => 'index')
-                );
-            }
-        }
-        elseif ($this->id) {
-            $this->data = $this->CmsImage->read();
-        }
-
-        if (!empty($this->params['named']['node'])) {
-            $this->data['CmsImage']['cms_node_id'] = $this->params['named']['node'];
-        }
+        $this->_admin_edit();
     }
 
-    public function admin_delete($id) {
-        $this->CmsImage->delete($id, true);
-        $this->redirect(array('action' => 'index'));
+    public function admin_delete() {
+        $this->_admin_delete();
     }
 
     public function admin_set_as_thumb($id) {
@@ -53,7 +25,6 @@ class CmsImagesController extends AppController {
     }
 
     public function admin_add() {
-        $this->admin_edit();
-        $this->render('admin_edit');
+        $this->_admin_add();
     }
 }

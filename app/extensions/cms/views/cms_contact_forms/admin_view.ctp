@@ -27,7 +27,7 @@
             {$CmsNode.markdown_body} {else}
             {t}Body is empty, so the contact form itself will be shown to the user.{/t}
         {/if}
-    ', $node);
+    ', $cmsNode);
 
     echo $this->element('admin_node_view', array(
         'plugin' => 'cms',

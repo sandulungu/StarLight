@@ -35,36 +35,21 @@ class CmsTagsController extends AppController {
     }
 
     public function admin_index() {
-        $this->set('tagCategories', $this->CmsTag->CmsTagCategory->find('all'));
+        $this->_admin_index();
     }
 
     public function admin_edit() {
-        $this->helpers[] = 'JsValidate.Validation';
+        $this->_admin_edit();
 
-        if ($this->data) {
-            if ($this->CmsTag->saveAll($this->data)) {
-                $this->redirect(array('action' => 'index'));
-            }
-        }
-        elseif ($this->id) {
-            $this->data = $this->CmsTag->read();
-        }
-
-        if (!empty($this->params['named']['tag_category'])) {
-            $this->data['CmsTag']['cms_tag_category_id'] = $this->params['named']['tag_category'];
-        }
         $this->set('cmsTagCategories', $this->CmsTag->CmsTagCategory->find('list'));
-
         $this->set('cmsNodes', $this->CmsTag->CmsNode->find('treelist'));
     }
 
-    public function admin_delete($id) {
-        $this->CmsTag->delete($id, true);
-        $this->redirect(array('action' => 'index'));
+    public function admin_delete() {
+        $this->_admin_delete();
     }
 
     public function admin_add() {
-        $this->admin_edit();
-        $this->render('admin_edit');
+        $this->_admin_add();
     }
 }

@@ -3,9 +3,9 @@
         //$this = new SlView(); // for IDE
     }
 
-    if (!empty($nodeId)) {
+    if (!empty($this->params['named']['cms_node_id'])) {
         $actions = $this->SlHtml->div('.actions', $this->Html->nestedList(array(
-            $this->SlHtml->actionLink('add', array('node' => $nodeId)),
+            $this->SlHtml->actionLink('add'),
         )));
     } else {
         $actions = '';
@@ -20,14 +20,14 @@ end
     );
 
     $rows = array();
-    foreach ($attachments as $attachment) {
-        $edit = $this->SlHtml->actionLink('edit', $attachment['CmsAttachment']['id']);
-        $delete = $this->SlHtml->actionLink('delete', $attachment['CmsAttachment']['id']);
+    foreach ($cmsAttachments as $i) {
+        $edit = $this->SlHtml->actionLink('edit', $i['CmsAttachment']['id']);
+        $delete = $this->SlHtml->actionLink('delete', $i['CmsAttachment']['id']);
 
-        $hidden = $attachment['CmsAttachment']['visible'] ? '' : $this->SlHtml->em(__t('hidden'));
+        $hidden = $i['CmsAttachment']['visible'] ? '' : $this->SlHtml->em(__t('hidden'));
 
-        if (empty($attachment["CmsAttachment"]["name"])) {
-            $attachment["CmsAttachment"]["name"] = '?';
+        if (empty($i["CmsAttachment"]["name"])) {
+            $i["CmsAttachment"]["name"] = '?';
         }
 
         $row = Pheme::parseSimple('
@@ -45,7 +45,7 @@ end
 </td><td class="actions">
     {$setActive} {$edit} {$delete}
 </td></tr>
-        ', $attachment + compact('edit', 'delete', 'hidden'));
+        ', $i + compact('edit', 'delete', 'hidden'));
 
         $rows[] = $row;
     }

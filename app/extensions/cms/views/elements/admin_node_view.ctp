@@ -12,11 +12,11 @@
     }
     echo $this->Html->nestedList(array(
         'generalInfo' => $this->SlHtml->link(__t('General info'), '#tab-general-info'),
-        'images' => $this->SlHtml->link(__t('Images'), array('controller' => 'cms_images', 'plugin' => 'cms', 'node' => $node['CmsNode']['id'])),
-        'attachments' => $this->SlHtml->link(__t('Attachments'), array('controller' => 'cms_attachments', 'plugin' => 'cms', 'node' => $node['CmsNode']['id'])),
-        'childNodes' => $this->SlHtml->link(__t('Child nodes'), array('action' => 'index', 'controller' => 'cms_nodes', 'plugin' => 'cms', 'parent' => $node['CmsNode']['id'])),
-        'blocks' => $this->SlHtml->link(__t('Blocks showing this node'), array('controller' => 'cms_blocks', 'plugin' => 'cms', 'node' => $node['CmsNode']['id'])),
-        'backLinks' => $this->SlHtml->link(__t('Back links'), array('controller' => 'cms_navigation_links', 'plugin' => 'cms', 'node' => $node['CmsNode']['id'])),
+        'images' => $this->SlHtml->link(__t('Images'), array('controller' => 'cms_images', 'plugin' => 'cms', 'cms_node_id' => $cmsNode['CmsNode']['id'])),
+        'attachments' => $this->SlHtml->link(__t('Attachments'), array('controller' => 'cms_attachments', 'plugin' => 'cms', 'cms_node_id' => $cmsNode['CmsNode']['id'])),
+        'childNodes' => $this->SlHtml->link(__t('Child nodes'), array('action' => 'index', 'controller' => 'cms_nodes', 'plugin' => 'cms', 'parent_id' => $cmsNode['CmsNode']['id'])),
+        'blocks' => $this->SlHtml->link(__t('Blocks showing this node'), array('controller' => 'cms_blocks', 'plugin' => 'cms', 'cms_node_id' => $cmsNode['CmsNode']['id'])),
+        'backLinks' => $this->SlHtml->link(__t('Back links'), array('controller' => 'cms_navigation_links', 'plugin' => 'cms', 'cms_node_id' => $cmsNode['CmsNode']['id'])),
     ) + $tabs);
 
 ?>
@@ -24,21 +24,21 @@
     <?php
 
         echo $actions = $this->SlHtml->div('.actions', $this->Html->nestedList(array(
-            $this->SlHtml->actionLink('preview', $node['CmsNode']['id']),
+            $this->SlHtml->actionLink('preview', $cmsNode['CmsNode']['id']),
             $this->SlHtml->actionLink('index', null, array('title' => __t('View all'))),
-            $this->SlHtml->actionLink('clone', $node['CmsNode']['id']),
-            $this->SlHtml->actionLink('edit', $node['CmsNode']['id']),
-            $this->SlHtml->actionLink('delete', array('controller' => 'cms_nodes', 'plugin' => 'cms', $node['CmsNode']['id'])),
+            $this->SlHtml->actionLink('clone', $cmsNode['CmsNode']['id']),
+            $this->SlHtml->actionLink('edit', $cmsNode['CmsNode']['id']),
+            $this->SlHtml->actionLink('delete', array('controller' => 'cms_nodes', 'plugin' => 'cms', $cmsNode['CmsNode']['id'])),
         )));
         echo $this->SlHtml->div('.sl-clear');
 
-        $this->viewVars['title'] .= $node['CmsNode']['visible'] ? '' : ' ' . $this->SlHtml->em(__t('draft'));
+        $this->viewVars['title'] .= $cmsNode['CmsNode']['visible'] ? '' : ' ' . $this->SlHtml->em(__t('draft'));
 
-        $parentLink = $node['ParentNode']['id'] ? SlNode::url($node['ParentNode'], array('admin' => true)) : '';
+        $parentLink = $cmsNode['ParentNode']['id'] ? SlNode::url($cmsNode['ParentNode'], array('admin' => true)) : '';
 
         $tags = array();
-        if (!empty($node['CmsTag'])) {
-            foreach ($node['CmsTag'] as $tag) {
+        if (!empty($cmsNode['CmsTag'])) {
+            foreach ($cmsNode['CmsTag'] as $tag) {
                 $tags[] = $this->SlHtml->link($tag['name'], array('plugin' => 'cms', 'controller' => 'cms_nodes', 'tag' => $tag['id']));
             }
         }
@@ -83,7 +83,7 @@
     {/if:generalInfo}
     <hr />
 </div>
-        ', $node + compact('tags', 'generalInfo', 'draft', 'parentLink'));
+        ', $cmsNode + compact('tags', 'generalInfo', 'draft', 'parentLink'));
 
         echo $this->SlHtml->div('.sl-clear');
         echo $actions;

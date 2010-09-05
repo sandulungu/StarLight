@@ -3,9 +3,9 @@
         //$this = new SlView(); // for IDE
     }
 
-    if (!empty($nodeId)) {
+    if (!empty($this->params['named']['cms_node_id'])) {
         $actions = $this->SlHtml->div('.actions', $this->Html->nestedList(array(
-            $this->SlHtml->actionLink('add', array('node' => $nodeId)),
+            $this->SlHtml->actionLink('add'),
         )));
     } else {
         $actions = '';
@@ -20,17 +20,17 @@ end
     );
 
     $rows = array();
-    foreach ($images as $image) {
-        $setActive = $image['CmsNode']['cms_image_id'] == $image['CmsImage']['id'] ?
+    foreach ($cmsImages as $i) {
+        $setActive = $i['CmsNode']['cms_image_id'] == $i['CmsImage']['id'] ?
             '' :
-            $this->SlHtml->actionLink('set_as_thumb', $image['CmsImage']['id'], array('title' => __t('Set as node thumb')));
-        $edit = $this->SlHtml->actionLink('edit', $image['CmsImage']['id']);
-        $delete = $this->SlHtml->actionLink('delete', $image['CmsImage']['id']);
+            $this->SlHtml->actionLink('set_as_thumb', $i['CmsImage']['id'], array('title' => __t('Set as node thumb')));
+        $edit = $this->SlHtml->actionLink('edit', $i['CmsImage']['id']);
+        $delete = $this->SlHtml->actionLink('delete', $i['CmsImage']['id']);
 
-        $hidden = $image['CmsImage']['visible'] ? '' : $this->SlHtml->em(__t('hidden'));
+        $hidden = $i['CmsImage']['visible'] ? '' : $this->SlHtml->em(__t('hidden'));
 
-        if (empty($image["CmsImage"]["name"])) {
-            $image["CmsImage"]["name"] = '?';
+        if (empty($i["CmsImage"]["name"])) {
+            $i["CmsImage"]["name"] = '?';
         }
 
         $row = Pheme::parseSimple('
@@ -56,7 +56,7 @@ end
 </td><td class="actions">
     {$setActive} {$edit} {$delete}
 </td></tr>
-        ', $image + compact('setActive', 'edit', 'delete', 'hidden'));
+        ', $i + compact('setActive', 'edit', 'delete', 'hidden'));
 
         $rows[] = $row;
     }

@@ -15,11 +15,7 @@ class CmsNodesController extends AppController {
     }
 
     public function admin_view($id) {
-        $this->set('node', $node = $this->CmsNode->read(null, $id));
-        if (!$node) {
-            $this->cakeError();
-        }
-        $this->set('title', __t('Article "{$title}"', array('title' => $node['CmsNode']['title'])));
+        $this->_admin_view();
     }
 
     public function admin_index() {
@@ -34,6 +30,7 @@ class CmsNodesController extends AppController {
 //                'ImageGallery',
 //                'ParentNode',
             ),
+            'conditions' => $this->postConditions($this->_getPassedDefaults()),
         );
 
         if (!empty($this->params['named']['tag'])) {
@@ -62,31 +59,13 @@ class CmsNodesController extends AppController {
 			);
         }
 
-        if (!empty($this->params['named']['parent'])) {
-            $this->set('parentId', $parentId = $this->params['named']['parent']);
-            $options['conditions']['CmsNode.parent_id'] = $parentId;
-        }
-
-        $this->set('nodes', $this->CmsNode->find('all', $options));
+        $this->_admin_index($options);
     }
 
     public function admin_edit() {
-        $this->helpers[] = 'JsValidate.Validation';
-
-        if ($this->data) {
-            if ($this->CmsNode->saveAll($this->data)) {
-                $this->redirect(array('action' => 'view', $this->CmsNode->id));
-            }
-        }
-        elseif ($this->id) {
-            $this->data = $this->CmsNode->read(null, $this->id);
-        }
+        $this->_admin_edit();
 
         $this->set('cmsTags', SlNode::getTagList());
-
-        if (!empty($this->params['named']['parent'])) {
-            $this->data['CmsNode']['parent_id'] = $this->params['named']['parent'];
-        }
         $this->set('parents', $this->CmsNode->find('treelist', array('conditions' => array('CmsNode.id !=' => $this->id))));
     }
 
@@ -101,12 +80,10 @@ class CmsNodesController extends AppController {
             ClassRegistry::init("$plugin.$model")->delete($foreignKey, true);
         }
         
-        $this->CmsNode->delete($id, true);
-        $this->redirect(array('action' => 'index'));
+        $this->_admin_delete();
     }
 
     public function admin_add() {
-        $this->admin_edit();
-        $this->render('admin_edit');
+        $this->_admin_add();
     }
 }
