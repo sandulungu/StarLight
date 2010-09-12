@@ -23,7 +23,7 @@ end
 
         $tags = array();
         foreach ($i['CmsTag'] as $tag) {
-            $tags[] = sprintf('%s [ %s | %s ]',
+            $tags[] = sprintf("<a name='CmsTag{$tag["id"]}'></a> %s [ %s | %s ]",
                 $this->SlHtml->link(h($tag['name']), array('controller' => 'cms_nodes', 'tag' => $tag['id'])),
                 $this->SlHtml->actionLink('edit', $tag['id']),
                 $this->SlHtml->actionLink('delete', $tag['id'])
@@ -34,7 +34,7 @@ end
         $row = Pheme::parseTranslate(
 <<<end
     <tr><td>
-        <a name="CmsTag{$i["CmsTagCategory"]["id"]}"></a>
+        <a name="CmsTagCategory{$i["CmsTagCategory"]["id"]}"></a>
         <h3>{e}{$i["CmsTagCategory"]["name"]}{/e}</h3>
         $tags
     </td><td class="actions">

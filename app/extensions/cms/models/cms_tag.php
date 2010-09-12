@@ -28,7 +28,7 @@ class CmsTag extends AppModel {
     );
 
     public $validate = array(
-        'title' => array(
+        'name' => array(
         ),
     );
 

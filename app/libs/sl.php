@@ -251,8 +251,8 @@ class Sl {
             }
         }
         elseif (is_string($url)) {
-            if (strpos($url, '/:lang') !== false) {
-                $url = r('/:lang', '/'.SlConfigure::read('I18n.lang'), $url);
+            if ($url == '/') {
+                $url = '/' . SlConfigure::read('I18n.lang');
             }
         }
         else {

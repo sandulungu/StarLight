@@ -117,7 +117,7 @@ class ImageParser extends PhemeParser {
 			}
             elseif ($blockParams['link']) {
                 if (!$autoLink || !$this->_getVar('href')) {
-                    $href = $this->_getHelper('Sl')->webroot("files/cms_images/{$data['filename']}");
+                    $href = $this->_getHelper('SlHtml')->webroot("files/cms_images/{$data['filename']}");
                 }
             }
         }

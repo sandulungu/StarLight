@@ -60,29 +60,17 @@ class SlView extends View {
 		}
         
 		$paths = parent::_paths($plugin, false);
-//        $pluginPath = App::pluginPath($plugin);
-//
-//        // core non-themed views
-//        array_splice($paths, $plugin ? 3 : 1, 0, VIEWS.'actions/');
-//
-//        if ($plugin) {
-//            // plugin non-themed views
-//            $path = $pluginPath . "views/";
-//            array_splice($paths, 2, 0, $path.'actions/');
-//            $path = VIEWS . "plugins/$plugin/";
-//            array_splice($paths, 1, 0, $path.'actions/');
-//        }
 
 		if ($this->theme) {
             // themed views (core app)
 			$path = VIEWS . "themed/$this->theme/";
-//            array_unshift($paths, $path.'actions/');
 			array_unshift($paths, $path);
 
             // themed views (plugins)
             if ($plugin) {
+                $path = App::pluginPath($plugin) . "views/themed/$this->theme/";
+                array_unshift($paths, $path);
                 $path = VIEWS . "themed/$this->theme/plugins/$plugin/";
-//                array_unshift($paths, $path.'actions/');
                 array_unshift($paths, $path);
             }
         }

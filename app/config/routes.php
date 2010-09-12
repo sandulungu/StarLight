@@ -38,14 +38,28 @@ if (Sl::version() != SlConfigure::read('Sl.version')) {
     }
 }
 
-Router::connect('/', SlConfigure::read('Routing.home'));
+// localized routes
+$langRules = array('lang' => implode('|', SlConfigure::read('I18n.langs')));
 
+// home
+$home = SlConfigure::read1('Routing.home');
+Router::connect('/', $home);
+Router::connect('/:lang', $home, $langRules);
+
+// prefixed homes
 $prefixedRoutes = SlConfigure::read('Routing.prefixes');
 foreach ($prefixedRoutes as $prefix => $route) {
     Router::connect("/$prefix", $route);
 }
 
+// custom routes
 $routes = SlConfigure::read('Routing.routes');
 foreach ($routes as $expr => $route) {
     Router::connect($expr, $route);
+    Router::connect("/:lang$expr", $route, $langRules);
 }
+
+Router::connect('/:lang/:plugin/:controller/:action/*', array(), $langRules);
+Router::connect('/:lang/:controller/:action/*', array(), $langRules);
+
+Router::parseExtensions();

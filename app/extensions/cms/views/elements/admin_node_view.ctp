@@ -12,24 +12,46 @@
     }
     echo $this->Html->nestedList(array(
         'generalInfo' => $this->SlHtml->link(__t('General info'), '#tab-general-info'),
-        'images' => $this->SlHtml->link(__t('Images'), array('controller' => 'cms_images', 'plugin' => 'cms', 'cms_node_id' => $cmsNode['CmsNode']['id'])),
-        'attachments' => $this->SlHtml->link(__t('Attachments'), array('controller' => 'cms_attachments', 'plugin' => 'cms', 'cms_node_id' => $cmsNode['CmsNode']['id'])),
-        'childNodes' => $this->SlHtml->link(__t('Child nodes'), array('action' => 'index', 'controller' => 'cms_nodes', 'plugin' => 'cms', 'parent_id' => $cmsNode['CmsNode']['id'])),
-        'blocks' => $this->SlHtml->link(__t('Blocks showing this node'), array('controller' => 'cms_blocks', 'plugin' => 'cms', 'cms_node_id' => $cmsNode['CmsNode']['id'])),
-        'backLinks' => $this->SlHtml->link(__t('Back links'), array('controller' => 'cms_navigation_links', 'plugin' => 'cms', 'cms_node_id' => $cmsNode['CmsNode']['id'])),
+        'images' => $this->SlHtml->link(__t('Images'), array(
+            'controller' => 'cms_images', 'plugin' => 'cms', 'cms_node_id' => $cmsNode['CmsNode']['id'],
+            'ref_override' => base64_encode(Sl::url(false) . '#ui-tabs-1'),
+        )),
+        'attachments' => $this->SlHtml->link(__t('Attachments'), array(
+            'controller' => 'cms_attachments', 'plugin' => 'cms', 'cms_node_id' => $cmsNode['CmsNode']['id'],
+            'ref_override' => base64_encode(Sl::url(false) . '#ui-tabs-2'),
+        )),
+        'childNodes' => $this->SlHtml->link(__t('Child nodes'), array(
+            'action' => 'index', 'controller' => 'cms_nodes', 'plugin' => 'cms', 'parent_id' => $cmsNode['CmsNode']['id'],
+            'ref_override' => base64_encode(Sl::url(false) . '#ui-tabs-3'),
+        )),
+        'blocks' => $this->SlHtml->link(__t('Blocks showing this node'), array(
+            'controller' => 'cms_blocks', 'plugin' => 'cms', 'cms_node_id' => $cmsNode['CmsNode']['id'],
+            'ref_override' => base64_encode(Sl::url(false) . '#ui-tabs-4'),
+        )),
+        'backLinks' => $this->SlHtml->link(__t('Back links'), array(
+            'controller' => 'cms_navigation_links', 'plugin' => 'cms', 'cms_node_id' => $cmsNode['CmsNode']['id'],
+            'ref_override' => base64_encode(Sl::url(false) . '#ui-tabs-5'),
+        )),
     ) + $tabs);
 
 ?>
     <div id="tab-general-info">
     <?php
 
-        echo $actions = $this->SlHtml->div('.actions', $this->Html->nestedList(array(
+        $actions = array(
             $this->SlHtml->actionLink('preview', $cmsNode['CmsNode']['id']),
-            $this->SlHtml->actionLink('index', null, array('title' => __t('View all'))),
+            $this->SlHtml->actionLink('index', array('ref' => null), array('title' => __t('View all'))),
             $this->SlHtml->actionLink('clone', $cmsNode['CmsNode']['id']),
             $this->SlHtml->actionLink('edit', $cmsNode['CmsNode']['id']),
             $this->SlHtml->actionLink('delete', array('controller' => 'cms_nodes', 'plugin' => 'cms', $cmsNode['CmsNode']['id'])),
-        )));
+        );
+
+        $homeNodeId = SlConfigure::read('Cms.homeNodeId');
+        if ($homeNodeId != $cmsNode['CmsNode']['id']) {
+            $actions[] = $this->SlHtml->actionLink('set_as_homepage', array('controller' => 'cms_nodes', 'plugin' => 'cms', $cmsNode['CmsNode']['id']));
+        }
+
+        echo $actions = $this->SlHtml->div('.actions', $this->Html->nestedList($actions));
         echo $this->SlHtml->div('.sl-clear');
 
         $this->viewVars['title'] .= $cmsNode['CmsNode']['visible'] ? '' : ' ' . $this->SlHtml->em(__t('draft'));

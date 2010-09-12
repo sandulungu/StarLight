@@ -70,11 +70,14 @@ Pheme::registerOutputBuffer('SiteFooter', new PhemeParser(), true);
 
 ?>
 <div class="sl-site-search">
-    <form action="{url}/cms/nodes/search{/url}" method="GET">
+    <form action="{url}/{$lang}/cms/cms_nodes{/url}" method="GET">
 		<input type="text" name="q" />
         <button>{t}Search{/t}</button>
 	</form>
 </div>
+
+{require}Api.GoogleAnalytics{/require}
+{GoogleAnalytics/}
 <?php
 
 Pheme::registerOutputBuffer('SiteSearch', new PhemeParser(), true);

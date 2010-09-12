@@ -103,7 +103,7 @@ class SlNode {
             'auth' => false,
         );
 
-        $key = "node_{$id}_". SlConfigure::read('I18n.locale');
+        $key = "cms_node_{$id}_". SlConfigure::read('I18n.locale');
         $data = Cache::read($key, 'models');
         if (empty($data)) {
             $data = self::getModel()->readCached($id);

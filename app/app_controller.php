@@ -220,6 +220,29 @@ class AppController extends Controller {
 
 
     
+    protected function _index($options = array()) {
+//        $options += array(
+//            'conditions' => $this->postConditions($this->_getPassedDefaults()),
+//        );
+
+        if (!empty($options['paginate'])) {
+            if (is_array($options['paginate'])) {
+                $options += $options['paginate'];
+            }
+            $options += $this->paginate;
+            unset($options['paginate']);
+
+            $oldPaginate = $this->paginate;
+            $this->paginate = $options;
+            $data = $this->paginate();
+            $this->paginate = $oldPaginate;
+        } else {
+            $data = $this->{$this->modelClass}->find('all', $options);
+        }
+
+        $this->set(Inflector::pluralize(Inflector::variable($this->modelClass)), $data);
+    }
+
     protected function _view() {
         $this->set(Inflector::variable($this->modelClass), $data = $this->{$this->modelClass}->read(null, $this->id));
         if (empty($data)) {
@@ -233,8 +256,22 @@ class AppController extends Controller {
         $options += array(
             'conditions' => $this->postConditions($this->_getPassedDefaults()),
         );
+        if (!empty($options['paginate'])) {
+            if (is_array($options['paginate'])) {
+                $options += $options['paginate'];
+            }
+            $options += $this->paginate;
+            unset($options['paginate']);
 
-        $this->set(Inflector::pluralize(Inflector::variable($this->modelClass)), $this->{$this->modelClass}->find('all', $options));
+            $oldPaginate = $this->paginate;
+            $this->paginate = $options;
+            $data = $this->paginate();
+            $this->paginate = $oldPaginate;
+        } else {
+            $data = $this->{$this->modelClass}->find('all', $options);
+        }
+
+        $this->set(Inflector::pluralize(Inflector::variable($this->modelClass)), $data);
     }
 
     protected function _admin_view() {
@@ -257,7 +294,13 @@ class AppController extends Controller {
         $this->{$this->modelClass};
 
         if ($this->data) {
-            if ($this->{$this->modelClass}->saveAll($this->data)) {
+            if (empty($options['node'])) {
+                $result = $this->{$this->modelClass}->saveAll($this->data);
+            } else {
+                $result = SlNode::getModel()->saveAll($this->data);
+            }
+            
+            if ($result) {
                 if (isset($options['redirect'])) {
                     if (is_array($options['redirect']) && isset($options['redirect']['action']) && $options['redirect']['action'] == 'view') {
                         $options['redirect'][] = $this->{$this->modelClass}->id;
@@ -268,7 +311,12 @@ class AppController extends Controller {
             }
         }
         elseif ($this->id) {
-            $this->data = $this->{$this->modelClass}->read(null, $this->id);
+            if (empty($options['node'])) {
+                $this->data = $this->{$this->modelClass}->read(null, $this->id);
+            } else {
+                $this->data = SlNode::getModel()->read(null, $this->id);
+            }
+
             if (empty($this->data)) {
                 $this->cakeError();
             }

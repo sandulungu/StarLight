@@ -4,6 +4,9 @@
  * Flash embeds support
  */
 
+SlConfigure::write('Asset.js.footer.swfobject', 'swfobject/swfobject');
+SlConfigure::write('Asset.js.jquery', 'head');
+
 ?>
 <div id="{$id}">
     {t}This page uses flash. To load it, please enable JavaScript!{/t}
@@ -25,14 +28,14 @@ class FlashParser extends PhemeParser {
             'width' => 300,
             'height' => 120,
             'version' => '9.0.0.0',
-            'src' => 'vendors/swfobject/test.swf',
+            'src' => 'swfobject/test.swf',
             'id' => SL::uniqid(),
             'flashvars' => array(),
             'params' => array(),
             'attributes' => array(),
         );
-        if (!preg_match('/[\n]/', $html)) {
-            $blockParams = $html;
+        if ($html && !preg_match('/[\n]/', $html)) {
+            $blockParams['src'] = $html;
             $html = null;
         }
 
@@ -40,11 +43,9 @@ class FlashParser extends PhemeParser {
             $blockParams[$key] = json_encode($blockParams[$key]);
         }
 
-        SlConfigure::write('Asset.js.footer.swfobject', 'swfobject/swfobject');
-
         $this->vars = $blockParams;
         return parent::parse($html, $blockName);
     }
 }
 
-Pheme::registerOutputBuffer('Flash', new FlashParser(), true);
+Pheme::registerOutputBuffer('Swfobject', new FlashParser(), true);

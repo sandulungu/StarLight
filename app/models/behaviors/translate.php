@@ -156,6 +156,10 @@
                 return true;
             }
         }
+        if (!empty($data[$name])) {
+            return true;
+        }
+        
         foreach ($locales as $locale) {
             $model->validationErrors["{$name}_$locale"] = $rule['message'];
         }

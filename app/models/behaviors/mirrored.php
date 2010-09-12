@@ -154,13 +154,13 @@ class MirroredBehavior extends ModelBehavior {
      * @param array $data
      * @return array
      */
-    protected function _prepareData($model, $config, &$data, $localesPreg = null) {
+    protected function _prepareData($model, $config, $data, $localesPreg = null) {
         if (empty($data)) {
             return array();
         }
 
         $results = array();
-        foreach ($data as $item) {
+        foreach ($data as &$item) {
             if ($config['collectionField']) {
                 $collection = $item[$model->alias][$config['collectionField']];
             } else {

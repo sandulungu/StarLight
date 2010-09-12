@@ -7,7 +7,8 @@
 class CmsNodesController extends AppController {
 
     public function view($id) {
-        $this->set('node', $node = SlNode::read($id));
+        $this->set('cmsNode', $node = SlNode::read($id));
+        Sl::krumo($node);
         if (!$node) {
             $this->cakeError();
         }
@@ -85,5 +86,11 @@ class CmsNodesController extends AppController {
 
     public function admin_add() {
         $this->_admin_add();
+    }
+
+    public function admin_set_as_homepage($id) {
+        SlConfigure::write('Cms.homeNodeId', $id, true);
+        SlConfigure::write('Routing.home', array('admin' => null, '!merge' => false) + SlNode::url($id, array('route' => false, 'slug' => false)), true);
+        $this->redirect(array('action' => 'index'));
     }
 }

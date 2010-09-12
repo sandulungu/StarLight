@@ -35,7 +35,7 @@ class CmsTagsController extends AppController {
     }
 
     public function admin_index() {
-        $this->_admin_index();
+        $this->set('cmsTagCategories', $this->CmsTag->CmsTagCategory->find('all'));
     }
 
     public function admin_edit() {

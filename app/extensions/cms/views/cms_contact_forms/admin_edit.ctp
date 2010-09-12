@@ -27,9 +27,11 @@
 //    echo $this->SlForm->input('skin', array('options' => SlConfigure::read2('Cms.nodeSkins')));
     echo $this->SlForm->input('visible');
 
-//    ClassRegistry::init('Cms.CmsImage');
-//    echo $this->SlForm->input('CmsImage.title', array('label' => __t('Thumb image title')));
-//    echo $this->SlForm->input('CmsImage.filename', array('label' => __t('Upload thumb image'), 'type' => 'file'));
+//    if ($this->params['action'] == 'admin_add') {
+//        ClassRegistry::init('Cms.CmsImage');
+//        echo $this->SlForm->input('CmsImage.title', array('label' => __t('Thumb image title')));
+//        echo $this->SlForm->input('CmsImage.filename', array('label' => __t('Upload thumb image'), 'type' => 'file'));
+//    }
 //
 //    echo $this->SlForm->input('CmsTag', array('label' => false, 'multiple' => 'checkbox'));
 

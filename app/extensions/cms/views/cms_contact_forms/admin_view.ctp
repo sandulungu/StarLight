@@ -10,7 +10,7 @@
 
     $extraInfo = Pheme::parseSimple('
         <p>
-            {t}Recipient email{/t}: <a href="mailto:{$CmsContactForm.email}">{$CmsContactForm.email}</a>
+            {t}Recipient email{/t}: <a href="mailto:{$CmsContactForm.email}">{$CmsContactForm.email}</a><br />
             {if("var":"CmsNode.short_title")} {t}Short title{/t}: <b>{e}{$CmsNode.short_title}{/e}</b><br /> {/if}
             {if("var":"CmsNode.meta_keywords")} {t}Meta keywords{/t}: <b>{e}{$CmsNode.meta_keywords}{/e}</b><br /> {/if}
             {if("var":"CmsNode.meta_description")} {t}Meta description{/t}: <b>{e}{$CmsNode.meta_description}{/e}</b><br /> {/if}

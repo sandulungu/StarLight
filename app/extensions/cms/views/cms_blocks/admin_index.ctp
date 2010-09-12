@@ -17,6 +17,7 @@ end
 
     $rows = array();
     foreach ($cmsBlocks as $i) {
+        $clone = $this->SlHtml->actionLink('clone', $i['CmsBlock']['id']);
         $edit = $this->SlHtml->actionLink('edit', $i['CmsBlock']['id']);
         $delete = $this->SlHtml->actionLink('delete', $i['CmsBlock']['id']);
 
@@ -41,7 +42,7 @@ end
         </h3>
         {$content}
     </td><td class="actions">
-        $edit $delete
+        $clone $edit $delete
     </td></tr>
 end
         );

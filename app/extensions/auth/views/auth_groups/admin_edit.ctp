@@ -11,7 +11,7 @@
     if (!$this->id || $this->id > 2) {
         echo $this->SlForm->input('name');
     } else {
-        $this->SlForm->hidden('name');
+        echo $this->SlForm->hidden('name');
         echo $this->SlHtml->p(__t('Name') . ": <b>{$this->data['AuthGroup']['name']}</b>");
     }
     echo $this->SlForm->input('description');

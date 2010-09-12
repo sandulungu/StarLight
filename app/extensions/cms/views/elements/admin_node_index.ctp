@@ -3,7 +3,7 @@
         //$this = new SlView(); // for IDE
     }
 
-    $allNodeTypes = $this->params['controller'] == 'cms_nodes';
+    $allNodeTypes = $this->params['controller'] == 'cms_nodes' && empty($this->params['named']['simple_add']);
 
     if ($allNodeTypes) {
         $newActions = array();
@@ -36,6 +36,8 @@
 end
     );
 
+    $homeNodeId = SlConfigure::read('Cms.homeNodeId');
+
     $rows = array();
     foreach ($cmsNodes as $i) {
         $url = $i['CmsNode']['model'] ? array(
@@ -43,6 +45,10 @@ end
             'controller' => Inflector::tableize($i['CmsNode']['model']),
         ) : array();
         $view = $this->SlHtml->url($url + array('action' => 'view', $i['CmsNode']['id']));
+
+        $setAsHome = $homeNodeId != $i['CmsNode']['id'] ?
+            $this->SlHtml->actionLink('set_as_homepage', array('controller' => 'cms_nodes', 'plugin' => 'cms', $i['CmsNode']['id'])) :
+            '';
 
         $clone = $this->SlHtml->actionLink('clone', $i['CmsNode']['id'], compact('url'));
         $edit = $this->SlHtml->actionLink('edit', $i['CmsNode']['id'], compact('url'));
@@ -70,7 +76,7 @@ end
         $tags = implode(', ', $tags);
 
         $row = Pheme::parseSimple('
-<tr><td>
+<tr {if("var":"setAsHome")}{else}class="active"{/if}><td>
     {if("var":"CmsImage.id")}
         {init}JqueryColorbox{/init}
         {JqueryColorbox/}
@@ -93,9 +99,9 @@ end
         {/if:generalInfo}
     </div>
 </td><td class="actions">
-    {$clone} {$edit} {$delete}
+    {$setAsHome} {$clone} {$edit} {$delete}
 </td></tr>
-        ', $i + compact('tags', 'type', 'clone', 'view', 'edit', 'delete', 'draft'));
+        ', $i + compact('setAsHome', 'tags', 'type', 'clone', 'view', 'edit', 'delete', 'draft'));
 
         $rows[] = $row;
     }

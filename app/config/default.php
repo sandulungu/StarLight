@@ -33,6 +33,10 @@ $config['global']['Asset'] = array(
         'jcarousellite' => 'http://cdn.starlightcms.info/assets/jcarousellite/1.0.1_patched',
         'jquery' => 'http://ajax.googleapis.com/ajax/libs/jquery/1.4.2',
         'jquery-ui' => 'http://cdn.starlightcms.info/assets/jquery-ui/1.8.4',
+
+        // Needs a policy file to access cross-domain xml playlists, see http://kb2.adobe.com/cps/142/tn_14213.html
+        //'jwplayer' => 'http://cdn.starlightcms.info/assets/jwplayer/5.2',
+
         'lavalamp' => 'http://cdn.starlightcms.info/assets/lavalamp/0.1.0',
         'pngFix' => 'http://cdn.starlightcms.info/assets/pngFix/1.2',
         'prettyLoader' =>  'http://cdn.starlightcms.info/assets/prettyLoader/1.0.1',
@@ -123,6 +127,11 @@ $config['global']['Db'] = array(
         'password' => '',
         'database' => 'sl',
         'prefix' => '',
+
+        // Very important! If not specified, a manual conversion from you default
+        // encoding to utf-8 will be required, when you'll need your DB data properly encoded
+        // ex: $sqlDump = mb_convert_encoding($sqlDump, 'Windows-1252', 'utf8');
+        'encoding' => 'utf8',
     ),
 );
 

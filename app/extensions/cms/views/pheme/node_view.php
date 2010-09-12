@@ -7,7 +7,7 @@
  *      NodeActions, Tags, Image, ImageGallery, Attachments, Attachment
  */
 
-Pheme::init('Cms.NodeIndex', 'Cms.Image', 'Flash', 'Email');
+Pheme::init('Cms.NodeIndex', 'Cms.Image', 'Swfobject', 'Email');
 
 /**
  * Show (direct) child nodes

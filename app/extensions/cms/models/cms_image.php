@@ -12,6 +12,11 @@ class CmsImage extends AppModel {
                 'dir' => 'files{DS}cms_images',
         		'maxSize' => 2097152, // 2MB
                 'thumbsizes' => array(
+                    'normal' => array(
+                        'width' => 800,
+                        'height' => 800,
+//                        'zoomCrop' => 'C',
+                    ),
                     'icon' => array(
                         'width' => 100,
                         'height' => 100,

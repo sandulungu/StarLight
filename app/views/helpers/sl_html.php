@@ -138,7 +138,9 @@ class SlHtmlHelper extends AppHelper {
             default:
                 $url2 = array('action' => $action);
         }
-        $url2['ref'] = base64_encode(Sl::getInstance(true)->url(false));
+        $url2['ref'] = isset($this->params['named']['ref_override']) ?
+            $this->params['named']['ref_override'] :
+            base64_encode(Sl::getInstance(true)->url(false));
 
         if ($url !== null) {
             if (is_array($url)) {
@@ -150,7 +152,7 @@ class SlHtmlHelper extends AppHelper {
 
             // automagically pass filtering params
             foreach ($this->params['named'] as $param => $value) {
-                if (preg_match('/_id$/', $param)) {
+                if (preg_match('/_id$/', $param) || $param == 'skin') {
                     $url2[$param] = $value;
                 }
             }
@@ -170,6 +172,12 @@ class SlHtmlHelper extends AppHelper {
             case 'edit':
                 $options += array(
                     'class' => 'edit',
+                );
+                break;
+
+            case 'preview':
+                $options += array(
+                    'target' => '_blank',
                 );
                 break;
 

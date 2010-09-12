@@ -8,15 +8,15 @@ Pheme::init('Cms.NodeView');
 
 ?>
 <div class="sl-node-body">
-	{if("var":"Node.body")}
-		{var}Node.body{/var}
+	{if("var":"CmsNode.body")}
+		{var}CmsNode.markdown_body{/var}
 	{else}
         {ContactForm/}
 	{/if}
 </div>
 <?php
 
-Pheme::registerOutputBuffer('NodeBodyContactForm', new NodeBodyParser(), 'NodeView');
+Pheme::registerOutputBuffer('NodeBodyCmsContactForm', new NodeBodyParser(), 'NodeView');
 
 
 
@@ -49,10 +49,10 @@ class ContactFormParser extends PhemeParser {
         if (!is_array($blockParams['fields'])) {
             return;
         }
-        $form = $this->_getHelper('Form');
+        $form = $this->_getHelper('SlForm');
 
         $fields = array();
-        $form->create('ContactForm');
+        $form->create('CmsContactForm');
         foreach ($blockParams['fields'] as $f => $o) {
             $fields[] = array(
                 'inputName' => $f,
@@ -70,4 +70,4 @@ class ContactFormParser extends PhemeParser {
     }
 }
 
-Pheme::registerOutputBuffer('ContactForm', new ContactFormParser(), 'NodeBodyContactForm');
+Pheme::registerOutputBuffer('ContactForm', new ContactFormParser(), 'NodeBodyCmsContactForm');

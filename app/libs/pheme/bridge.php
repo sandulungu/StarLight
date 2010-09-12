@@ -91,7 +91,7 @@ class Pheme {
                 // remove javascript inline comments
                 do {
                     $skin2 = $skin;
-                    $skin = preg_replace('!(<script.*?>.*?)//[^:].*?\n(.*?</script>)!s', '\\1\\2', $skin2);
+                    $skin = preg_replace('!(<script.*?>.*?)[^:]//.*?\n(.*?</script>)!s', '\\1\\2', $skin2);
                 } while ($skin2 != $skin);
                 
                 $skin = preg_replace('/\s+/', ' ', $skin);
@@ -350,7 +350,11 @@ class Pheme {
         );
 
         $_this = self::getInstance();
+        
         $vars += Sl::getInstance()->view->viewVars;
+        $vars += array(
+            'lang' => SlConfigure::read('I18n.lang'),
+        );
 
         if ($options['headAndFooter']) {
             $vars['head'] = Sl::uniqid();

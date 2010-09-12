@@ -93,6 +93,10 @@ table td.actions a {
     margin: 0 2px;
 }
 
+tr.active td {
+    background: #CEEFCE !important;
+}
+
 
 
 /* Layout */

@@ -20,10 +20,12 @@ class CmsNavigationLinksController extends AppController {
     }
 
     public function admin_add() {
+        $newItem = empty($this->data);
+
         $this->admin_edit();
 
-        if (empty($this->data) && !empty($this->params['named']['cms_node_id'])) {
-            $nodeId = $this->params['named']['node'];
+        if ($newItem && !empty($this->params['named']['cms_node_id'])) {
+            $nodeId = $this->params['named']['cms_node_id'];
             $node = $this->CmsNavigationLink->CmsNode->read(null, $nodeId);
             if ($node) {
                 // set link title to node title

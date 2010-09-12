@@ -13,7 +13,7 @@ class CmsContactFormsController extends AppController {
     public function view($node_id) {
 
         // node common stuff
-        $this->set('node', $node = SlNode::read($node_id));
+        $this->set('cmsNode', $node = SlNode::read($node_id));
         if (!$node) {
             $this->cakeError();
         }
@@ -109,7 +109,7 @@ class CmsContactFormsController extends AppController {
     }
 
     public function admin_index() {
-        $this->set('nodes', SlNode::find('all',
+        $this->set('cmsNodes', SlNode::find('all',
             array('conditions' => array(
                 'CmsNode.model' => 'CmsContactForm',
                 'CmsNode.plugin' => $this->plugin,
@@ -118,7 +118,7 @@ class CmsContactFormsController extends AppController {
     }
 
     public function admin_view($node_id) {
-        $this->set('node', $node = SlNode::getModel()->read(null, $node_id));
+        $this->set('cmsNode', $node = SlNode::getModel()->read(null, $node_id));
         if (!$node) {
             $this->cakeError();
         }
@@ -128,7 +128,7 @@ class CmsContactFormsController extends AppController {
     }
 
     public function admin_edit() {
-        $this->_admin_edit();
+        $this->_admin_edit(array('node' => true));
 
         $this->set('cmsTags', SlNode::getTagList());
         $this->set('parents', SlNode::getModel()->find('treelist', array('conditions' => array('CmsNode.id !=' => $this->id))));

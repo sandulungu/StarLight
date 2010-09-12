@@ -59,7 +59,7 @@ Cache::config('sl', array(
     'duration' => Configure::read() ? '+10 seconds' : '+999 days',
 ));
 
-Cache::config('model', array(
+Cache::config('models', array(
     'engine' => 'File',
     'prefix' => 'sl_',
     'path' => CACHE . 'models' . DS,
