@@ -51,6 +51,7 @@ end
             '';
 
         $clone = $this->SlHtml->actionLink('clone', $i['CmsNode']['id'], compact('url'));
+        $preview = $this->SlHtml->actionLink('preview', $i['CmsNode']['id'], compact('url'));
         $edit = $this->SlHtml->actionLink('edit', $i['CmsNode']['id'], compact('url'));
         $delete = $this->SlHtml->actionLink('delete', array('controller' => 'cms_nodes', 'plugin' => 'cms', $i['CmsNode']['id']));
 
@@ -88,7 +89,8 @@ end
 </td><td>
     <div class="sl-level-{$CmsNode.level}">
         <a name="CmsNode{$CmsNode.id}"></a>
-        <h3><a href="{$view}">{e}{$CmsNode.title}{/e}</a> {$type} {$draft}</h3>
+        <h3><a href="{$view}">{e}{$CmsNode.title}{/e}</a> {$type} {$draft} [ {$preview} ]
+        </h3>
         {if("var":"tags")} <p>{t}Tags{/t}: {$tags}</p> {/if}
         {if:generalInfo("var":"info")}
             {$info}
@@ -101,7 +103,7 @@ end
 </td><td class="actions">
     {$setAsHome} {$clone} {$edit} {$delete}
 </td></tr>
-        ', $i + compact('setAsHome', 'tags', 'type', 'clone', 'view', 'edit', 'delete', 'draft'));
+        ', $i + compact('preview', 'setAsHome', 'tags', 'type', 'clone', 'view', 'edit', 'delete', 'draft'));
 
         $rows[] = $row;
     }

@@ -7,17 +7,19 @@
 class GoogleAnalyticsParser {
 
     function parse($html = null, $blockName = 'document', $blockParams = null) {
-        $id = SlConfigure::read('Api.google.analytics.id');
-        if (empty($id)) {
+        if (empty($html)) {
+            $id = SlConfigure::read('Api.google.analytics.id');
+        }
+        if (empty($html)) {
             return;
         }
 
-		SlConfigure::write("Asset.js.footer.$id", array(
+		SlConfigure::write("Asset.js.footer.$html", array(
             'weight' => 1000,
             'after' =>
 <<<end
   var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', '$id']);
+  _gaq.push(['_setAccount', '$html']);
   _gaq.push(['_trackPageview']);
 
   (function() {

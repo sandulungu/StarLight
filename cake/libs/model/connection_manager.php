@@ -86,7 +86,7 @@ class ConnectionManager extends Object {
  * Gets a reference to a DataSource object
  *
  * @param string $name The name of the DataSource, as defined in app/config/database.php
- * @return DboSource Instance
+ * @return object Instance
  * @access public
  * @static
  */
@@ -239,7 +239,7 @@ class ConnectionManager extends Object {
 				$this->_connectionsEnum[$name] = $this->__connectionData($config);
 			}
 		} else {
-			$this->cakeError('missingConnection', array(array('className' => 'ConnectionManager')));
+			$this->cakeError('missingConnection', array(array('code' => 500, 'className' => 'ConnectionManager')));
 		}
 	}
 

@@ -12,7 +12,7 @@
     echo $this->SlForm->input('title');
     echo $this->SlForm->input('short_title');
     echo $this->SlForm->input('teaser');
-    echo $this->SlForm->input('body');
+    echo $this->SlForm->input('body', array('rows' => 14));
     echo $this->SlForm->input('meta_keywords');
     echo $this->SlForm->input('meta_description');
     echo $this->SlForm->input('skin', array('options' => SlConfigure::read2('Cms.nodeSkins')));

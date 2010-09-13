@@ -2,19 +2,7 @@
 
 class ConfigController extends AppController {
 
-    public function admin_index($activeSection = null) {
-        $this->set('sections', $sections = SlConfigure::read2("Config.sections"));
-
-        foreach ($sections as $section => $settings) {
-            if (!SlAuth::isAuthorized('config' . Inflector::camelize($section))) {
-                unset($sections[$i]);
-            }
-        }
-
-        if (empty($activeSection) || !isset($sections[$activeSection])) {
-            $activeSection = reset(array_keys($sections));
-        }
-
+    protected function _getSettings($activeSection) {
         $locales = SlConfigure::read('I18n.locales');
 
         $settings = SlConfigure::read2("Config.settings.$activeSection");
@@ -52,10 +40,28 @@ class ConfigController extends AppController {
             }
         }
 
-        $this->set('settings', $settings);
+        return $settings;
+    }
+
+    public function admin_index($activeSection = null) {
+        $this->set('sections', $sections = SlConfigure::read2("Config.sections"));
+
+        foreach ($sections as $section => $settings) {
+            if (!SlAuth::isAuthorized('config' . Inflector::camelize($section))) {
+                unset($sections[$i]);
+            }
+        }
+
+        if (empty($activeSection) || !isset($sections[$activeSection])) {
+            $activeSection = reset(array_keys($sections));
+        }
+
+        $settings = $this->_getSettings($activeSection);
         $this->set('title', __t(SlConfigure::read2("Config.sections.$activeSection")));
 
         if ($this->data) {
+            $locales = SlConfigure::read('I18n.locales');
+
             foreach ($settings as $name => &$setting) {
                 if (is_int($name)) {
                     $name = "setting_$name";
@@ -97,8 +103,12 @@ class ConfigController extends AppController {
                 }
                 
             }
+
+            $settings = $this->_getSettings($activeSection);
             $this->Session->setFlash(__t('Configuration saved'), array('class' => 'success'));
         }
+
+        $this->set('settings', $settings);
     }
     
 }

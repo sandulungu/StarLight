@@ -206,7 +206,7 @@ class Controller extends Object {
 /**
  * Instance of Component used to handle callbacks.
  *
- * @var Component
+ * @var string
  * @access public
  */
 	var $Component = null;
@@ -473,7 +473,7 @@ class Controller extends Object {
 	}
 
 /**
- * Loads Model classes based on the the uses property
+ * Loads Model classes based on the uses property
  * see Controller::loadModel(); for more info.
  * Loads Components and prepares them for initialization.
  *

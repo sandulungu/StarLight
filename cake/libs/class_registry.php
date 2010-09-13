@@ -92,7 +92,7 @@ class ClassRegistry {
  * @param mixed $class as a string or a single key => value array instance will be created,
  *  stored in the registry and returned.
  * @param string $type TypeOfClass
- * @return AppModel instance of ClassName
+ * @return object instance of ClassName
  * @access public
  * @static
  */
