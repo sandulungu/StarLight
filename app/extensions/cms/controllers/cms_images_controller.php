@@ -7,7 +7,11 @@
 class CmsImagesController extends AppController {
 
     public function admin_index() {
-        $this->_admin_index();
+        $this->_admin_index(array(
+            'paginate' => array(
+                'limit' => 100,
+            ),
+        ));
     }
 
     public function admin_edit() {

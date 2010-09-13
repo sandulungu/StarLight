@@ -30,6 +30,7 @@
 
     echo Pheme::parseTranslate(
 <<<end
+    <div class="sl-pagination-wrap">
     $actions
     <table>
         <th width="100">{t}Thumbnail{/t}</th><th>{t}Nodes list{/t}</th><th width="100">{t}Actions{/t}</th>
@@ -109,10 +110,13 @@ end
     }
     echo implode('', $rows);
 
+    $pagination = $this->element('pagination');
+    
     echo Pheme::parseTranslate(
 <<<end
     </table>
+    $pagination
     $actions
+    </div>
 end
     );
-

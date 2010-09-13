@@ -21,6 +21,10 @@
     ));
 
     $jsCode = SlConfigure::read2('Asset.js.ready');
+    if (isset($this->Js)) {
+        $jsCode = (array)$jsCode;
+        $jsCode += $this->Js->getBuffer();
+    }
     if($jsCode) {
         echo $this->Javascript->ready($jsCode);
     }

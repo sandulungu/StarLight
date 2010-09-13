@@ -51,9 +51,13 @@ end
     }
     echo implode('', $rows);
 
+    
+    $pagination = $this->element('pagination');
+
     echo Pheme::parseTranslate(
 <<<end
     </table>
+    $pagination
     $actions
 end
     );

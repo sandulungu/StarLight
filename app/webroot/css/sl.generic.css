@@ -8,7 +8,7 @@ body {
 hr {
     margin: 1em 0;
 }
-p {
+p, .sl-pagination {
     margin: 1em 0;
 }
 ul, ol {
@@ -34,6 +34,10 @@ h1 {
 /*th {
     font-weight: normal;
 }*/
+
+.sl-disabled {
+    color: #aaa;
+}
 
 .sl-frontend {
     background: #999;

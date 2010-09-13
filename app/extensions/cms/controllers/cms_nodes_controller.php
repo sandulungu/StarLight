@@ -32,6 +32,9 @@ class CmsNodesController extends AppController {
 //                'ParentNode',
             ),
             'conditions' => $this->postConditions($this->_getPassedDefaults()),
+            'paginate' => array(
+                'limit' => 50,
+            ),
         );
 
         if (!empty($this->params['named']['tag'])) {
