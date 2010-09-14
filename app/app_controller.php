@@ -13,7 +13,7 @@ class AppController extends Controller {
 
     public $components = array('RequestHandler', 'Session', 'Cookie');
 
-    public $helpers = array('Html', 'Javascript', 'SlHtml', 'SlForm');
+    public $helpers = array('Html', 'Form', 'Javascript', 'SlHtml', 'SlForm');
 
     public $view = 'Sl';
 

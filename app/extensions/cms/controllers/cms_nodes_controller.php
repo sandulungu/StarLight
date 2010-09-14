@@ -8,7 +8,6 @@ class CmsNodesController extends AppController {
 
     public function view($id) {
         $this->set('cmsNode', $node = SlNode::read($id));
-        Sl::krumo($node);
         if (!$node) {
             $this->cakeError();
         }

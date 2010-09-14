@@ -8,7 +8,7 @@ SlConfigure::write('Asset.js.ready.oembed',
 <<<end
 $('.sl-oembed').each(function() {
     var el = $(this);
-    var url = el.html().trim();
+    var url = el.html();
     if (url) {
         var width = $(this).parent().width();
         var apiUrl = 'http://api.embed.ly/v1/api/oembed?url=' + url + '&callback=?&maxwidth=' + width;

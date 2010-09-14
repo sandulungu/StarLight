@@ -23,7 +23,7 @@ class DebugKitExtension extends SlExtension {
             if (strpos(env('HTTP_USER_AGENT'), 'MSIE 6') === false) {
 
                 // sometimes needed in Ajax requests by DebugKit
-                $controller->helpers[] = 'Form';
+//                $controller->helpers[] = 'Form';
                 
                 $controller->components['DebugKit.Toolbar'] =
 					in_array('Interactive', App::objects('plugin')) ?

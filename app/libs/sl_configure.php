@@ -236,7 +236,7 @@ class SlConfigure {
      */
     static public function setCollections($collections = array(), $setDefault = true) {
         if ($setDefault) {
-            if (SlExtensions::loaded('Auth')) {
+            if (self::$_collections && SlExtensions::loaded('Auth')) {
                 $user = SlAuth::user();
                 if (isset($user['id'])) {
                     $groups = SlSession::read('Auth.groups');

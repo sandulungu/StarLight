@@ -98,6 +98,7 @@ class SlAuth {
             if ($user) {
                 if (self::_login($user['username'], $user['password'])) {
                     SlConfigure::setCollections();
+                    return true;
                 }
             }
         }
