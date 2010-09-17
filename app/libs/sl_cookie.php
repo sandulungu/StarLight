@@ -26,11 +26,16 @@ class SlCookie {
                     if ($value{0} === '?') {
                         App::import('core', 'security');
                         $value = substr($value, 1);
-                        $value = Security::cipher(base64_decode($value), self::$_key);
+                        $value = base64_decode($value);
+                        $value2 = Security::cipher($value, self::$_key);
+                        $value = Security::cipher($value, self::$_key);
+
+                        if ($value != $value2) {
+                            continue; // Security::cipher() is not working on this server !!!
+                        }
                     } else {
                         $value = base64_decode($value);
                     }
-                    
                     $value = unserialize($value);
                     self::$_cookies[] = $name;
                     SlConfigure::write($name, $value, false, 'cookie');

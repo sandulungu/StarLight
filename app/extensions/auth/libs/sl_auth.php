@@ -53,7 +53,7 @@ class SlAuth {
         if (!$user) {
             return;
         }
-        if (self::password($password, array(), $user['AuthUser']['password'])) {
+        if (!self::password($password, array(), $user['AuthUser']['password'])) {
             return false;
         }
         
@@ -126,7 +126,7 @@ class SlAuth {
         );
 
         if ($match) {
-            if (preg_match('/^(md5|sha):[a-f0-9]+$/', $match)) {
+            if (preg_match('/^(md5|sha1|sha256):[a-f0-9]+$/', $match)) {
                 list($options['hash']) = explode(':', $match);
             } else {
                 $options['hash'] = false;

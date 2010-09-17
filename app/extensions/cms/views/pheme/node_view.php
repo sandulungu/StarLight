@@ -61,7 +61,7 @@ class NodeParser extends PhemeParser {
         );
 
         if ($blockParams['id']) {
-            $this->vars = SL::getNode($blockParams['id'], array('auth' => true));
+            $this->vars = SlNode::get($blockParams['id'], array('auth' => true));
         }
 
         if ($blockName === 'NodeView') {
