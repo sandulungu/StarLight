@@ -2835,7 +2835,7 @@ class Model extends Overloadable {
  * Gets the DataSource to which this model is bound.
  * Not safe for use with some versions of PHP4, because this class is overloaded.
  *
- * @return object A DataSource object
+ * @return DboSource A DataSource object
  * @access public
  */
 	function &getDataSource() {

@@ -11,6 +11,7 @@
     SlConfigure::write('Navigation.sections.config', $menu);
 
     echo $this->SlForm->create(null);
+    echo $this->SlForm->hidden('_section');
 
     foreach ($settings as $name => $setting) {
         if (is_int($name)) {
@@ -23,7 +24,7 @@
 
         unset($setting['name']);
         unset($setting['collection']);
-        echo $this->SlForm->input("$name", $setting);
+        echo $this->SlForm->input($name, $setting);
     }
 
     echo $this->SlForm->end(__t('Save'));

@@ -39,7 +39,7 @@ class SlFormHelper extends FormHelper {
             }
 
             // if this is a MeioUpload field and a file has been uploaded, then show it
-            if ($options['meioUpload'] && isset($view->data[$modelKey][$fieldKey]) && is_string($view->data[$modelKey][$fieldKey])) {
+            if ($options['meioUpload'] && !empty($view->data[$modelKey][$fieldKey]) && is_string($view->data[$modelKey][$fieldKey])) {
 
                 $meioUploadOptions = $model->Behaviors->MeioUpload->__fields[$model->alias][$fieldKey];
                 $filename = r(DS, '/', "{$meioUploadOptions['dir']}/{$view->data[$modelKey][$fieldKey]}");
@@ -101,6 +101,8 @@ class SlFormHelper extends FormHelper {
                 if (isset($options['value']) && is_array($options['value'])) {
                     if (isset($options['value'][$catalog['locale']])) {
                         $options2['value'] = $options['value'][$catalog['locale']];
+                    } else {
+                        unset($options2['value']);
                     }
                 } else {
                     unset($options2['value']);

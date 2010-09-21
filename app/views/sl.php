@@ -68,8 +68,8 @@ class SlView extends View {
 
             // themed views (plugins)
             if ($plugin) {
-                $path = App::pluginPath($plugin) . "views/themed/$this->theme/";
-                array_unshift($paths, $path);
+//                $path = App::pluginPath($plugin) . "views/themed/$this->theme/";
+//                array_unshift($paths, $path);
                 $path = VIEWS . "themed/$this->theme/plugins/$plugin/";
                 array_unshift($paths, $path);
             }

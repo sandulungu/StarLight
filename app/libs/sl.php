@@ -67,6 +67,8 @@ class Sl {
         
         if (is_array($url)) {
             $url = self::url(array('base' => false) + $url);
+        } else {
+            $url = r('{$lang}', SlConfigure::read('I18n.lang'), $url);
         }
         
         // just in case...
@@ -253,6 +255,8 @@ class Sl {
         elseif (is_string($url)) {
             if ($url == '/') {
                 $url = '/' . SlConfigure::read('I18n.lang');
+            } else {
+                $url = r('{$lang}', SlConfigure::read('I18n.lang'), $url);
             }
         }
         else {

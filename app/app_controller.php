@@ -91,10 +91,10 @@ class AppController extends Controller {
 
         if ($this->RequestHandler->isAjax()) {
             if (is_array($this->output)) {
-                $this->output = json_encode($this->output);
-                $this->autoRender = false;
                 SlConfigure::write('Sl.debug.requestTime', false);
-                return;
+                Configure::write('debug', 0);
+                echo json_encode($this->output);
+                $this->_stop();
             }
         }
 

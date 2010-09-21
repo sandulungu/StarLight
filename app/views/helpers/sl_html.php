@@ -19,13 +19,20 @@ class SlHtmlHelper extends AppHelper {
             'folder' => 'cms_images',
             'thumb' => 'icon',
             'title' => null,
+            'link' => null,
         );
+
+        $image = $this->Html->image(
+            "/files/{$options['folder']}/thumb/{$options['thumb']}/$filename",
+            array('alt' => $options['thumb'], 'title' => $options['title'])
+        );
+        
+        if (isset($options['link'])) {
+            return $options['link'] ? $this->link($image, $options['link']) : $image;
+        }
         return Pheme::parse('JqueryColorbox') .
             $this->link(
-                $this->Html->image(
-                    "/files/{$options['folder']}/thumb/{$options['thumb']}/$filename",
-                    array('alt' => $options['thumb'], 'title' => $options['title'])
-                ),
+                $image,
                 "/files/{$options['folder']}/$filename",
                 array('rel' => 'colorbox', 'webroot' => true)
             );

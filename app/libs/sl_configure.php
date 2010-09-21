@@ -244,6 +244,7 @@ class SlConfigure {
                     if ($groups) {
                         foreach ($groups as $i => $group) {
                             $collections["Group{$group['id']}"] = 201 + $i;
+                            $collections[$group['name']] = 201 + $i;
                         }
                     }
                     $collections["User{$user['id']}"] = 299;

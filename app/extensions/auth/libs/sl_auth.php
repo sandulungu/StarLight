@@ -57,7 +57,7 @@ class SlAuth {
             return false;
         }
         
-        $roles = array("AuthUser{$user['AuthUser']['id']}");
+        $roles = array("User{$user['AuthUser']['id']}");
         foreach ($user['AuthGroup'] as $group) {
             $roles[] = "Group{$group['id']}";
             $roles[] = $group['name'];

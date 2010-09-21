@@ -31,7 +31,7 @@ end
     <tr><td>
         {!preserveWhitespace}
         <a name="AuthGroup{$i["AuthGroup"]["id"]}"></a>
-        <h3>{e}{$i["AuthGroup"]["name"]}{/e}</h3>
+        <h3>{$i["AuthGroup"]["id"]}. {e}{$i["AuthGroup"]["name"]}{/e}</h3>
         {t}Members{/t}: $users
         <blockquote>{e}{$i["AuthGroup"]["description"]}{/e}</blockquote>
     </td><td class="actions">

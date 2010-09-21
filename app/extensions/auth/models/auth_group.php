@@ -24,6 +24,8 @@ class AuthGroup extends AppModel {
         'Auth.AuthUser',
     );
 
+    public $order = 'AuthGroup.name';
+
     public $validate = array(
         'name' => array(
             array(

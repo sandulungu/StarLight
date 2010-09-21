@@ -47,12 +47,13 @@ class SlCookie {
         return self::$_decrypted;
     }
 
-    static public function read($name = null) {
+    static public function read($name = null, $default = null) {
         self::ready();
         if (empty($name)) {
             return self::$_cookies;
         }
-        return SlConfigure::read($name, 'cookie');
+        $val = SlConfigure::read($name, 'cookie');
+        return isset($val) ? $val : $default;
     }
 
     static public function write($name, $value = null, $encrypt = true, $expires = null, $path = null, $domain = null, $secure = null) {

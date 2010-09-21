@@ -100,6 +100,16 @@ class AppHelper extends Helper {
         return $url;
     }
 
+//    public function themePath($theme) {
+//        if ($this->plugin) {
+//            $dir = App::pluginPath($this->plugin). "views/themed/$theme";
+//            if (is_dir($dir)) {
+//                return "$dir/";
+//            }
+//        }
+//        return App::themePath($theme);
+//    }
+
   	function assetTimestamp($path) {
 		if (strpos($path, '?') === false && SlConfigure::read('Asset.options.timestamp')) {
 			return $this->assetUrl(preg_replace('/^' . preg_quote($this->webroot, '/') . '/', '', $path));

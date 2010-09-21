@@ -60,6 +60,16 @@ $config['global']['Navigation'] = array(
     ),
 );
 
+$config['global']['Routing'] = array(
+    'routes' => array(
+        '/login' => array(
+            'plugin' => 'auth',
+            'controller' => 'auth_users',
+            'action' => 'login',
+        ),
+    ),
+);
+
 
 
 ///////////////////////////// CONTEXT SENSITIVE ////////////////////////////////

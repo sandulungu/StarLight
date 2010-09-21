@@ -81,7 +81,7 @@ class BlocksParser extends PhemeParser {
                     }
 
                     if (!empty($block['cache']) && empty($block['cache']['key'])) {
-                        $block['cache']['key'] = $block['id'].'-'.md5(serialize($block));
+                        $block['cache']['key'] = $block['id'].'-'.md5(serialize($block).SlConfigure::read('I18n.lang'));
                     }
 
                     if (!empty($block['cache']['time'])) {
@@ -98,7 +98,7 @@ class BlocksParser extends PhemeParser {
                     if (!empty($block['url'])) {
                         $block['body'] = Sl::requestAction($block['url']);
                         if (!isset($block['title'])) {
-                            $block['title'] = SlConfigure::read('View.lastRenderedTitle');
+                            $block['title'] = SlConfigure::read('View.lastRenderTitle');
                         }
                     }
 

@@ -1,7 +1,7 @@
 <?php
 
 $config['global']['Sl'] = array(
-    'version' => '2.1.alpha3',
+    'version' => '2.1.alpha7',
     'session' => array(
         'name' => 'SlSession',
         'use_trans_sid' => 'false',
@@ -218,7 +218,7 @@ $config['global']['View'] = array(
         'titleSep' => ' | ',
     ),
     'phemeOptions' => array(
-        'stripWhitespace' => true,
+        'stripWhitespace' => false,
     ),
 
     // 'layout' => null, // based on prefix

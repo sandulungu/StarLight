@@ -52,6 +52,10 @@ class ConfigController extends AppController {
             }
         }
 
+        if (isset($this->data['_section'])) {
+            $activeSection = $this->data['_section'];
+        }
+
         if (empty($activeSection) || !isset($sections[$activeSection])) {
             $activeSection = reset(array_keys($sections));
         }
@@ -108,6 +112,7 @@ class ConfigController extends AppController {
             $this->Session->setFlash(__t('Configuration saved'), array('class' => 'success'));
         }
 
+        $this->data['_section'] = $activeSection;
         $this->set('settings', $settings);
     }
     
