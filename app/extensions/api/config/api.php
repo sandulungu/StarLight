@@ -11,9 +11,9 @@ $config['global']['Api']['facebook'] = array(
 
 $config['global']['Api']['hqSms'] = array(
     'secure' => true,
-    'username' => '',
-    'password' => '',
-    'from' => 'StarLight',
+    'username' => 'USERNAME',
+    'password' => md5('PASSWORD'),
+    //'from' => 'StarLight',
 );
 
 $config['global']['Api']['swiftMailer'] = array(

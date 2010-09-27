@@ -7,8 +7,9 @@ class HqSmsComponent extends SlComponent {
 
     public function standartizePhoneNoMd($phone) {
         $matches = array();
+        Sl::krumo($phone);
         $phone = preg_replace('/[^0-9]/', '', $phone);
-        if (!preg_match("/^((+|00)?373|0)?((60|69|68|78|79|67)[0-9]{6})$/", $phone, $matches)) {
+        if (preg_match("/^((00)?373|0)?((60|69|68|78|79|67)[0-9]{6})$/", $phone, $matches)) {
             return "373{$matches[3]}";
         }
     }
@@ -18,8 +19,8 @@ class HqSmsComponent extends SlComponent {
             'encoding' => 'utf-8',
             //'flash' => false,
             //'idx' => 123,
-            'test' => true,
-            'details' => true,
+            'test' => false,
+            'details' => false,
             //'date' => time(),
             //'datacoding' => 'gsm',
         );
@@ -52,6 +53,7 @@ class HqSmsComponent extends SlComponent {
 
         App::import('Core', 'HttpSocket');
         $socket = new HttpSocket();
+        Sl::krumo($params);
         $result = $socket->post(
             "$protocol://www.hqsms.com/api/send.do", $params
         );
