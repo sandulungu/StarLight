@@ -10,6 +10,7 @@ class CmsAttachment extends AppModel {
         'MeioUpload.MeioUpload' => array(
             'filename' => array(
                 'dir' => 'files{DS}cms_attachments',
+                'uploadName' => '_uniqid',
         		'maxSize' => 20971520, // 20MB
                 'allowedExt' => array(
                     '.pdf', '.txt', '.html',

@@ -24,6 +24,9 @@ class ConfigController extends AppController {
                 elseif (isset($setting['type']) && $setting['type'] == 'array') {
                     $setting['value'] = implode(', ',$setting['value']);
                 }
+                elseif (isset($setting['type']) && $setting['type'] == 'checkbox') {
+                    $setting['checked'] = $setting['value'];
+                }
             }
             else {
                 foreach ($locales as $locale) {

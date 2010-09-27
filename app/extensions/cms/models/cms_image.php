@@ -10,6 +10,7 @@ class CmsImage extends AppModel {
         'MeioUpload.MeioUpload' => array(
             'filename' => array(
                 'dir' => 'files{DS}cms_images',
+                'uploadName' => '_uniqid',
         		'maxSize' => 2097152, // 2MB
                 'thumbsizes' => array(
                     'normal' => array(

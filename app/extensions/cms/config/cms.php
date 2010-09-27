@@ -44,11 +44,11 @@ $config['global']['Navigation'] = array(
         'cms' => array(
             array(
                 'title' => 'Content nodes',
-                'url' => array('controller' => 'cms_nodes', 'action' => 'index', 'plugin' => 'cms'),
+                'url' => array('admin' => true, 'controller' => 'cms_nodes', 'action' => 'index', 'plugin' => 'cms'),
                 'children' => array(
                     array(
                         'title' => 'Contact Forms',
-                        'url' => array('controller' => 'cms_contact_forms', 'action' => 'index', 'plugin' => 'cms'),
+                        'url' => array('admin' => true, 'controller' => 'cms_contact_forms', 'action' => 'index', 'plugin' => 'cms'),
                     ),
                 ),
             ),
@@ -57,29 +57,29 @@ $config['global']['Navigation'] = array(
                 'children' => array(
                     array(
                         'title' => 'Tags',
-                        'url' => array('controller' => 'cms_tags', 'action' => 'index', 'plugin' => 'cms'),
+                        'url' => array('admin' => true, 'controller' => 'cms_tags', 'action' => 'index', 'plugin' => 'cms'),
                     ),
                     array(
                         'title' => 'Images',
-                        'url' => array('controller' => 'cms_images', 'action' => 'index', 'plugin' => 'cms'),
+                        'url' => array('admin' => true, 'controller' => 'cms_images', 'action' => 'index', 'plugin' => 'cms'),
                     ),
                     array(
                         'title' => 'Attachments',
-                        'url' => array('controller' => 'cms_attachments', 'action' => 'index', 'plugin' => 'cms'),
+                        'url' => array('admin' => true, 'controller' => 'cms_attachments', 'action' => 'index', 'plugin' => 'cms'),
                     ),
                 ),
             ),
             array(
                 'title' => 'Blocks',
-                'url' => array('controller' => 'cms_blocks', 'action' => 'index', 'plugin' => 'cms'),
+                'url' => array('admin' => true, 'controller' => 'cms_blocks', 'action' => 'index', 'plugin' => 'cms'),
             ),
             array(
                 'title' => 'Navigation',
-                'url' => array('controller' => 'cms_navigation_links', 'action' => 'index', 'plugin' => 'cms'),
+                'url' => array('admin' => true, 'controller' => 'cms_navigation_links', 'action' => 'index', 'plugin' => 'cms'),
             ),
             array(
                 'title' => 'Configuration',
-                'url' => array('controller' => 'config', 'cms', 'plugin' => false),
+                'url' => array('admin' => true, 'controller' => 'config', 'cms', 'plugin' => false),
             ),
         ),
     ),

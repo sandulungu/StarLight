@@ -46,15 +46,15 @@ $config['global']['Navigation'] = array(
         'auth' => array(
             array(
                 'title' => 'Users',
-                'url' => array('controller' => 'auth_users', 'action' => 'index', 'plugin' => 'auth'),
+                'url' => array('admin' => true, 'controller' => 'auth_users', 'action' => 'index', 'plugin' => 'auth'),
             ),
             array(
                 'title' => 'Groups',
-                'url' => array('controller' => 'auth_groups', 'action' => 'index', 'plugin' => 'auth'),
+                'url' => array('admin' => true, 'controller' => 'auth_groups', 'action' => 'index', 'plugin' => 'auth'),
             ),
             array(
                 'title' => 'ACL',
-                'url' => array('controller' => 'auth_acl_rules', 'action' => 'index', 'plugin' => 'auth'),
+                'url' => array('admin' => true, 'controller' => 'auth_acl_rules', 'action' => 'index', 'plugin' => 'auth'),
             ),
         ),
     ),
@@ -116,11 +116,11 @@ $config['Group1']['Navigation'] = array(
     'admin' => array(
         'config' => array(
             'title' => 'Configuration',
-            'url' => array('controller' => 'config', 'action' => 'index', 'plugin' => false),
+            'url' => array('admin' => true, 'controller' => 'config', 'action' => 'index', 'plugin' => false),
         ),
         'users' => array(
             'title' => 'Users & groups',
-            'url' => array('controller' => 'auth_users', 'action' => 'index', 'plugin' => 'auth'),
+            'url' => array('admin' => true, 'controller' => 'auth_users', 'action' => 'index', 'plugin' => 'auth'),
         ),
     ),
 );
@@ -130,11 +130,11 @@ $config['Group2']['Navigation'] = array(
     'admin' => array(
         'config' => array(
             'title' => 'Configuration',
-            'url' => array('controller' => 'config', 'action' => 'index', 'plugin' => false),
+            'url' => array('admin' => true, 'controller' => 'config', 'action' => 'index', 'plugin' => false),
         ),
         'pages' => array(
             'title' => 'Pages',
-            'url' => array('controller' => 'pages', 'action' => 'index', 'plugin' => false),
+            'url' => array('admin' => true, 'controller' => 'pages', 'action' => 'index', 'plugin' => false),
         ),
     ),
 );
@@ -172,6 +172,16 @@ $config['PagesController']['Auth'] = array(
             'actionAdminAdd' => true,
             'actionAdminEdit' => true,
             'actionAdminDelete' => true,
+        ),
+    ),
+);
+
+$config['SlController'] = array(
+    'Auth' => array(
+        'acl' => array(
+            'Group2' => array(
+                'actionAdminIndex' => true,
+            ),
         ),
     ),
 );
