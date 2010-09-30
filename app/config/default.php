@@ -1,7 +1,7 @@
 <?php
 
 $config['global']['Sl'] = array(
-    'version' => '2.1.alpha7',
+    'version' => '2.1.RC1',
     'session' => array(
         'name' => 'SlSession',
         'use_trans_sid' => 'false',
