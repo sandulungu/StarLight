@@ -13,7 +13,12 @@ $('.sl-oembed').each(function() {
         var width = $(this).parent().width();
         var apiUrl = 'http://api.embed.ly/v1/api/oembed?url=' + url + '&callback=?&maxwidth=' + width;
         $.getJSON(apiUrl, function(json) {
-            el.addClass('sl-oembedded').removeClass('sl-oembed').html(json.html);
+            var oembed = json.html;
+            if (oembed.indexOf("wmode") < 0) {
+                oembed = oembed.replace("<embed ", "<param name=\"wmode\" value=\"transparent\"></param><embed ");
+                oembed = oembed.replace("<embed ", "<embed wmode=\"transparent\"");
+            }
+            el.addClass('sl-oembedded').removeClass('sl-oembed').html(oembed);
         });
     } else {
         $(this).remove();

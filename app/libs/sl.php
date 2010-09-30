@@ -19,6 +19,10 @@ class Sl {
      * @param string $newVersion
      */
     public static function version($extension = 'core', $newVersion = null) {
+        if (SlConfigure::read('Sl.installPending')) {
+            return SlConfigure::read('Sl.version');
+        }
+
         if (!SlConfigure::read('Mirror.version')) {
             App::import('Core', 'ConnectionManager');
             $db = @ConnectionManager::getDataSource('default');

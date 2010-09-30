@@ -4,12 +4,20 @@ class InstallController extends AppController {
     public $uses = array();
 
     public function beforeFilter() {
+        // allow root user creation
+		if ($this->action == 'auth') {
+			$this->loadModel('Auth.AuthUser');
+			if ($this->AuthUser->find('count') == 0) {
+				SlConfigure::write('Auth.acl.everyone.actionAuth', true);
+			}
+		}
+
         // security check
         if (!Configure::read() && SlConfigure::read('Mirror.version')) {
             if ($this->action == 'migrate') {
                 return;
             }
-            if (SlExtensions::loaded('Auth') && SLAuth::user('id') == 1) {
+            if (SlExtensions::loaded('Auth') && SlAuth::user('id') == 1) {
                 return;
             }
             $this->cakeError();
@@ -19,6 +27,7 @@ class InstallController extends AppController {
     }
 
     public function index() {
+        SlConfigure::write('Sl.installPending', true, true);
         $this->set('title', __t('StarLight installation: Hello and welcome!'));
     }
 
@@ -114,7 +123,7 @@ class InstallController extends AppController {
             $this->redirect(array('action' => 'done'));
         }
 
-        $this->loadModel('Auth.AuthUser');
+//        $this->loadModel('Auth.AuthUser');
         $user = $this->AuthUser->read(null, 1);
         if ($user) {
             $this->Session->setFlash(
@@ -131,15 +140,23 @@ class InstallController extends AppController {
                 return;
             }
 
-            $this->data['Group']['Group'] = array(1, 2);
+            $password = $this->data['AuthUser']['password'];
+            $this->data['AuthGroup']['AuthGroup'] = array(1, 2);
+            $this->data['AuthUser']['password'] = SlAuth::password($this->data['AuthUser']['password']);
+            $this->data['AuthUser']['active'] = true;
+
+            // force loading of associated model
+            $this->AuthUser->AuthGroup;
+
             if ($this->AuthUser->saveAll($this->data)) {
-                SlAuth::login($this->data['AuthUser']['username'], $this->data['AuthUser']['password']);
+                SlAuth::login($this->data['AuthUser']['username'], $password);
                 $this->redirect(array('action' => 'done'));
             }
         }
     }
 
     public function done() {
+        SlConfigure::write('Sl.installPending', false, true);
         $this->set('title', __t('StarLight installation: Finished successfully'));
     }
 
