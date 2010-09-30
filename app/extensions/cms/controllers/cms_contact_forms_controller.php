@@ -80,9 +80,9 @@ class CmsContactFormsController extends AppController {
             // send email
             try {
                 if ($this->SwiftMailer->send(
-                    SL::read('SwiftMailer.contactFormView'),
-                    format(SL::read('SwiftMailer.subject'), array('siteTitle' => SL::read('View.siteTitle'))),
-                    SL::read('SwiftMailer.method'))
+                    'contact_form',
+                    __t(SlConfigure::read2('Api.swiftMailer.subject'), array('siteTitle' => SlConfigure::read2('Site.title'))),
+                    SlConfigure::read2('Api.swiftMailer.method'))
                 ) {
                     $this->Session->setFlash(__t('Email sent. Thank you!'), array('class' => 'success'));
 

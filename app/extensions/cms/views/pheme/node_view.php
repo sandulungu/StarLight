@@ -61,6 +61,7 @@ class NodeParser extends PhemeParser {
         );
 
         if ($blockParams['id']) {
+            $oldVars = $this->vars;
             $this->vars = SlNode::get($blockParams['id'], array('auth' => true));
         }
 
@@ -78,10 +79,13 @@ class NodeParser extends PhemeParser {
             PhemeParser::$parseCallStack[] = Pheme::get($skin);
             $result = parent::parse($html, $skin);
             array_pop(PhemeParser::$parseCallStack);
-            return $result;
         } else {
-            return parent::parse($html, $skin);
+            $result = parent::parse($html, $skin);
         }
+        if (isset($oldVars)) {
+            $this->vars = $oldVars;
+        }
+        return $result;
     }
 }
 
