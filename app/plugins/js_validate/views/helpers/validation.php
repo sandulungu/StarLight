@@ -44,6 +44,8 @@ class ValidationHelper extends Helper {
     //filter the rules to those that can be handled with JavaScript
     foreach($modelNames as $modelName) {
       $model = classRegistry::init($modelName);
+      $arr=explode('.',$modelName);
+      $realModelName=$arr[0];
 
       foreach ($model->validate as $field => $validators) {
         if (array_intersect(array('rule', 'allowEmpty', 'on', 'message', 'last'), array_keys($validators))) {
@@ -97,7 +99,7 @@ class ValidationHelper extends Helper {
               $temp['negate'] = true;
             }
 
-            $validation[$modelName . Inflector::camelize($field)][] = $temp;
+            $validation[$realModelName . Inflector::camelize($field)][] = $temp;
           }
         }
       }
@@ -138,14 +140,14 @@ class ValidationHelper extends Helper {
       return false;
     }
 
-    if (is_array($this->whitelist) && !in_array($rule, $this->whitelist)) {
-      return false;
-    }
-
     $params = array();
     if (is_array($rule)) {
       $params = array_slice($rule, 1);
       $rule = $rule[0];
+    }
+		
+    if (is_array($this->whitelist) && !in_array($rule, $this->whitelist)) {
+      return false;
     }
 
     if ($rule == 'comparison') {
@@ -230,12 +232,6 @@ class ValidationHelper extends Helper {
         return array('rule' => $rule, 'params' => array($params[0], $params[1]));
     }
 
-    // Patched by sandu@lungu.info on 08/05/2010 (added support for custom pregs)
-    if (preg_match('!^/.+/[a-z]*$!', $rule)) {
-        return $rule;
-    }
-    // end of patch
-
     //try to lookup the regular expression from
     //CakePHP's built-in validation rules
     $Validation =& Validation::getInstance();
@@ -260,9 +256,9 @@ class ValidationHelper extends Helper {
       }
       return $regex;
     }
-
-    return array('rule' => $rule, 'params' => $params);
-  }
+    // If not rule is selected handle with a regular expression
+    return($rule);
+}
 
 	function __fixWatch($modelName, $fields) {
 		foreach($fields as $i => $field) {

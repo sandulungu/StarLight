@@ -17,9 +17,11 @@
  * @since         DebugKit 0.1
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  **/
+$path = App::pluginPath('DebugKit');
+
 App::import('Helper', 'DebugKit.FirePhpToolbar');
 App::import('Core', array('View', 'Controller'));
-App::import('File', 'TestFireCake', false, Configure::read('pluginPaths'), 'test_objects.php');
+require_once $path . 'tests' . DS . 'cases' . DS . 'test_objects.php';
 
 FireCake::getInstance('TestFireCake');
 
@@ -36,7 +38,7 @@ class FirePhpToolbarHelperTestCase extends CakeTestCase {
 		$this->Toolbar =& new ToolbarHelper(array('output' => 'DebugKit.FirePhpToolbar'));
 		$this->Toolbar->FirePhpToolbar =& new FirePhpToolbarHelper();
 
-		$this->Controller =& ClassRegistry::init('Controller');
+		$this->Controller =& new Controller();
 		if (isset($this->_debug)) {
 			Configure::write('debug', $this->_debug);
 		}
@@ -47,12 +49,13 @@ class FirePhpToolbarHelperTestCase extends CakeTestCase {
  * @return void
  **/
 	function startCase() {
-		$this->_viewPaths = Configure::read('viewPaths');
-		Configure::write('viewPaths', array(
+		$this->_viewPaths = App::build('views');
+		App::build(array(
+			'views' => array(
 			TEST_CAKE_CORE_INCLUDE_PATH . 'tests' . DS . 'test_app' . DS . 'views'. DS,
 			APP . 'plugins' . DS . 'debug_kit' . DS . 'views'. DS, 
 			ROOT . DS . LIBS . 'view' . DS
-		));
+		)), true);
 		$this->_debug = Configure::read('debug');
 		$this->firecake =& FireCake::getInstance();
 	}

@@ -81,7 +81,7 @@ class FirePhpToolbarHelper extends ToolbarHelper {
 		FireCake::table($title, $rows);
 	}
 /**
- * Start a panel which is a 'AuthGroup' in FirePHP
+ * Start a panel which is a 'Group' in FirePHP
  *
  * @return void
  **/
@@ -89,7 +89,7 @@ class FirePhpToolbarHelper extends ToolbarHelper {
 		FireCake::group($title);
 	}
 /**
- * End a panel (AuthGroup)
+ * End a panel (Group)
  *
  * @return void
  **/

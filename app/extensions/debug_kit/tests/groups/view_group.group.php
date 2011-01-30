@@ -1,6 +1,6 @@
 <?php
 /**
- * View AuthGroup Test for debugkit
+ * View Group Test for debugkit
  *
  * PHP versions 4 and 5
  *
@@ -18,12 +18,12 @@
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  **/
 /**
- * AllCoreHelpersGroupTest class
+ * DebugKitViewTestSuite class
  *
  * @package       cake
  * @subpackage    cake.tests.groups
  */
-class DebugKitViewGroupTest extends GroupTest {
+class DebugKitViewTestSuite extends TestSuite {
 /**
  * label property
  *
@@ -37,7 +37,7 @@ class DebugKitViewGroupTest extends GroupTest {
  * @access public
  * @return void
  */
-	function DebugKitViewGroupTest() {
+	function DebugKitViewTestSuite() {
 		$testDir = dirname(dirname(__FILE__));
 		TestManager::addTestCasesFromDirectory($this, $testDir . DS . 'cases' . DS . 'views');
 	}

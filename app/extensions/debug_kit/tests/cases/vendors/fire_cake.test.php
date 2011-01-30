@@ -251,7 +251,7 @@ class FireCakeTestCase extends CakeTestCase {
 		$this->assertPattern('/"Line"\:\d+/', $result);
 	}
 /**
- * test AuthGroup messages
+ * test Group messages
  *
  * @return void
  **/

@@ -412,7 +412,6 @@ DEBUGKIT.Util.Request = function (options) {
 			data = this.serialize(data);
 		}
 		if (data) {
-			this.transport.setRequestHeader('Content-Length', data.length);
 			this.transport.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 		}
 		this.onRequest();
@@ -577,6 +576,7 @@ DEBUGKIT.toolbar = function () {
 				return false;
 			}
 			this.makePanelDraggable(panel);
+			this.makePanelMinMax(panel);
 
 			var self = this;
 			Event.addEvent(panel.button, 'click', function (event) {
@@ -601,7 +601,7 @@ DEBUGKIT.toolbar = function () {
 					return;
 				}
 				var newHeight = currentElement._startHeight + (event.pageY - currentElement._startY);
-				Element.height(Element.getPrevious(currentElement), newHeight);
+				Element.height(currentElement.parentNode, newHeight);
 			}
 
 			// handle the mouseup event, remove the other listeners so the panel
@@ -616,7 +616,7 @@ DEBUGKIT.toolbar = function () {
 				event.preventDefault();
 				currentElement = this;
 				this._startY = event.pageY;
-				this._startHeight = parseInt(Element.height(Element.getPrevious(currentElement)));
+				this._startHeight = parseInt(Element.height(currentElement.parentNode));
 
 				// attach to document so mouse doesn't have to stay precisely on the 'handle'
 				Event.addEvent(document, 'mousemove', mouseMoveHandler);
@@ -626,6 +626,36 @@ DEBUGKIT.toolbar = function () {
 			Collection.apply(panel.content.childNodes, function (element) {
 				if (Element.nodeName(element, 'DIV') && Element.hasClass(element, 'panel-resize-handle')) {
 					Event.addEvent(element, 'mousedown', mouseDownHandler);
+				}
+			});
+		},
+		
+		// make the maximize button work on the panels.
+		makePanelMinMax: function (panel) {
+			var _oldHeight;
+	
+			var maximize = function (event) {
+				event.preventDefault();
+				if (!_oldHeight) {
+					_oldHeight = this.parentNode.offsetHeight;
+				}
+				var windowHeight = window.innerHeight;
+				var panelHeight = windowHeight - this.parentNode.offsetTop;
+				Element.height(this.parentNode, panelHeight);
+			};
+			
+			var minimize = function (event) {
+				event.preventDefault();
+				Element.height(this.parentNode, _oldHeight);
+				_oldHeight = null;
+			};
+
+			Collection.apply(panel.content.getElementsByTagName('A'), function (element) {
+				if (Element.hasClass(element, 'panel-maximize')) {
+					Event.addEvent(element, 'click', maximize);
+				}
+				if (Element.hasClass(element, 'panel-minimize')) {
+					Event.addEvent(element, 'click', minimize);
 				}
 			});
 		},
