@@ -94,7 +94,7 @@ class AppController extends Controller {
                 SlConfigure::write('Sl.debug.requestTime', false);
                 Configure::write('debug', 0);
                 echo json_encode($this->output);
-                $this->_stop();
+                die();
             }
         }
 

@@ -183,10 +183,8 @@ class ImageGalleryItemParser extends PhemeSubParser {
 class ImageGalleryParser extends PhemeParser {
 
     function __construct($rules = array(), $options = array()) {
-        $this->blocks["loop"] =
-            new ImageGalleryLoopParser(array(
-                'GalleryImage' => new ImageGalleryItemParser()
-            ));
+        $this->blocks["loop"] = new ImageGalleryLoopParser();
+		$this->blocks["loop"]->blocks['GalleryImage'] = new ImageGalleryItemParser();
 
         parent::__construct($rules, $options);
     }

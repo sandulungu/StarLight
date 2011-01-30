@@ -142,6 +142,7 @@ $config['CmsPlugin'] = array(
             'Group2' => array(
                 'actionAdminIndex' => true,
                 'actionAdminAdd' => true,
+                'actionAdminView' => true,
                 'actionAdminEdit' => true,
                 'actionAdminDelete' => true,
             ),

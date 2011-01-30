@@ -17,13 +17,13 @@ $config['global']['Api']['hqSms'] = array(
 );
 
 $config['global']['Api']['swiftMailer'] = array(
-    'method' => 'smtp',
+    'method' => 'native', // 'smtp'
     
-    'smtpType' => 'tls',
-    'smtpHost' => 'smtp.gmail.com',
-    'smtpPort' => 465,
-    'smtpUsername' => 'noreply@starlightcms.info',
-    'smtpPassword' => 'jg5HBfd83h',
+    //'smtpType' => 'tls',
+    //'smtpHost' => 'smtp.gmail.com',
+    //'smtpPort' => 465,
+    //'smtpUsername' => 'account@yourdomain.com',
+    //'smtpPassword' => 'yourpassword',
 
     'sendAs' => 'both',
     'from' => 'noreply@starlightcms.info',
